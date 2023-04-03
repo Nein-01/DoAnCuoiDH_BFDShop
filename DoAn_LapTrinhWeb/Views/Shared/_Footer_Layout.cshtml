@@ -1,0 +1,142 @@
+﻿@*Layout sử dụng chính: Main_Layout*@
+@using DoAn_LapTrinhWeb.Common.Helpers
+<!--begin::Container-->
+<div class="container">
+    <!--begin::Row-->
+    <div class="row pb-2">
+        <div class="footer_blog">
+            <!--begin::Row-->
+            <div class="row">
+                <!--begin::Col-->
+                <div class="col-md-3">
+                    <!--begin::Title Head-->
+                    <div class="main-heading ">
+                        <p class="h6 text-uppercase">Chính sách Mua hàng</p>
+                    </div>
+                    <!--end::Title Head-->
+                    <!--begin::Content-->
+                    <p>
+                        <span style="font-size:18px;">
+                            <a href="#"><i class="fa fa-angle-right"></i> QĐ giá cả và hình thức thanh toán</a>
+                        </span><br>
+                        <span style="font-size:18px;">
+                            <a href="#"><i class="fa fa-angle-right"></i> Quy định chung</a>
+                        </span><br>
+                        <span style="font-size:18px;">
+                            <a href="#"><i class="fa fa-angle-right"></i> Chính sách trả góp</a>
+                        </span><br />
+                        <span style="font-size:18px;">
+                            <a href="#"><i class="fa fa-angle-right"></i> Chính sách đổi trả và hoàn tiền</a>
+                        </span><br>
+                        <span style="font-size:18px;">
+                            <a href="#"><i class="fa fa-angle-right"></i> Chính sách bảo hành</a>
+                        </span><br>
+                        <span style="font-size:18px;">
+                            <a href="#"><i class="fa fa-angle-right"></i> Chính sách vận chuyển</a>
+                        </span>
+                    </p>
+                    <!--end::Content-->
+                </div>
+                <!--end::Col-->
+                <!--begin::Col-->
+                <div class="col-md-3 ">
+                    <!--begin::Title Head-->
+                    <div class="main-heading">
+                        <p class="h6 text-uppercase">Phương thức thanh toán</p>
+                    </div>
+                    <!--end::Title Head-->
+                    <!--begin::Ul-->
+                    <ul id="ul_top_hypers">
+                        <!--begin::Li-->
+                        <li class="payment">
+                            <div class="holder" style="float:left">
+                                <div>
+                                    <a href="#">
+                                        <i id="footer-colorimg" class="fa fa-qrcode" aria-hidden="true"></i>
+                                        <P>QR Code</P>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </li>
+                        <!--end::Li-->
+                        <!--begin::Li-->
+                        <li>
+                            <div class="holder" style="float:left">
+                                <div>
+                                    <a href="#">
+                                        <i id="footer-colorimg" class="fa fa-money" aria-hidden="true"></i>
+                                        <P>Tiền mặt</P>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <!--end::Li-->
+                        <!--begin::Li-->
+                        <li>
+                            <div class="holder" style="float:left">
+                                <div>
+                                    <a href="#">
+                                        <i id="footer-colorimg" class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                                        <P>Internet Banking</P>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <!--end::Li-->
+                    </ul>
+                    <!--end::Ul-->
+                </div>
+                <!--end::Col-->
+                <!--begin::Col-->
+                <div class="col-md-3 ">
+                    <!--begin::Title Head-->
+                    <div class="main-heading left_text">
+                        <p class="h6 text-uppercase">Thông tin về chúng tôi</p>
+                    </div>
+                    <!--end::Title Head-->
+                    <!--begin::Content-->
+                    <p>
+                        <span style="font-size:18px;">
+                            <a href="#">Thông tin liên hệ</a>
+                        </span><br>
+                        <span style="font-size:18px;">
+                            <a>Số người đang online: <span id="counvisited"></span> </a>
+                        </span><br>
+                    </p>
+                    <p>
+                        Sản phẩm thành viên:
+                    </p>
+                    <a href="https://www.tsumusics.com/" target="_blank"><img style="width:40px;object-fit:cover;" src="~/Images/ImagesCollection/logo_app.png" /></a>
+                    <!--end::Content-->
+                </div>
+                <!--end::Col-->
+                <!--begin::Col-->
+                <div class="col-md-3 margin_contact_mobile">
+                    <div class=" left_text">
+                        <p class="h6 text-uppercase">Liên hệ</p>
+                    </div>
+                    <p>
+                        Địa chỉ: Số nhà 26 ngõ 60 đường 422B, Xã Vân Canh, Huyện Hoài Đức, Thành phố Hà Nội<br>
+                        <span style="font-size:18px;">
+                            <a href="tel:0912345678">Hotline: 0339188182</a>
+                        </span><br>
+                        <span style="font-size:18px;">
+                            <a href="@Url.Action("SentRequest","Home")" class="text-info font_roboto_medium">
+                                Gửi yêu cầu ngay
+                            </a>
+                        </span>
+                    </p>
+                </div>
+                <!--end::Col-->
+            </div>
+            <!--end::Row-->
+        </div>
+        <!--begin::Copy Right-->
+        <div class="cprt">
+            <p> © Copyrights 2023</p>
+        </div>
+        <!--end::Copy Right-->
+    </div>
+</div>
+<!--end::Container-->

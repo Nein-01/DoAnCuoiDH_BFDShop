@@ -1,0 +1,86 @@
+﻿@model DoAn_LapTrinhWeb.DTOs.ProductDTOs
+@using DoAn_LapTrinhWeb.Common
+@using DoAn_LapTrinhWeb.Common.Helpers
+@{
+    
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+    <!--relatedproduct | path: "action ProductDetail" - controller"Products"-->
+   
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+@section scripts{
+    <!--script xử lý phần đánh giá sản phẩm-->
+    <script src="~/Scripts/my_js/rating_product.js"></script>
+    <!--chia sẻ ảnh, bài viết, sản phẩm lên fb, instagram,...-->
+    <script src="~/Scripts/my_js/button_share_fb.js"></script>
+    <!--xử lý sự kiện thêm sản phẩm-->
+    <script src="~/Scripts/my_js/product/detail.js"></script>
+    <!--custom product images detail theo dạng slider sử dụng kèm carousel.min.js-->
+    <script src="~/Scripts/my_js/product_detail.js"></script>
+    <script src="https://unpkg.com/micromodal@0.4.6/dist/micromodal.min.js"></script>
+ }
+<div class="product_detail">
+    <!--begin::Container-->
+    <div class="container margin_mobile_fixed">
+        <!--begin::Breadcrumb-->
+        <div class="breadcrumb1">
+            <ul class="breadcrumb__list">
+                <li><a href="/"><i aria-hidden="true" class="fa fa-home"></i></a> <i aria-hidden="true" class="far fa-angle-right"></i></li>
+                <li><a href="@Url.Action("Index", "Home")">Trang chủ</a> <i aria-hidden="true" class="far fa-angle-right"></i></li>
+                <li><a href=""></a> <i aria-hidden="true" class="far fa-angle-right"></i></li>
+                <li class="hide_li_breadcumb"><a href=""></a> <i aria-hidden="true" class="far fa-angle-right "></i></li>
+                <li class="breadcrumb_active"><a href=""></a></li>
+            </ul>
+        </div>
+        <!--end::Breadcrumb-->
+        <!--begin::Row-->
+       
+                     
+<!--begin::rating product-->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title h5 font_roboto_medium" id="exampleModalLongTitle">Đánh giá sản phẩm</h5>
+                <button type="button" class="close" id="modelclose" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="RatingFromData" method="post" enctype="multipart/form-data" onsubmit="AjaxPost(this)">
+                    <div onmouseout="CRateSelected()" class="star_ratingfb">
+                        <i id="rate1" onmouseout="CRateOut(1)" onmouseover="CRateOver(1)" onclick="CRateClick(1)" class="fa fa-star-o" aria-hidden="true"></i>
+                        <i id="rate2" onmouseout="CRateOut(2)" onmouseover="CRateOver(2)" onclick="CRateClick(2)" class="fa fa-star-o" aria-hidden="true"></i>
+                        <i id="rate3" onmouseout="CRateOut(3)" onmouseover="CRateOver(3)" onclick="CRateClick(3)" class="fa fa-star-o" aria-hidden="true"></i>
+                        <i id="rate4" onmouseout="CRateOut(4)" onmouseover="CRateOver(4)" onclick="CRateClick(4)" class="fa fa-star-o" aria-hidden="true"></i>
+                        <i id="rate5" onmouseout="CRateOut(5)" onmouseover="CRateOver(5)" onclick="CRateClick(5)" class="fa fa-star-o" aria-hidden="true"></i>
+                    </div>
+                    <input hidden name="product_id" class="form-control" value="" id="ProD_ID">
+                    <input hidden name="genre_id" class="form-control" value="" id="Genre_ID">
+                    <input hidden name="rate_star" class="form-control" id="lblRating">
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Nội dung đánh giá:</label>
+                        <textarea disabled maxlength="200" rows="3" placeholder="Viết đánh giá của bạn tại đây" class="form-control form-control-solid cursor-disable write_content_fb" name="description" id="FBk_Content"></textarea>
+                        <div id="the-count">
+                            <span id="dcript_content_fb" class="me-2 font_roboto_medium" style="color:red;">Chọn mức sao đánh giá</span>
+                            <span id="current">0</span>
+                            <span id="maximum">/ 200</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <input disabled type="file" name="UploadImageMultiple" hidden class="uploadimgcheck" accept=".jpg,.jpeg,.png" id="uploadimgrate" multiple onchange="preview()" />
+                            <label class="btn_uploadimgrating" for="uploadimgrate">Thêm ảnh</label>
+                            <span class="text-danger show_error_limit_img font_roboto_medium fs-14px"></span>
+                            <div class="preimg_rate d-flex" id="pre_img_rate"></div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center mt-55px">
+                        <button id="ConfirmAdd" disabled class="btn btn-primary">Gửi đánh giá</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::rating product-->

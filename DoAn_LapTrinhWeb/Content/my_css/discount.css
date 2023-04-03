@@ -1,0 +1,384 @@
+.bs-discount[data-bs="cart.item.discount"], .bs-discount[data-bs="product.discount"] {
+  opacity: 0;
+}
+
+.mg_discount {
+    font-size: 10px!important;
+    margin-top: 15px!important;
+    margin-left:15px!important;
+    font-family:Roboto-Regular;
+}
+@font-face {
+    font-family: 'Roboto-Regular';
+    src: url('../../fonts/Roboto-Regular.ttf') format('truetype');
+}
+
+/****************************************
+    > discount v1.0
+*****************************************/
+.bs-discount {
+  position: absolute;
+  z-index: 50;
+  font-size: 0.75rem;
+}
+@media screen and (min-width: 768px) {
+  .bs-discount {
+    font-size: 1rem;
+  }
+}
+@media screen and (min-width: 992px) {
+  .bs-discount {
+    font-size: 1.25rem;
+  }
+}
+.bs-discount.bs-discount-xs {
+  font-size: 0.75rem;
+}
+.bs-discount.right {
+  right: 0;
+}
+.bs-discount.bottom {
+  bottom: 0;
+}
+.bs-discount span, .bs-discount strong {
+  box-sizing: border-box;
+}
+
+/***********************
+  triangulo 
+************************/
+.bs-discount.triangle {
+  width: 6em;
+  height: 3em;
+}
+.bs-discount.triangle::before {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-right: 3em solid transparent;
+  border-top: 2em solid purple;
+  border-left: 3em solid purple;
+  border-bottom: 2em solid transparent;
+}
+.bs-discount.triangle span, .bs-discount.triangle strong {
+  position: relative;
+  top: -3em;
+  width: 100%;
+  padding: 0 0.5em;
+  display: block;
+  color: white;
+  text-align: left;
+}
+.bs-discount.triangle.right::before {
+  border-right: 3em solid purple;
+  border-top: 2em solid purple;
+  border-left: 3em solid transparent;
+  border-bottom: 2em solid transparent;
+}
+.bs-discount.triangle.right span, .bs-discount.triangle.right strong {
+  text-align: right;
+}
+
+/************************************
+  estrella ie11 + otros
+*************************************/
+.bs-discount.star {
+  display: flex;
+  transform: rotate(15deg);
+}
+    .bs-discount.star::before, .bs-discount.star::after, .bs-discount.star span::before, .bs-discount.star span::after, .bs-discount.star strong::before, .bs-discount.star strong::after, .bs-discount.star, .bs-discount.star span, .bs-discount.star strong {
+        height: 3.1em;
+        width: 3.1em;
+        background: #6700c4;
+    }
+.bs-discount.star::before, .bs-discount.star::after, .bs-discount.star span::before, .bs-discount.star span::after, .bs-discount.star strong::before, .bs-discount.star strong::after {
+  content: " ";
+  display: block;
+  position: absolute;
+}
+.bs-discount.star::before, .bs-discount.star span::before, .bs-discount.star strong::before {
+  transform: rotate(30deg);
+  left: 0;
+  top: 0;
+}
+.bs-discount.star::after, .bs-discount.star span::after, .bs-discount.star strong::after {
+  transform: rotate(60deg);
+  top: 0;
+  left: 0;
+}
+.bs-discount.star span, .bs-discount.star strong {
+  color: white;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-15deg);
+  z-index: 1;
+}
+.bs-discount.star span::before, .bs-discount.star span::after, .bs-discount.star strong::before, .bs-discount.star strong::after {
+  z-index: -1;
+}
+
+/*************************************
+  flag
+**************************************/
+.bs-discount.flag-down,
+.bs-discount.flag-side {
+  background: purple;
+  color: white;
+  text-align: center;
+  width: 4em;
+  line-height: 3em;
+}
+
+/*************************************
+    flag-down
+**************************************/
+.bs-discount.flag-down::after {
+  content: " ";
+  border-left: 2em solid purple;
+  border-right: 2em solid purple;
+  border-bottom: 1em solid transparent;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+/*********************************
+  flag-side left
+**********************************/
+.bs-discount.left.flag-side::after {
+  content: " ";
+  border-top: 1.5em solid purple;
+  border-bottom: 1.5em solid purple;
+  border-right: 1em solid transparent;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  bottom: 0;
+}
+
+/*********************************
+  flag-side right
+**********************************/
+.bs-discount.right.flag-side::after {
+  content: " ";
+  border-top: 1.5em solid purple;
+  border-bottom: 1.5em solid purple;
+  border-left: 1rem solid transparent;
+  position: absolute;
+  top: 0;
+  right: 100%;
+  bottom: 0;
+}
+
+/*************************************
+  tag
+**************************************/
+.bs-discount.tag {
+  margin: 0.25rem;
+  background: purple;
+  color: white;
+  text-align: center;
+  width: 4rem;
+  line-height: 3.5rem;
+}
+
+/******************************
+   tag right
+******************************/
+.bs-discount.tag.right::before,
+.bs-discount.tag.right::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  right: 100%;
+}
+
+.bs-discount.tag.right::before {
+  border-top: 1.75rem solid transparent;
+  border-bottom: 1.75rem solid transparent;
+  border-right: 1rem solid purple;
+  top: 0;
+  bottom: 0;
+}
+
+.bs-discount.tag.right::after {
+  height: 0.4rem;
+  width: 0.4rem;
+  background: white;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+}
+
+/******************************
+   tag left
+******************************/
+.bs-discount.tag.left::before,
+.bs-discount.tag.left::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  left: 100%;
+}
+
+.bs-discount.tag.left::before {
+  border-top: 1.75rem solid transparent;
+  border-bottom: 1.75rem solid transparent;
+  border-left: 1rem solid purple;
+  top: 0;
+  bottom: 0;
+}
+
+.bs-discount.tag.left::after {
+  height: 0.4rem;
+  width: 0.4rem;
+  background: white;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+}
+
+/******************************
+   tag corner badge
+******************************/
+.bs-discount.corner-badge {
+  height: 5rem;
+  width: 5rem;
+  overflow: hidden;
+}
+.bs-discount.corner-badge.right {
+  transform: rotate(90deg);
+}
+.bs-discount.corner-badge span, .bs-discount.corner-badge strong {
+  display: block;
+  position: absolute;
+  background: purple;
+  color: white;
+  width: 7rem;
+  text-align: center;
+  left: -1.5rem;
+  top: 1rem;
+  transform: rotate(-45deg);
+}
+
+/*****************************************
+  hexagon
+******************************************/
+.bs-discount.hexagon {
+  margin: 0.5rem;
+  color: white;
+  width: 4rem;
+  height: 2rem;
+  background: purple;
+}
+.bs-discount.hexagon, .bs-discount.hexagon span, .bs-discount.hexagon strong {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bs-discount.hexagon::before, .bs-discount.hexagon::after {
+  content: "";
+  position: absolute;
+  border-left: solid transparent 2rem;
+  border-right: solid transparent 2rem;
+}
+.bs-discount.hexagon::before {
+  bottom: 100%;
+  border-bottom: solid purple 1.4rem;
+}
+.bs-discount.hexagon::after {
+  top: 100%;
+  border-top: solid purple 1.4rem;
+}
+
+/*************************************
+  > circle
+**************************************/
+.bs-discount.circle {
+  background: purple;
+  color: white;
+  height: 4em;
+  width: 4em;
+  border-radius: 500em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -0.5em;
+}
+
+/**************************************
+  form-A
+***************************************/
+.bs-discount.form-A {
+  background: purple;
+  color: white;
+  padding: 1em;
+  margin: 0.5em;
+}
+.bs-discount.form-A, .bs-discount.form-A.left {
+  border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
+}
+.bs-discount.form-A.right {
+  border-radius: 70% 30% 30% 70%/30% 30% 70% 70%;
+}
+
+/*************************
+bubble
+*************************/
+.bs-discount.bubble {
+  background: purple;
+  color: white;
+  height: 3.6em;
+  width: 3.6em;
+  border-radius: 500em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -0.5em;
+}
+.bs-discount.bubble span, .bs-discount.bubble strong {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bs-discount.bubble span::after, .bs-discount.bubble span::before, .bs-discount.bubble strong::after, .bs-discount.bubble strong::before {
+  content: " ";
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  background: purple;
+  border-radius: 50%;
+  position: absolute;
+}
+.bs-discount.bubble span:after, .bs-discount.bubble strong:after {
+  bottom: -0.125rem;
+  left: 0.35rem;
+}
+.bs-discount.bubble span:before, .bs-discount.bubble strong:before {
+  top: -0.125rem;
+  right: 0.35rem;
+}
+.bs-discount.bubble::after, .bs-discount.bubble::before {
+  content: " ";
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: purple;
+  border-radius: 50%;
+  position: absolute;
+}
+.bs-discount.bubble:after {
+  left: -0.125rem;
+  bottom: 0.5rem;
+}
+.bs-discount.bubble:before {
+  right: -0.125rem;
+  top: 0.5rem;
+}

@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Xác thực tài khoản";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+}
+@section scripts{
+    <script src="~/Scripts/my_js/send_email_verification.js"></script>
+}
+<section class="mt_mb_send_verify__account">
+    <div class="container d-flex justify-content-center margin_mobile_fixed">
+        <div class="row">
+            <div class="col-12 vetify__account">
+                <div class="vetify__account_header text-center">
+                    <h1>Xác thực tài khoản</h1>
+                </div>
+                <div class="pd_vetify__account">
+                    <div class="vetify__account_body p-5">
+                        <div class="vetify__account_img text-center mb-3">
+                            <img srcset="~/Images/it_service/gmail-logo-2561_1.png 2x" alt="Email" />
+                        </div>
+                        <div class="vetify__account_text">
+                            <p class="fs-17px font_roboto_bold mb-4">Cảm ơn bạn đã đăng ký tài khoản tại NVTComputer</p>
+                            <p>Chúng tôi đã gửi email đến <span class="font_roboto_medium">@ViewBag.Email</span></p>
+                            <p class="mb-4">Để tiếp tục, vui lòng kiểm tra hộp thư và xác thực email của bạn.</p>
+                            <div class="resent_email_message">
+                                <form id="formresend">
+                                    <input type="hidden" name="account_id" id="acc_id" value="@ViewBag.AccountID" />
+                                    <span>Chưa nhận được email?</span><a onclick="sendmail()" id="resendid" class="Resend-email" style="cursor:pointer;"> Gửi lại</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

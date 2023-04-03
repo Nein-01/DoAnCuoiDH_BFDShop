@@ -1,0 +1,294 @@
+﻿@model IEnumerable<DoAn_LapTrinhWeb.Models.Product>
+@{
+    ViewBag.Title = "BFD.com";
+    ViewBag.ImageURL = "/Images/ImagesCollection/trang-chu.jpg";
+    ViewBag.Decription = "";
+    ViewBag.Tag = "Laptop, phụ kiện chính hãng";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+    string defaultImg = "/Content/Images/no-image.jpg";
+   
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+@section scripts{
+    <script>
+        $(".regular").slick({
+            dots: true,
+            infinite: true,
+            slidesToShow: 4,
+            slidesToScroll: 4,
+            autoplaySpeed: 3500,
+        });
+    </script>
+    <script>
+        var sticky = new Sticky('[data-sticky]', {});
+    </script>
+}
+<div class="container-fluid banner_vertical">
+    
+    
+        <div class="banner_vertical_left">
+            <a href="#">
+                <img class="bannervertical_img rounded-2 shadow-lg" data-sticky data-sticky-wrap data-margin-top="50" data-margin-bottom="20" src="https://via.placeholder.com/150x350" />
+            </a>
+        </div>
+        <div class="banner_vertical_right">
+            <a href="#"><img class="bannervertical_img rounded-2 shadow-lg" data-sticky data-sticky-wrap data-margin-top="50" data-margin-bottom="20" src="https://via.placeholder.com/150x350" /></a>
+        </div>
+    
+</div>
+<!--begin::Container-->
+<div class="container">
+    <!--begin::Row-->
+    <div class="row margin_mobile_fixed">
+        <!--begin::Carousel-->
+        <div class="carousel slide margin_carousel" id="main-carousel" data-ride="carousel">
+            <ol class="carousel-indicators">
+                
+            </ol>
+            <div class="carousel-inner rounded-3 shadow--banner-item">
+               
+                <div class="carousel-item active">
+                    <a href="#">
+                        <img class="bannerheader_img d-block img-fluid" src="https://via.placeholder.com/1600x472" alt="no-banner-image">
+                    </a>
+                </div>
+                
+            </div>
+            <!--begin::Butotn Prev-->
+            <a href="#main-carousel" class="carousel-control-prev" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span class="sr-only" aria-hidden="true">Prev</span>
+            </a>
+            <!--end::Butotn Prev-->
+            <!--begin::Butotn Next-->
+            <a href="#main-carousel" class="carousel-control-next" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+                <span class="sr-only" aria-hidden="true">Next</span>
+            </a>
+            <!--end::Butotn Next-->
+        </div>
+        <!--end::Carousel-->
+    </div>
+    <!--end::Row-->
+
+</div>
+<!--end::Container-->
+<!--begin::Container-->
+<div class="container mt-2">
+    <!--begin::Row-->
+    <div class="row">
+       
+    </div>
+    <!--end::Row-->
+</div>
+<!--end::Container-->
+<!--begin::Container-->
+<div class="container">
+    <div class="boder_product_home padding--product-home">
+        <!--begin::Row-->
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="full">
+                    <div class="main_heading ">
+                        <p class="h4 text-uppercase color_text_primary">Sản phẩm mới</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Row-->
+        <!--begin::Row-->
+        <div class="row">
+           
+        </div>
+        <!--end::Row-->
+    </div>
+</div>
+<!--end::Container-->
+<!--begin::Container-->
+<div class="container product_hot_mobile">
+    <div class="boder_product_home padding--product-home">
+        <!--begin::Row-->
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="full">
+                    <div class="main_heading ">
+                        <p class="h4 text-uppercase color_text_primary">Sản phẩm hot</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Row-->
+        <!--begin::Row-->
+        <div class="row">
+           
+        </div>
+        <!--end::Row-->
+    </div>
+</div>
+<!--end::Container-->
+<!--begin::Container-->
+<div class="container product_hot_pc">
+    <div class="boder_product_home padding--product-home">
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="full">
+                    <div class="main_heading ">
+                        <p class="h4 text-uppercase color_text_primary">Sản phẩm hot</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row ">
+            <section class="regular slider">
+               
+            </section>
+        </div>
+    </div>
+</div>
+<!--end::Container-->
+<!--begin::Container-->
+<div class="container">
+    <div class="boder_product_home padding--product-home">
+        <!--begin::Row-->
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="full">
+                    <div class="main_heading ">
+                        <p class="h4 text-uppercase color_text_primary">Màn Hình</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Row-->
+        <!--begin::Row-->
+        <div class="row">
+           
+        </div>
+        <!--end::Row-->
+    </div>
+</div>
+<!--end::Container-->
+<!--begin::Container-->
+<div class="container">
+    <div class="boder_product_home padding--product-home">
+        <!--begin::Row-->
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="full">
+                    <div class="main_heading ">
+                        <p class="h4 text-uppercase color_text_primary">Linh kiện</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Row-->
+        <!--begin::Row-->
+        <div class="row">
+           
+        </div>
+        <!--end::Row-->
+    </div>
+</div>
+<!--end::Container-->
+<!--begin::Container-->
+<div class="container">
+    <div class="boder_product_home padding--product-home">
+        <!--begin::Row-->
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="full">
+                    <div class="main_heading ">
+                        <p class="h4 text-uppercase color_text_primary">Laptop</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Row-->
+        <!--begin::Row-->
+        <div class="row">
+         
+        </div>
+        <!--end::Row-->
+    </div>
+</div>
+<!--end::Container-->
+<!--begin::Container-->
+<div class="container">
+    <div class="boder_product_home padding--product-home">
+        <!--begin::Row-->
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="full">
+                    <div class="main_heading ">
+                        <p class="h4 text-uppercase color_text_primary">Bàn - ghế</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Row-->
+        <!--begin::Row-->
+        <div class="row">
+           
+        </div>
+        <!--end::Row-->
+    </div>
+</div>
+<!--end::Container-->
+<!--begin::Container-->
+<div class="container">
+    <div class="boder_product_home padding--product-home">
+        <!--begin::Row-->
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="full">
+                    <div class="main_heading ">
+                        <p class="h4 text-uppercase color_text_primary">Phụ kiện</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Row-->
+        <!--begin::Row-->
+        <div class="row">
+           
+        </div>
+        <!--end::Row-->
+    </div>
+</div>
+<!--end::Container-->
+<!--begin::Container-->
+<div class="container">
+    <div class="boder_product_home padding--product-home">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="full">
+                    <div class="main_heading ">
+                        <p class="h4 text-uppercase">Tin Tức Mới Nhất</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 20px;">
+          
+        </div>
+    </div>
+</div>
+<!--begin::Container-->
+<div>
+    <div class="container">
+        <div class="boder_product_home padding--product-home">
+            <div class="row">
+                <div class="margin_bottom_brand">
+                    <div class="full ">
+                        <div class="main_heading1 ">
+                            <p class="h4 text-uppercase">Nhãn Hàng Đồng Hành</p>
+                        </div>
+                        <ul class="brand_list">
+                           
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

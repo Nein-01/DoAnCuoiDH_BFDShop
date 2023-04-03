@@ -1,0 +1,84 @@
+﻿<!--begin::section-->
+<section class="user-info mb-1">
+    <!--begin::Pic-->
+    <div class="avatar_profile">
+        <img alt="Ảnh đại diện" class="rounded-circle" src="@ViewBag.Avatar" />
+    </div>
+    <!--end::Pic-->
+    <!--begin::User Name-->
+    <div class="caption">
+        <div class="title">Tài khoản của</div>
+        <div class="name">@ViewBag.AccountName</div>
+    </div>
+    <!--end::User Name-->
+</section>
+<!--end::section-->
+<!--begin::nav-->
+<nav class="user-sidebar">
+    <!--begin::ul-->
+    <ul>
+        <!--begin::Li-->
+        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Editprofile" ? "active" : "")">
+            <a href="@Url.Action("Editprofile", "Account")">
+                <div class="icon">
+                    <i class="material-icons">person</i>
+                </div>
+                <span>Thông tin tài khoản</span>
+            </a>
+        </li>
+        <!--end::Li-->
+        <!--begin::Li-->
+        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ChangePassword" ? "active" : "")">
+            <a href="@Url.Action("ChangePassword", "Account")">
+                <div class="icon">
+                    <i class="material-icons">lock</i>
+                </div>
+                <span>Đổi mật khẩu</span>
+            </a>
+        </li>
+        <!--end::Li-->
+        <!--begin::Li-->
+        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "TrackingOrder" ? "active" : "") @(ViewContext.RouteData.Values["Action"].ToString() == "TrackingOrderDetail" ? "active" : "")">
+            <a href="@Url.Action("TrackingOrder", "Account")">
+                <div class="icon">
+                    <i class="material-icons">assignment</i>
+                </div>
+                <span>Quản lý đơn hàng</span>
+            </a>
+        </li>
+        <!--end::Li-->
+        <!--begin::Li-->
+        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "AddressManager" ? "active" : "")">
+            <a href="@Url.Action("AddressManager", "Account")">
+                <div class="icon">
+                    <i class="material-icons">location_on</i>
+                </div>
+                <span>Sổ địa chỉ</span>
+            </a>
+        </li>
+        <!--end::Li-->
+        <!--begin::Li-->
+        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "FeedbackHistory" ? "active" : "") @(ViewContext.RouteData.Values["Action"].ToString() == "FeedbackHistory" ? "active" : "")">
+            <a href="@Url.Action("FeedbackHistory", "Account")">
+                <div class="icon">
+                    <i class="material-icons">star_half</i>
+                </div>
+                <span>Đánh giá của tôi</span>
+            </a>
+        </li>
+        <!--end::Li-->
+        <!--begin::Li-->
+        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "CommentHistory" ? "active" : "") @(ViewContext.RouteData.Values["Action"].ToString() == "ReplyHistory" ? "active" : "")">
+            <a href="@Url.Action("CommentHistory", "Account")">
+                <div class="icon">
+                    <i class="material-icons">textsms</i>
+                </div>
+                <span>Bình luận và Phản hồi</span>
+            </a>
+        </li>
+        <!--end::Li-->
+        <!--begin::Li-->
+    </ul>
+    <!--end::ul-->
+</nav>
+<!--end::nav-->

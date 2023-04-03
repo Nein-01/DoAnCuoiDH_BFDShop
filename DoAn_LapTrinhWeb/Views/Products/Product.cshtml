@@ -1,0 +1,108 @@
+﻿@using DoAn_LapTrinhWeb.Models
+@using PagedList
+@model IPagedList<DoAn_LapTrinhWeb.Models.Product>
+@{
+    ViewBag.ImageURL = "/Images/ImagesCollection/san-pham.jpg";
+    ViewBag.Decription = "Laptop, linh kiện, phụ kiện chính hãng";
+    ViewBag.Tag = "";
+    ViewBag.Title = ViewBag.Title;
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+    //tính đánh giá trung bình
+    
+    string defaultImg = "/Content/Images/no-image.jpg";
+    //chuyên đổi dạng tiên tệ. get dấu chấm cho giá của sản phẩm
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+<!--begin::Section -->
+<div class="margin_mobile_fixed">
+    <!--begin::Container-->
+    <div class="container">
+        <!--begin::Breadcrumb-->
+        <div class="breadcrumb1">
+            <ul class="breadcrumb__list">
+                <li><a href="/"><i aria-hidden="true" class="fa fa-home"></i></a> <i aria-hidden="true" class="far fa-angle-right"></i></li>
+                <li><a href="@Url.Action("Index", "Home")">Trang chủ</a> <i aria-hidden="true" class="far fa-angle-right"></i></li>
+                <!--ViewBag.Type | path: action "Laptop,Accessory,Table,.." Controller "Products"-->
+                <li><a>@ViewBag.Type</a></li>
+            </ul>
+        </div>
+        <!--end::Breadcrumb-->
+        <!--begin::Product List-->
+        <div class="boderproductdetail">
+            <div class="row pd_listproduct2">
+                <!--begin::Product Filter-->
+                <div class="btn-group d-flex justify-content-between mb-2">
+                    <div>
+                        <span class="count_product_list"></span>
+                        <span></span>
+                    </div>
+                    <!--begin::Dropdown Button-->
+                    <div class="dropdown_product_list">
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <div id="slider-range"></div>
+                        </div>
+                        <a href="#" class="dropdown-toggle dropdown_sort" data-bs-toggle="dropdown" aria-expanded="false">
+                            
+                        </a>
+                        <!--begin::Dropdown Menu-->
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <!--begin::Dropdown Item-->
+                            <li><a class="dropdown-item" href="@Url.Action(@ViewBag.UrlType,"Products", new {s=ViewBag.Search, sortOrder = ViewBag.ResetSort })">Reset bộ lọc</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="@Url.Action(@ViewBag.UrlType,"Products", new {s=ViewBag.Search, sortOrder = ViewBag.DateSortParm})">Cũ - Mới</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="@Url.Action(@ViewBag.UrlType,"Products", new {s=ViewBag.Search, sortOrder = ViewBag.BuySortParm})">Mua nhiều</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="@Url.Action(@ViewBag.UrlType,"Products", new {s=ViewBag.Search, sortOrder = ViewBag.ViewSortParm})">Xem nhiều</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="@Url.Action(@ViewBag.UrlType,"Products", new {s=ViewBag.Search, sortOrder = ViewBag.DiscountSortParm})">%Giảm</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="@Url.Action(@ViewBag.UrlType,"Products", new {s=ViewBag.Search, sortOrder = ViewBag.PriceSortParm})">Giá thấp - cao</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="@Url.Action(@ViewBag.UrlType,"Products", new {s=ViewBag.Search, sortOrder = ViewBag.NameSortParm})">Tên A - Z</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <!--begin::Dropdown Item Expand-->
+                            <li class="dropdown1">
+                                <a class="dropdown-item" href="#">Mức giá</a>
+                                <!--begin::Dropdown Menu Expand-->
+                                <ul class="dropdown-content">
+                                    <!--begin::Dropdown content-->
+                                    <li><a href="@Url.Action(@ViewBag.UrlType,"Products", new {s=ViewBag.Search, sortOrder = ViewBag.UnderthreeMillionSortParm })">Dưới 3 triệu</a></li>
+                                    <li><a href="@Url.Action(@ViewBag.UrlType,"Products", new {s=ViewBag.Search, sortOrder = ViewBag.FromthreeToeightMillionSortParm })">Từ 3 - 8 triệu</a></li>
+                                    <li><a href="@Url.Action(@ViewBag.UrlType,"Products", new {s=ViewBag.Search, sortOrder = ViewBag.FromeightTofifteenMillionSortParm })">Từ 8 - 15 triệu</a></li>
+                                    <li><a href="@Url.Action(@ViewBag.UrlType,"Products", new {s=ViewBag.Search, sortOrder = ViewBag.FromfifteenTotwentyfiveMillionSortParm })">Từ 15 - 25 triệu</a></li>
+                                    <li><a href="@Url.Action(@ViewBag.UrlType,"Products", new {s=ViewBag.Search, sortOrder = ViewBag.MorethantwentyfiveMillionSortParm })">Trên 25 triệu</a></li>
+                                    <!--end::Dropdown content-->
+                                </ul>
+                                <!--end::Dropdown Menu Expand-->
+                            </li>
+                            <!--end::Dropdown Item Expand-->
+                            <!--end::Dropdown Item-->
+                        </ul>
+                        <!--end::Dropdown Menu-->
+                    </div>
+                    <!--begin::Dropdown Button-->
+                </div>
+                <!--end::Product Filter-->
+                <!--begin::Product Items-->
+                <div class="col-12">
+                    <div class="row">
+                       
+                    </div>
+                </div>
+                <!--end::Product Items-->
+                <!--begin::Pagination-->
+                <div>
+                    @if (ViewBag.Countproduct > 12)
+                    {
+                        @Html.Partial("Pager", Model)
+                    }
+                </div>
+                <!--end::Pagination-->
+            </div>
+            <!--begin::Product List-->
+        </div>
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Section-->

@@ -1,0 +1,162 @@
+﻿@model DoAn_LapTrinhWeb.Models.Account
+@{
+    ViewBag.Title = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+}
+@using DoAn_LapTrinhWeb.Common.Helpers
+@section scripts{
+    <!--check đăng nhập, đăng ký, quên mật khẩu, đổi thông tin cá nhân,...-->
+    <!--script custom ngày tháng-->
+    <script src="~/Scripts/my_js/custom_dt_picker.js"></script>
+    <script src="~/Scripts/my_js/jquery.datetimepicker.js"></script>
+    <!--script preview image-->
+    <script src="~/Scripts/my_js/upload_image_profile.js"></script>
+}
+@if (User.Identity.IsAuthenticated)
+{
+    using (Html.BeginForm("Editprofile", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <!--begin::section-->
+        <section class="margin_profile margin_mobile_fixed">
+            <!--begin::container-->
+            <div class="container ">
+                <div class="center-noleftright">
+                    <!--begin::Row-->
+                    <div class="row no-gutters">
+                        <!--begin::Col-->
+                        <div class="col-12 col-lg-3 col-xl-3">
+                            @Html.Partial("_NavbarProfile")
+                        </div>
+                        <!--end::Col-->
+                        <!--begin:Edit profile-->
+                        <div class="col-12 col-lg-9 col-xl-9 mb-10px">
+                            <!--begin::User Page-->
+                            <div class="user-page">
+                                <div class="wrap_edit_profile">
+                                    <div class="page-title text-uppercase">Thông tin tài khoản</div>
+                                    <!--begin::Upload Pic-->
+                                    <div class="areas_upload_image_profile" style="float:right;">
+                                        <div>
+                                            <div class="center">
+                                                <!--onchange="readURL(this);",id="blah" | path:Scripts/my_js/upload_image_profile.js-->
+                                                <img width="100" id="blah" src="@Model.Avatar" />
+                                            </div>
+                                            <div class="choose_file center " style="padding:10px 95px 10px 95px;">
+                                                <input type="button" class="btn center btn_upload_image_profile" style="border: 1px solid rgba(0,0,0,.09);" value="Chọn ảnh">
+                                                <input onchange="readURL(this);" value="@Model.Avatar" name="ImageUpload" type="file" style="cursor: -webkit-grab; cursor: grab; margin-left: 100px; width: 90px; height: 40px; margin-top: 10px;" accept=".jpg,.jpeg,.png" />
+                                            </div>
+                                            <div class="center">
+                                                <sp>Định dạng: .JPG,.JPEG,.PNG</sp>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end::Upload Pic-->
+                                <div class="user-form">
+                                    <div class="form-wrap">
+                                        <!--begin::form-->
+                                        <form method="post" class="form-wrap form_edit">
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            @Html.HiddenFor(m => m.account_id)
+                                            @Html.HiddenFor(m => m.Email)
+                                            @Html.HiddenFor(m => m.create_at)
+                                            @Html.HiddenFor(m => m.password)
+                                            @Html.HiddenFor(m => m.role_id)
+                                            <div>
+                                                <!--begin::Input form group-->
+                                                <div class="settingrow form-group  mb-3">
+                                                    <!--begin::label-->
+                                                    <label class="settinglabel control-label fw-normal">Email</label>
+                                                    <!--end::label-->
+                                                    <div class="col-sm-8">
+                                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập Email", disabled= "disabled" } })
+                                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <!--end::Input form group-->
+                                                <!--begin::Input form group-->
+                                                <div class="settingrow form-group mb-3">
+                                                    <!--begin::label-->
+                                                    <label class="settinglabel control-label col-sm-4">Họ tên<small style="color:red;">(*)</small></label>
+                                                    <!--end::label-->
+                                                    <div class="col-sm-8">
+                                                        <!-- mỗi id vd:id="Name" phải giống với name đã gọi trong action "Editprofile" -->
+                                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập Họ tên" } })
+                                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <!--end::Input form group-->
+                                                <!--begin::Input form group-->
+                                                <div class="settingrow form-group mb-3">
+                                                    <!--begin::label-->
+                                                    <label class="settinglabel control-label col-sm-4 ">Điện thoại<small style="color:red;">(*)</small></label>
+                                                    <!--end::label-->
+                                                    <div class="col-sm-8">
+                                                        <!--id = "inputform_number" | path:Scripts/my_js/custom_input_form.js-->
+                                                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập số điện thoại", id = "inputform_number" } })
+                                                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <!--end::Input form group-->
+                                                <!--begin::Input form group-->
+                                                <div class="settingrow form-group mb-3">
+                                                    <!--begin::label-->
+                                                    <label class="settinglabel control-label col-sm-4">Ngày sinh</label>
+                                                    <!--end::label-->
+                                                    <div class="col-sm-8">
+                                                        <!--id="dtpicker_edit_profile" | path:Scripts/my_js/custom_dt_picker.js-->
+                                                        <input readonly value="@Model.Dateofbirth.ToString("MM-dd-yyyy")" name="Dateofbirth" tabindex="4" class="form-control" id="dtpicker_edit_profile" autofocus />
+                                                        @Html.ValidationMessageFor(model => model.Dateofbirth, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <!--end::Input form group-->
+                                                <!--begin::Input form group-->
+                                                <div class="settingrow form-group mb-3">
+                                                    <!--begin::label-->
+                                                    <label class="settinglabel control-label col-sm-4">Giới tính</label>
+                                                    <div class="col-sm-8">
+                                                        <!--begin::Choose Gender-->
+                                                        <div class="d-flex mt-1">
+                                                            <div style="margin-right:18px">
+                                                                @Html.RadioButtonFor(model => model.Gender, "1") <label style="width: unset; padding: unset; font-family: Roboto-Regular;" for="gen_1">Nam</label>
+                                                            </div>
+                                                            <div style="margin-right:18px">
+                                                                @Html.RadioButtonFor(model => model.Gender, "2") <label style="width: unset; padding: unset; font-family: Roboto-Regular;" for="gen_2">Nữ</label>
+                                                            </div>
+                                                            <div>
+                                                                @Html.RadioButtonFor(model => model.Gender, "3") <label style="width: unset; padding: unset; font-family: Roboto-Regular;" for="gen_3">Khác</label>
+                                                            </div>
+                                                        </div>
+                                                        <!--end::Choose Gender-->
+                                                    </div>
+                                                </div>
+                                                <!--end::Input form group-->
+                                            </div>
+                                            <!-- end form group -->
+                                            <!--begin::Action-->
+                                            <div class="form-group clearfix ml-5">
+                                                <div class="col-sm-9 col-sm-offset-3  ">
+                                                    <!--begin::Button-->
+                                                    <button type="submit" tabindex="5" class="btn bg-button ms-120px rounded-100px">Cập nhật</button>
+                                                    <!--end::Button-->
+                                                </div>
+                                            </div>
+                                            <!--end::Action-->
+                                        </form>
+                                    </div>
+                                    <!--end::form-->
+                                </div>
+                                </div>
+                            <!--begin::User Page-->
+                        </div>
+                        <!--end:Edit profile-->
+                    </div>
+                    <!--begin::Row-->
+                </div>
+            </div>
+            <!--end::container-->
+        </section>
+        <!--end::section-->
+    }
+}

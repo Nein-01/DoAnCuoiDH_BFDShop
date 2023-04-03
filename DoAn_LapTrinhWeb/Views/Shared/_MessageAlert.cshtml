@@ -1,0 +1,11 @@
+﻿@*//gửi notification*@
+@if (Notification.has_flash())
+{
+    //notifi 2.5s
+    var Notifi = Notification.get_flash();
+    <input type="hidden" value="@Notifi.mgs_type" name="mgs_type" />
+    <input type="hidden" value=" @Notifi.mgs" name="mgs" />
+    //notifi 1s
+    <input type="hidden" value="@Notifi.mgs_type1s" name="mgs_type1s" />
+    <input type="hidden" value=" @Notifi.mgs1s" name="mgs1s" />
+}

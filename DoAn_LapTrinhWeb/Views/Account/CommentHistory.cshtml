@@ -1,0 +1,88 @@
+﻿@using DoAn_LapTrinhWeb.Common.Helpers
+@using PagedList.Mvc
+@model PagedList.IPagedList<DoAn_LapTrinhWeb.DTOs.CommentHistoryDTOs>
+@{
+    ViewBag.Title = "Bình luận bài viết";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+}
+@using DoAn_LapTrinhWeb.Common.Helpers
+
+@if (User.Identity.IsAuthenticated)
+{
+    <!--begin::section-->
+    <section class="margin_profile margin_mobile_fixed">
+        <!--begin::container-->
+        <div class="container ">
+            <div class="center-noleftright">
+                <!--begin::Row-->
+                <div class="row no-gutters">
+                    <!--begin::Col-->
+                    <div class="col-12 col-lg-3 col-xl-3">
+                        @Html.Partial("_NavbarProfile")
+                    </div>
+                    <!--end::Col-->
+                    <!--begin:Edit profile-->
+                    <div class="col-12 col-lg-9 col-xl-9">
+                        <!--begin::User Page-->
+                        <div class="user-page com_rep_history_1">
+                            <div class="d-flex justify-content-between">
+                                <div class="page-title text-uppercase">Bình luận của bạn</div>
+                                <div class="d-flex gap-1 history_comment">
+                                    <div >
+                                        <span class="btn_coment @(ViewContext.RouteData.Values["Action"].ToString() == "CommentHistory" ? "active_btn_cmt" : "")"><a href="#" > Bình luận</a></span>
+                                    </div>
+                                    <div>
+                                        <span class="btn_coment"> <a href="@Url.Action("ReplyHistory","Account")">Phản hồi</a> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="user-form row" style="max-width: 100% !important;">
+                                @if (Model.Count() == 0)
+                                {
+                                    <div class="col mt-100px">
+                                        <p class="h3 text-danger center">Không có bình luận nào</p>
+                                    </div>
+                                }
+                                else
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        <div class="col-12 fs-14px mb-4 history_id_iframe">
+                                            <div class="color_comment_his">
+                                                <div class="d-flex mb-1"> <span class="material-icons fs-15px icon_comment_his"> comment </span> <span class="ms-2 content_comment_rep_his"> @Html.Raw(item.comment_content)</span></div>
+                                                <div class="history_post">
+                                                    <div class="news_title_history">Bài vết: <a href="/post/@item.news_slug">@item.news_title</a> </div>
+                                                    <div>Lúc @item.comment_at.ToString("HH:mm dd/MM/yyyy")</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                @if (Model.Count() > 5)
+                                {
+                                    <div class="center mt-20px">
+                                        @Html.PagedListPager(Model, page => Url.Action("CommentHistory", new { @page = page }), new PagedListRenderOptions
+                                        {
+                                           LinkToPreviousPageFormat = "‹",
+                                           LinkToNextPageFormat = "›",
+                                           DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                                           DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                                           DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                                           DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                                           MaximumPageNumbersToDisplay = 10
+                                        })
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <!--begin::User Page-->
+                    </div>
+                    <!--end:Edit profile-->
+                </div>
+                <!--begin::Row-->
+            </div>
+        </div>
+        <!--end::container-->
+    </section>
+    <!--end::section-->
+}

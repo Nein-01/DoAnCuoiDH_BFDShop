@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Kích hoạt tài khoản";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+}
+<!--begin::Content-->
+<div class="margin_verify_account">
+    <!--begin::Container-->
+    <div class="container center margin_mobile_fixed">
+        <!--begin::Col-->
+        <div class="col-sm-7">
+            <!--begin::Card-->
+            <div class="border_verify_account">
+                <!--begin::Card Body-->
+                <div class="card-body" style=" padding: 5rem;">
+                    @if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status))
+                    {
+                        <div class="center">
+                            <span class="material-icons ic_success_verify">check_circle </span>
+                        </div>
+                        <p class="center h3 mt-3 font_family_ChakraPetch_bold">Đã xác thực</p>
+                        <p class="center text-center"> Tài khoản của bạn đã được kích hoạt thành công.</p>
+                        <div class="center mt-4">
+                            <a href="@Url.Action("SignIn", "Account")" style=" border-radius: 0.7rem" class="btn bg-button button_verify_account">Đăng nhập</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="center">
+                            <span class="material-icons ic_fail_verify">error</span>
+                        </div>
+                        <p class="center mt-3 h5 text-center text-danger" style=" margin-bottom: 110px;">
+                            @ViewBag.Message
+                        </p>
+                    }
+                </div>
+                <!--end::Card Body-->
+            </div>
+            <!--end::Card-->
+        </div>
+        <!--end::Col-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Content-->

@@ -1,0 +1,233 @@
+﻿@using DoAn_LapTrinhWeb.Common.Helpers
+@using DoAn_LapTrinhWeb.Models
+@using PagedList.Mvc
+@model PagedList.IPagedList<DoAn_LapTrinhWeb.Model.Order>
+@{
+    ViewBag.Title = "Danh sách đơn hàng";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+@section scripts{
+    <script src="~/Scripts/my_js/order-search.js"></script>
+}
+@if (User.Identity.IsAuthenticated)
+{
+    <!--Begin::Section-->
+    <section class="mb_trackingorder">
+        <!--begin::Container-->
+        <div class="container mt-20px margin_mobile_fixed">
+            <div class="center-noleftright">
+                <!--begin::Row-->
+                <div class="row no-gutters">
+                    <!--begin::Col-->
+                    <div class="col-12 col-lg-3 col-xl-3">
+                        @Html.Partial("_NavbarProfile")
+                    </div>
+                    <!--end menu left-->
+                    <!--begin::Col-->
+                    <div class="col-12 col-lg-9 col-xl-9">
+                        <!--begin::Section-->
+                        <section class="user-page pb-tracking_order mb-20px">
+                            <!--begin::Title-->
+                            <div class=" d-flex justify-content-between flex-wrap">
+                                <div class="page-title text-uppercase">
+                                    Đơn hàng của tôi
+                                </div>
+                                <div class="d-flex filter-search">
+                                    <div class="order_filter d-flex">
+                                        <a href="#" class="dropdown-toggle dropdown_sort" data-bs-toggle="dropdown" aria-expanded="false">
+                                            @if (ViewBag.sortname == null)
+                                            {
+                                                <i class="bi bi-funnel"></i><span>Bộ lọc:</span>
+                                            }
+                                            else
+                                            {
+                                                @ViewBag.sortname
+                                            }
+                                        </a>
+                                        <!--begin::Dropdown Menu-->
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <!--begin::Dropdown Item-->
+                                            <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.ResetSort})">Reset bộ lọc</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.DateSortParm})">Đơn hàng mới - cũ</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.PriceSortParm})">Trị giá ĐH thấp - cao</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.WaitingSortParm})">Chờ xử lý</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.ProcessingortParm})">Đang xử lý</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.CompleteSortParm})">Hoàn thành</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.CancleSortParm})">Đã hủy</a></li>
+                                            <!--end::Dropdown Item-->
+                                        </ul>
+                                        <!--end::Dropdown Menu-->
+                                    </div>
+                                    <form action="@Url.Action("TrackingOrder", "Account")" method="get">
+                                        <div class="searchbox search_order_mobile mt-0">
+                                            <div class="searchbox__keyword">
+                                                <!--id="order_id" | path:Scripts/my_js/order-search.js-->
+                                                <input type="search" name="search" id="order_id" placeholder="Tìm kiếm đơn hàng..." class="ui-autocomplete-input search_order_2" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!--end::Title-->
+                            @if (Model.Count == 0)
+                            {
+                                <div class="col mt-50px">
+                                    <p class="h3 text-danger center">Không có đơn hàng</p> @*nếu chưa có đơn hàng nào sẽ hiện thông báo ntn*@
+                                </div>
+                            }
+                            else
+                            {
+                                <!--begin::User Order-->
+                                <div class="user-order">
+                                    <div class="tab-content" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                            <div class="ajaxresponseOnline">
+                                                <!--begin::Order List-->
+                                                <div class="order-list">
+                                                    <div class="orderlist wishlist clearfix hidden-sm-up">
+                                                        <div class="wishlist-product clearfix">
+                                                            <!--begin::Item-->
+                                                            <div class="item">
+                                                                @foreach (var item in Model)
+                                                                {
+                                                                    <!--begin::order Item-->
+                                                                    <div class="order-item">
+                                                                        <div>
+                                                                            <!--begin::Order Title--> 
+                                                                            <a class="order-title" href="@Url.Action("TrackingOrderDetail", "Account", new {id = item.order_id})">
+                                                                                <!--begin::Order ID-->
+                                                                                <div class="id">
+                                                                                    Đơn hàng <strong>#</strong><strong>@item.order_id</strong>
+                                                                                </div>
+                                                                                <!--end::Order ID-->
+                                                                                <!--begin::Order Date-->
+                                                                                <div class="des">
+                                                                                    Ngày đặt: @item.oder_date.ToString("dd-MM-yyyy HH:mm:ss")
+                                                                                </div>
+                                                                                <!--end::Order Date-->
+                                                                                <!--begin::Order Note-->
+                                                                                <!--begin::Order Status-->
+                                                                                @if (item.payment_transaction == "1" && item.status == "1")
+                                                                                {
+                                                                                    <div class="status alert-secondary">Chưa thanh toán</div>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    if (item.status == "3")
+                                                                                    {
+                                                                                        <div class="status alert-success">Hoàn thành</div>
+                                                                                    }
+                                                                                    else if (item.status == "1")
+                                                                                    {
+                                                                                        <div class="status alert-warning">Chờ xử lý</div>
+                                                                                    }
+                                                                                    else if (item.status == "2")
+                                                                                    {
+                                                                                        <div class="status alert-info">Đang xử lý</div>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <div class="status alert-danger ">Đơn hàng đã bị hủy</div>
+                                                                                    }
+                                                                                }
+                                                                                <!--end::Order Status-->
+                                                                            </a>
+                                                                            <!--end::Order Title-->
+                                                                            <!--begin::Order Product-->
+                                                                            <div class="order-product" id="style-5">
+                                                                                @foreach (var itemoder in ViewBag.itemOrder)
+                                                                                {
+                                                                                    if (item.order_id == itemoder.order_id)
+                                                                                    {
+                                                                                        foreach (var p in ViewBag.productOrder)
+                                                                                        {
+                                                                                            if (p.product_id == itemoder.product_id)
+                                                                                            {
+                                                                                                <a class="product" href="@Url.Action("TrackingOrderDetail", "Account", new {id = item.order_id})">
+                                                                                                    <div class="img"><img src="@p.image" alt=""></div>
+                                                                                                    <div class="caption">
+                                                                                                        <div class="name">
+                                                                                                            @p.product_name
+                                                                                                        </div>
+                                                                                                        <div class="amount">
+                                                                                                            Số lượng: @itemoder.quantity
+                                                                                                        </div>
+                                                                                                        <div class="price">
+                                                                                                            giá tiền:
+                                                                                                            <div class="new">@itemoder.price.ToString("#,###₫", culture.NumberFormat) </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </a>
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            </div>
+                                                                            <!--end::Order Product-->
+                                                                            <!--begin::Order Total-->
+                                                                            <div class="order-total" >
+                                                                                <div class="group total" style="width:200px!important">
+                                                                                    <div class="label">Tổng tiền: </div>
+                                                                                    @if (item.payment_id!=1 && item.payment_transaction=="2")
+                                                                                    {
+                                                                                        <span class="value">0₫</span>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <span class="value">@item.total.ToString("#,0₫", culture.NumberFormat)</span>
+                                                                                    }
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--end::Order Total-->
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--end::order Item-->
+                                                                }
+                                                            </div>
+                                                            <!--end::Item-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--end::Order List-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end::User Order-->
+                            }
+                        </section>
+                        <!--end::Section-->
+                        @if (Model.Count != 0)
+                        {
+                            <div class="col-md-12 mt-pagination-tracking center">
+                                @Html.PagedListPager(Model, page => Url.Action("TrackingOrder", new { page, sortOrder = ViewBag.CurrentSort }), new PagedListRenderOptions
+                           {
+                               LinkToPreviousPageFormat = "‹",
+                               LinkToNextPageFormat = "›",
+                               DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                               DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                               DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                               DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                               MaximumPageNumbersToDisplay = 5
+                           })
+                            </div>
+                            <!--begin::Pagination-->
+                            <!--end::Pagination-->
+                        }
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+            </div>
+        </div>
+        <!--end::Container-->
+    </section>
+    <!--end::Section-->
+}

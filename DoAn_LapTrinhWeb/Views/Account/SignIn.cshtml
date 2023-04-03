@@ -1,0 +1,86 @@
+﻿@using DoAn_LapTrinhWeb.Models
+@model DoAn_LapTrinhWeb.Models.Sigin
+@{
+    ViewBag.Title = "Đăng nhập";
+    ViewBag.ImageURL = "/Images/ImagesCollection/dang-nhap.jpg";
+    ViewBag.Decription = "";
+    ViewBag.Tag = "Đăng nhập";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+}
+@section scripts{
+    <!--check đăng nhập, quên mật khẩu, đổi thông tin cá nhân,...-->
+    @*<script src="~/Scripts/my_js/checkuseraccount.js"></script>*@
+    <script src="~/Scripts/my_js/show_hide_password.js"></script>
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <!--begin::setion-->
+    <section class="margin_signin">
+        <!--begin::Container-->
+        <div class="container margin_mobile_fixed">
+            <!--begin::Row-->
+            <div class="row justify-content-sm-center h-100">
+                <div class="col-lg-5 col-xl-4 col-md-6 col-12">
+                    <!--begin::Card-->
+                    <div class="boder_account">
+                        <div class="card-body">
+                            <p class=" card-title h4 mb-2 center text-uppercase font_roboto_medium">Đăng nhập</p>
+                            <!--begin:form -->
+                            <!--id="loginForm",id="Email",id="Pass" | path: Scripts/my_js/checkuseraccount.js-->
+                            <form method="POST" id="loginForm">
+                                <!--begin:input form group -->
+                                <div class="form-group mb-2 ">
+                                    <!--begin:label-->
+                                    <label class="mb-1 text-muted " for="email">Email đăng nhập</label>
+                                    <!--end:label-->
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+                                <!--end:input form group -->
+                                <!--begin:input form group -->
+                                <div class="w-100">
+                                    <!--begin:label-->
+                                    <label class="mb-1 text-muted" for="password">Mật khẩu</label>
+                                    <!--end:label-->
+                                    <a href="@Url.Action("ForgotPassword", "Account")" class="float-end font_roboto_bold">
+                                        Quên mật khẩu?
+                                    </a>
+                                </div>
+                                <div class="form-group show_pass mb-3 position-relative">
+                                    @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control col-lg-1", id = "Pass" } })
+                                    @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                                    <span toggle="#Pass" class="col-lg-1 d-flex justify-content-end field-icon toggle-password"><span class="material-icons cl_show_pass">visibility</span></span>
+                                </div>
+                                <!--end:input form group -->
+                            </form>
+                            <!--end:form -->
+                            <!--begin:Action-->
+                            <div class="form-group mb-2">
+                                <!--begin:Button-->
+                                <!--onclick="SignIn()" | path: Scripts/my_js/checkuseraccount.js"-->
+                                <button class="btn bg-button w-100" type="submit" tabindex="7">Đăng nhập</button>
+                                <!--end:Button-->
+                            </div>
+                            <!--end:Action-->
+                        </div>
+                        <!--begin:Action-->
+                        <div class="card-footer py-3 border-0">
+                            <div class="text-center">
+                                Bạn chưa có tài khoản?
+                                <!--begin:Button-->
+                                <a href="@Url.Action("Register", "Account")" class="font_roboto_bold">Đăng ký</a>
+                                <!--end:Button-->
+                            </div>
+                        </div>
+                        <!--end:Action-->
+                    </div>
+                    <!--end::Card-->
+                </div>
+            </div>
+            <!--begin::Row-->
+        </div>
+        <!--end::Container-->
+    </section>
+    <!--begin::setion-->
+}

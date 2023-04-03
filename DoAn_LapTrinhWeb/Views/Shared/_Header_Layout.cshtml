@@ -1,0 +1,406 @@
+﻿@*Layout sử dụng chính: Main_Layout*@
+@*<script src="~/Scripts/my_js/search.js"></script>*@
+<!-- gọi script search -->
+@using DoAn_LapTrinhWeb.Common.Helpers
+@using DoAn_LapTrinhWeb.Common
+<!--begin::Header-->
+<!--begin::Header Top-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<script src="~/Scripts/my_js/sticky.compile.js"></script>
+@section scripts{
+    <script>
+        var sticky = new Sticky('[data-sticky]', {});
+    </script>
+    <script>
+        /*=============== SCROLL SECTIONS ACTIVE LINK ===============*/
+        const sections = document.querySelectorAll('section[id]')
+
+        function scrollActive() {
+            const scrollY = window.pageYOffset
+
+            sections.forEach(current => {
+                const sectionHeight = current.offsetHeight,
+                    sectionTop = current.offsetTop - 50,
+                    sectionId = current.getAttribute('id')
+
+                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                    document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.add('active-link')
+                } else {
+                    document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.remove('active-link')
+                }
+            })
+        }
+        window.addEventListener('scroll', scrollActive)
+        /*=============== CHANGE BACKGROUND HEADER ===============*/
+        function scrollHeader() {
+            const header = document.getElementById('header')
+            // When the scroll is greater than 80 viewport height, add the scroll-header class to the header tag
+            if (this.scrollY >= 80) header.classList.add('scroll-header'); else header.classList.remove('scroll-header')
+        }
+        window.addEventListener('scroll', scrollHeader)
+    </script>
+}
+<div class="header_top">
+    @if (ViewBag.BannerTopHorizontal.Count > 0)
+    {
+        <div id="carouselexamplecontrols" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                @{
+                    var first = true;
+                }
+                @foreach (var item in ViewBag.BannerTopHorizontal)
+                {
+                    <div class="carousel-item @(first?Html.Raw("active"):Html.Raw(""))">
+                        <a href="/promo/@item.slug">
+                            <img class="d-block w-100" style="object-fit:cover; width:100%!important; height:100%!important" src="@item.image_thumbnail" alt="@item.banner_name">
+                        </a>
+                    </div>
+                    first = false;
+                }
+            </div>
+            <a class="carousel-control-prev" href="#carouselexamplecontrols" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselexamplecontrols" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">next</span>
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="container">
+            <!--begin::Row-->
+            <div class="row">
+                <div class="col-xxl-8 col-xl-7">
+                    <div class="full">
+                        <div class="topbar-left">
+                            <!--begin::ul-->
+                            <ul class="list-inline ">
+                                <!--begin::Li-->
+                                <li>
+                                    <span class="topbar-label">
+                                        <i class="fa fa-home"></i>
+                                    </span><span class="topbar-hightlight">
+                                        <a href="https://goo.gl/maps/B94jzJLVM63tdjhe9" target="_blank"></a>
+                                    </span>
+                                </li>
+                                <!--end::Li-->
+                                <!--begin::Li-->
+                                <li>
+                                    <span class="topbar-label"><i class="fa fa-envelope"></i></span> <span class="topbar-hightlight">
+                                        
+                                    </span>
+                                </li>
+                                <!--end::Li-->
+                            </ul>
+                            <!--end::ul-->
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Col-->
+                <div class="col-xl-5 col-xxl-4 right_section_header_top">
+                    <div class="float-left">
+                        <div class="social_icon ms-4">
+                            <!--begin::Ul-->
+                            <ul class="list-inline ms-1">
+                                <!--begin::Li-->
+                                <li>
+                                    <a class="fa fa-facebook" href="https://www.facebook.com" title="FanpageFacebook" target="_blank"></a>
+                                </li>
+                                <!--end::Li-->
+                                <!--begin::Li-->
+                                <li>
+                                    <a class="fa fa-youtube-play" href="https://www.youtube.com" title="Youtube" target="_blank"></a>
+                                </li>
+                                <!--end::Li-->
+                                <!--begin::Li-->
+                                <li>
+                                    <a class="fa fa-instagram" href="https://www.instagram.com" title="Instagram" target="_blank"></a>
+                                </li>
+                                <!--end::Li-->
+                                <!--begin::Li-->
+                                <li>
+                                    <a class="fa fa-twitter" href="https://twitter.com/" title="Instagram" target="_blank"></a>
+                                </li>
+                                <!--end::Li-->
+                            </ul>
+                            <!--end::Ul-->
+                        </div>
+                    </div>
+                    <div class="float-right">
+                        <div class="make_appo">
+                            <a class="btn white_btn text-uppercase" href="@Url.Action("SentRequest", "Home")">Hẹn tư vấn</a>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Col-->
+            </div>
+            <!--end::Row-->
+        </div>
+    }
+</div>
+<!--end::Header Top-->
+<!--begin::Header Bottom-->
+<!--nếu muốn scroll và dính thanh navbar lên top thì thêm "fixme" vào class dưới-->
+<div class="header_bottom fixme">
+    <!--begin::Container-->
+    <div class="container-fluid" style=" background-color: #fff;">
+        <!--begin::Container-->
+        <div class="container">
+            <!--begin::Row-->
+            <div class="row">
+                <!--begin::Col-->
+                <div class="col-lg-4 col-sm-1">
+                    <!--begin::Row-->
+                    <div class="row">
+                        <!--begin::Logo-->
+                        <div class="logo col-md-6">
+                            <a href="@Url.Action("Index", "Home")"><img src="~/Images/ImagesCollection/BFD-logo_web.png" class="logo_pc" alt="logo" /></a>
+                        </div>
+                        <!--end::Logo-->
+                        <!--begin::Col-->
+                        <div class="col-md-6 d-flex hotline" style="margin-top:7px;">
+                            <div>
+                                <span style="font-size:30px; color: #29324e;" class="material-icons">phone_in_talk</span>
+                            </div>
+                            <div style="font-size:14px;margin-top:2px;color: #29324e;">
+                                <div class="text-muted">Hotline</div>
+                                <div class="font_roboto_medium">0339188182</div>
+                            </div>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Row-->
+                </div>
+                <!--end::Col-->
+                <!--begin::Col-->
+                <div class="col-lg-4 col-sm-10">
+                    <!--begin::Form-->
+                    @if (ViewContext.RouteData.Values["Controller"].ToString() != "News")
+                    {
+                        <form action="@Url.Action("SearchResult", "Products")" method="get" class="margin_form_search">
+                            <div class="searchbox">
+                                <div class="searchbox__keyword">
+                                    <input type="text" name="s" id="product_name" placeholder="Nhập sản phẩm cần tìm ...">
+                                    <button class="btn bg-button"><span class="material-icons"> search </span></button>
+                                    <div class="ui-autocomplete-loading"></div>
+                                </div>
+                            </div>
+                        </form>
+                    }
+                    else
+                    {
+                        <!--end::Form-->
+                        <form action="@Url.Action("SearchResult", "News")" class="margin_form_search">
+                            <div class="searchbox">
+                                <div class="searchbox__keyword">
+                                    <input type="text" name="s" id="news_title" placeholder="Nhập bài viết cần tìm ...">
+                                    <button class="btn bg-button"><span class="material-icons"> search </span></button>
+                                    <div class="ui-autocomplete-loading"></div>
+                                </div>
+                            </div>
+                        </form>
+                    }
+                </div>
+                <!--begin::Col-->
+                <div class="col-lg-4 col-sm-1">
+                    <!--begin::Ul-->
+                    <ul class="d-flex float-right list_header_cart" style=" margin: 11px 0 0 0; ">
+                        <!--Layout gắn module: Header_Layout-->
+                        @if (User.Identity.IsAuthenticated == false)
+                        {
+                            <!--begin:Li-->
+                            <li style="margin-right: 10px;" class="header_right_bottom item_nav_top">
+                                <a style=" color: #29324e; " class="d-flex" href="@Url.Action("TrackingOrder", "Account")">
+                                    <span class="material-icons">assignment_turned_in</span><div id="elementID">Đơn hàng</div>
+                                </a>
+                            </li>
+                            <!--end:Li-->
+                            <!--begin:Li-->
+                            <li style=" margin-right: 10px;" class="dropdown1 item_nav_top">
+                                <a class="d-flex" href="@Url.Action("SignIn", "Account")">
+                                    <span class="material-icons">person</span><div id="elementID">Đăng nhập</div>
+                                </a>
+                                <ul class="dropdown-content">
+                                    <li><a href="@Url.Action("Register", "Account")">Đăng ký</a></li>
+                                    <li><a href="@Url.Action("ForgotPassword", "Account")">Quên mật khẩu</a></li>
+                                </ul>
+                            </li>
+                            <!--end:Li-->
+                        }
+                        else
+                        {
+                            if (User.Identity.GetRole()!=1)
+                            {
+                                <li style="margin-right: 8px" class="item_nav_top">
+                                    <a style=" color: #29324e; " class="d-flex" href="@Url.Action("DashBoard","Admin")">
+                                        <span class="material-icons">dashboard</span><div id="elementID"> Quản trị</div>
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <!--begin:Li-->
+                                <li style="margin-right: 8px" class="item_nav_top">
+                                    <a style=" color: #29324e; " class="d-flex" href="@Url.Action("TrackingOrder", "Account")">
+                                        <span class="material-icons">assignment_turned_in</span><div id="elementID">Đơn hàng</div>
+                                    </a>
+                                </li>
+                                <!--end:Li-->
+                            }
+                            <!--begin:Li-->
+                            <li class="dropdown1 item_nav_top" style=" margin-right: 10px; ">
+                                <a style=" color: #29324e; " class="d-flex" href="@Url.Action("Editprofile", "Account")">
+                                    <span class="material-icons">person</span><div id="elementID">@User.Identity.GetName()</div>
+                                </a>
+                                <ul class="dropdown-content">
+                                    <li><a href="@Url.Action("Editprofile", "Account")">Thông tin tài khoản</a></li>
+                                    <li><a href="@Url.Action("TrackingOrder", "Account")">Quản lý đơn hàng</a></li>
+                                    <li><a href="@Url.Action("ChangePassword", "Account")">Đổi mật khẩu</a></li>
+                                    <li><a href="@Url.Action("AddressManager", "Account")">Sổ địa chỉ</a></li>
+                                    <li><a class="d-flex" href="@Url.Action("Logout", "Account")"><span class="material-icons">logout</span><div id="margin-account">Đăng xuất</div></a></li>
+                                </ul>
+                            </li>
+                            <!--end:Li-->
+                        }
+                        <!-- end module: đăng nhập -->
+                        <!--begin:Li-->
+                        <li>
+                            <!--begin::Cart-->
+                            <div class="header__cart ">
+                                <!--begin::Button-->
+                                <a href="@Url.Action("ViewCart", "Cart")" id="goToCart">
+                                    <span class="material-icons text-white cart_icon">shopping_cart</span>
+                                    <span class=" lblCartCount1" id="lblCartCount">0</span>
+                                </a>
+                                <!--end::Button-->
+                            </div>
+                            <!--end::Cart-->
+                        </li>
+                        <!--end:Li-->
+                    </ul>
+                    <!--end::Ul-->
+                </div>
+                <!--end::Col-->
+            </div>
+            <!--begin::Row-->
+        </div>
+        <!--end::Container-->
+        <!--begin:Nav List-->
+        <div class="color_bottom_menu">
+            <!--begin::Container-->
+            <div class="container">
+                <!--begin::Row-->
+                <div class="row">
+                    <!--begin::Menu side-->
+                    <div class="menu_side">
+                        <!--begin::Nav PC-->
+                        <nav id="navbar_menu">
+                            <ul class="first-ul font_family_ChakraPetch-semibold">
+                                
+                                <!-- start module: tin tức -->
+                                <li>
+                                    <a class="d-flex" href="">
+                                        <span class="material-icons">local_offer</span><div id="elementID">Khuyến Mãi</div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="d-flex" href="">
+                                        <span class="material-icons">feed</span><div id="elementID">Tin tức</div><span class="material-icons dropdown--menu-arrow">arrow_drop_down</span>
+                                    </a>
+                                    <ul>
+                                        
+                                    </ul>
+                                </li>
+                                <!--end::Li-->
+                            </ul>
+                            <!--end::Ul-->
+                        </nav>
+                        <!--end::Nav PC-->
+                        <!--begin::nav mobile-->
+                        <nav class="nav container nav_mobile">
+                            <a href="@Url.Action("Index", "Home")" class="nav__logo"><img src="/Images/ImagesCollection/BFD-logo_web.png" class="logo_mobile" /></a>
+                            <div class="nav__menu" id="nav-menu">
+                                <ul class="nav__list">
+                                    <li class="nav__item">
+                                        <a href="@Url.Action("Index", "Home")" class="nav__link  @(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active-link" : "")">
+                                            <i class="bi bi-house nav__icon"></i>
+                                            <span class="nav__name">Trang chủ</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav__item">
+                                        <a href="@Url.Action("Index", "Home")" class="nav__link dropdown-toggle
+                                           " data-bs-toggle="dropdown">
+                                            <i class="bi bi-menu-button-wide-fill nav__icon"></i>
+                                            <span class="nav__name">Sản phẩm</span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            
+                                        </ul>
+                                    </li>
+                                    <li class="nav__item">
+                                        <a href="" class="nav__link ">
+                                            <i class="bi bi-tags nav__icon"></i>
+                                            <span class="nav__name">Khuyến mãi</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav__item">
+                                        <a href="@Url.Action("NewsIndex", "News")" class="nav__link dropdown-toggle
+                                           " data-bs-toggle="dropdown">
+                                            <i class="bi bi-newspaper nav__icon"></i>
+                                            <span class="nav__name">Tin tức</span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="dropdown-item"><a href="@Url.Action("NewsIndex", "News")">Tất cả danh mục</a></li>
+                                            <li class="dropdown-item"><a href="@Url.Action("AllListNews", "News")">Mới nhất</a></li>
+                                            <li class="dropdown-item"><a href="@Url.Action("PostProductRecent", "News")">Sản phẩm mới</a></li>
+                                            
+                                        </ul>
+                                    </li>
+                                    <li class="nav__item">
+                                        @if (User.Identity.IsAuthenticated == false)
+                                        {
+                                            <a href="@Url.Action("SignIn", "Account")" class="nav__link @(ViewContext.RouteData.Values["Action"].ToString() == "SignIn" ? "active-link" : "") @(ViewContext.RouteData.Values["Action"].ToString() == "Register" ? "active-link" : "") @(ViewContext.RouteData.Values["Action"].ToString() == "ForgotPassword" ? "active-link" : "")">
+                                                <i class="bi bi-person-circle nav__icon"></i>
+                                                <span class="nav__name">Đăng nhập</span>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("Editprofile", "Account")" class="nav__link dropdown-toggle @(ViewContext.RouteData.Values["Action"].ToString() == "Editprofile" ? "active-link" : "") @(ViewContext.RouteData.Values["Action"].ToString() == "ChangePassword" ? "active-link" : "")@(ViewContext.RouteData.Values["Action"].ToString() == "TrackingOrder" ? "active-link" : "")" data-bs-toggle="dropdown">
+                                                <i class="bi bi-person-circle nav__icon"></i>
+                                                <span class="nav__name">Cá nhân</span>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li class="dropdown-item">Chào: <span class="text-info">@User.Identity.GetName()</span></li>
+                                                <li class="dropdown-divider"></li>
+                                                <li class="dropdown-item"><a href="@Url.Action("TrackingOrder", "Account")">Đơn hàng của tôi</a></li>
+                                                <li class="dropdown-item"><a href="@Url.Action("Editprofile", "Account")">Thông tin cá nhân</a></li>
+                                                <li class="dropdown-item"><a href="@Url.Action("ChangePassword", "Account")">Đổi mật khẩu</a></li>
+                                                <li class="dropdown-item"><a href="@Url.Action("AddressManager", "Account")">Sổ địa chỉ</a></li>
+                                                <li class="dropdown-divider"></li>
+                                                <li class="dropdown-item"><a href="@Url.Action("Logout", "Account")">Đăng xuất</a></li>
+                                            </ul>
+                                        }
+                                        <div class="dropdown-menu">
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                        <!--end::nav mobile-->
+                    </div>
+                    <!--end::Menu side-->
+                </div>
+                <!--end::Container-->
+            </div>
+            <!--end::Row-->
+        </div>
+        <!--end:Nav List-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Header Bottom-->
+<!--end::Header-->

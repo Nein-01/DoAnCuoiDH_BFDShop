@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<!--begin::Header-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--mobile metas-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--site metas-->
+    <title>@ViewBag.Title</title>
+    <!--thumbnail on sharing-->
+    <meta property="og:image" content="@ViewBag.ImageURL">
+    <meta property="og:type" content="article" />
+    <meta name="keywords" content="@ViewBag.Tag">
+    <meta name="description" content="@ViewBag.Decription">
+    <link rel="icon" href="~/Images/ImagesCollection/titleIcon.png" type="image/png" />
+    <link href="~/Content/my_css/css-loader.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--font icon-->
+    @Styles.Render("~/bundles/font-awesome")
+    <!--xem ảnh dạng slide-->
+    @Styles.Render("~/bundles/owl")
+    <!---->
+    @Styles.Render("~/bundles/jquery-ui")
+    <!--style css chính vá boostrapmin-->
+    @Styles.Render("~/Content/css")
+    <!--responsive website chuẩn giao diện: desktop-tablet-mobile-->
+    @Styles.Render("~/bundles/responsiveweb")
+    <!--chỉnh color chính của website-->
+    @Styles.Render("~/bundles/colorsweb")
+    <!--toast thông báo có 2 loại toatr và jquerytoastr-->
+    @Styles.Render("~/bundles/toasts")
+    <!--custom ngày ngày,tháng,năm,giờ-->
+    @Styles.Render("~/bundles/jquerydatetimepicker")
+    <link href="~/Content/my_css/slick.css" rel="stylesheet" />
+    <link href="~/Content/my_css/slick-theme.css" rel="stylesheet" />
+    <link href="~/Content/my_css/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/Content/my_css/css-loader2.css" rel="stylesheet" />
+</head>
+<!--end::Header-->
+<!--begin::body-->
+<body>
+
+    <!--begin::header-->
+    <header id="default_header" class="header_style_1  fw-normal small-screen">
+        @Html.Partial("_Header_Layout")
+    </header>
+    <!--end::header-->
+    <!--begin::back to top-->
+    <!--id="myBtn" | path: /Scripts/my_js/back_to_top.js-->
+    <a onclick="topFunction()" class="fadeshow2" id="myBtn">
+        <span class="material-icons">arrow_upward</span>
+    </a>
+    <!--end::back to top-->
+    @RenderBody()
+    <!--nội dung từng view sẽ hiển thị từ đây xuống-->
+    <!--add view thông báo toastr sử dụng kèm toastr.min.js-->
+    @Html.Partial("_MessageAlert")
+    <!--begin::footer -->
+    <footer class="footer_style_2">
+        @Html.Partial("_Footer_Layout")
+    </footer>
+    <!--end::footer-->
+    <!--begin::facebook chat plugin -->
+    <div id="fb-root"></div>
+    @*<div id="fb-customer-chat" class="fb-customerchat"></div>*@
+    <!--end::facebook chat plugin-->
+    <!--begin::script chung-->
+
+    @Scripts.Render("~/bundles/poppermin")
+    <!---->
+    <script src="~/Scripts/my_js/bootstrap.bundle.js"></script>
+    <!---->
+    @Scripts.Render("~/bundles/jquerymin")
+    <!---->
+    @Scripts.Render("~/bundles/jqueryvalidation")
+    <!---->
+    @Scripts.Render("~/bundles/jqueryui")
+    <!--ràng buộc form nhập-->
+    @Scripts.Render("~/bundles/jqueryinputmask")
+    <!---->
+    @Scripts.Render("~/bundles/bootstrapmin")
+    <!--script xem ảnh full màn, dùng trong product detail khi bấm vào từng ảnh sẽ hiển thị ảnh fullscreen-->
+    @Scripts.Render("~/bundles/fslightbox")
+    <!---->
+    <!--hiển thị hình ảnh dưới dạng slide-->
+    @Scripts.Render("~/bundles/carouselmin")
+    <!--include::toastr - sweet alert 2 - jquery toast-->
+    @Scripts.Render("~/bundles/toast")
+    <!--end::script chung-->
+    <!--script hiển thị nút nhắn tin fb messenger cho trang web. cái custom cho từng web, và từng page sử dụng-->
+    @*@Scripts.Render("~/bundles/chatpluginfb")*@
+    @Scripts.Render("~/bundles/backtotop")
+    <!--cookie để lưu giỏ hàng,...-->
+    @Scripts.Render("~/bundles/cookie")
+    <!--common dùng liên quan đến add sản phẩm vào giỏ hàng-->
+    @Scripts.Render("~/bundles/common")
+    <!--giữ header khi scroll chuột -->
+    <!--custom thông báo-->
+    @Scripts.Render("~/bundles/customtoastr")
+    <!--custom search: gợi ý khi gõ chữ vào thanh search-->
+    @Scripts.Render("~/bundles/customsearch")
+    <!--slider image-->
+    <script src="~/Scripts/my_js/slick.js"></script>
+    <!--signalr-->
+    <script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/my_js/count_visited.js"></script>
+    <!--signalr-->
+    <script src="~/Scripts/my_js/search_post.js"></script>
+
+    <!--fixed item-->
+    <script src="~/Scripts/my_js/sticky.compile.js"></script>
+    <!--end:: script riêng-->
+    @RenderSection("scripts", required: false)
+</body>
+<!--end::body-->
+</html>

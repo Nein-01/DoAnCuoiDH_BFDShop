@@ -1,0 +1,413 @@
+﻿@using DoAn_LapTrinhWeb.Common.Helpers
+@model DoAn_LapTrinhWeb.DTOs.ChekcoutOrderDTO
+@{
+    ViewBag.Title = "Thanh toán đơn hàng";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+    
+}
+@section scripts{
+    <script src="~/Scripts/my_js/loader_email.js"></script>
+    <script src="~/Scripts/my_js/cart_js/checkout_order.js"></script>
+}
+<!--cái này load khi bấm nút đặt hàng ngay-->
+<div hidden id="loader-wrapper">
+    <div hidden id="loader"></div>
+    <div hidden class="loader-section section-left"></div>
+    <div hidden class="loader-section section-right"></div>
+</div>
+<!--begin::Container-->
+<div class="container margin_mobile_fixed">
+    <div class="row justify-content-center">
+        <!--begin::Col-->
+        <div class="col-xl-9">
+            <!--begin::Form-->
+            <form method="post" id="checkoutform" action="@Url.Action("SaveOrder","Cart")"><!--thực hiện hành động lưu sản phẩm và thông tin khách hàng vào table Order, Order_Detail-->
+                <!--begin::Payment and Delivery-->
+                <div class="Module Module-359">
+                    <div class="ModuleContent">
+                        <!--begin::Section-->
+                        <section class="cart-step">
+                            <div class="cart-title">
+                                <i class="material-icons">payment</i>
+                                <span>Phương thức thanh toán</span>
+                            </div>
+                            <!--chạy ngầm. khi chuyển các phương thức thanh toán thì cái này sẽ chuyển theo vd: chuyển từ tt nhận hàng sang vnpay thì lúc này radiobutton sẽ check  payment_id = 2-->
+                            @Html.RadioButtonFor(model => model.payment_id, "1", new { id = "payment-1-checked", Checked = "checked", hidden = "hiddenn" })
+                            @Html.RadioButtonFor(model => model.payment_id, "2", new { id = "payment-2-checked", hidden = "hiddenn" })
+                            @Html.RadioButtonFor(model => model.payment_id, "5", new { id = "payment-3-checked", hidden = "hiddenn" })
+                            @Html.RadioButtonFor(model => model.payment_id, "6", new { id = "payment-5-checked", hidden = "hiddenn" })
+                            <div class="cart-payment">
+                                <div class="payment-method">
+                                    <!-- start list phương thức thanh toán -->
+                                    <ul class="r-tabs-nav">
+                                        <li class="method-select payment-1 r-tabs-state-active">
+                                            <a class="r-tabs-anchor">
+                                                <label class="method-item" for="payment-1-checked">
+                                                    <div class="icon">
+                                                        <img src="~/Images/it_service/cod.png" />
+                                                    </div>
+                                                    <div class="name">Thanh toán khi nhận hàng</div>
+                                                </label>
+                                            </a>
+                                        </li>
+                                        <li class="method-select payment-2">
+                                            <a class="r-tabs-anchor ">
+                                                <label class="method-item" for="payment-2-checked">
+                                                    <div class="icon">
+                                                        <img src="~/Images/it_service/vnpayqr-qr.png" />
+                                                    </div>
+                                                    <div class="name">Thanh toán qua VNPAY</div>
+                                                </label>
+                                            </a>
+                                        </li>
+                                        <li class="method-select payment-3">
+                                            <a class="r-tabs-anchor">
+                                                <label class="method-item" for="payment-3-checked">
+                                                    <div class="icon">
+                                                        <img src="~/Images/it_service/zalopay.svg" />
+                                                    </div>
+                                                    <div class="name">Thanh toán qua ví ZaloPay</div>
+                                                </label>
+                                            </a>
+                                        </li>
+                                        <li class="method-select payment-5">
+                                            <a class=" r-tabs-anchor">
+                                                <label class="method-item" for="payment-5-checked">
+                                                    <div class="icon">
+                                                        <img src="~/Images/it_service/paypal.png" />
+                                                    </div>
+                                                    <div class="name">Thanh toán qua PayPal</div>
+                                                </label>
+                                            </a>
+                                        </li>
+                                        <li class="method-select payment-4">
+                                            <a class=" r-tabs-anchor">
+                                                <label class="method-item" for="payment-1-checked">
+                                                    <div class="icon">
+                                                        <img src="~/Images/it_service/internetbanking.png">
+                                                    </div>
+                                                    <div class="name">Thanh toán qua Internet Banking</div>
+                                                </label>
+                                            </a>
+                                        </li>
+                                        <li class="method-select payment-6">
+                                            <a class="r-tabs-anchor">
+                                                <label class="method-item" for="payment-1-checked">
+                                                    <div class="icon">
+                                                        <img src="~/Images/it_service/tragop.png">
+                                                    </div>
+                                                    <div class="name">Thanh toán qua trả góp</div>
+                                                </label>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <!-- end list phương thức thanh toán -->
+                                    <!-- start thanh toan vnpayqr-->
+                                    <div class="method-content">
+                                        <div class="row content mt-2 payment-1-content collapse show">
+                                            <div class="col-xl-1 col-md-2 col-lg-2">
+                                                <center><img alt="Thanh toán online qua mã QR" src="~/Images/it_service/delivery.png" style="width: 64px; height: auto;"></center>
+                                            </div>
+                                            <div class="col-xl-11 col-md-10 col-lg-10">
+                                                <p>Thanh toán và nhận hàng</p>
+                                                <p><span class="text-danger font_roboto_medium">Lưu ý:</span> Quý khách sẽ thanh toán bằng <strong class="font_roboto_medium">tiền mặt</strong> khi đơn vị vận chuyển giao hàng giao hàng tận nơi.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end thanh toan vnpayqr-->
+                                    <!-- start thanh toan khi nhận hàng -->
+                                    <div class="method-content">
+                                        <div class="row payment-2-content content mt-2 collapse">
+                                            <div class="col-xl-1 col-md-2 col-lg-2">
+                                                <center><img src="~/Images/it_service/qrpay.png" style="width: 64px; height: auto;"></center>
+                                            </div>
+                                            <div class="col-xl-11 col-md-10 col-lg-10">
+                                                <p>Thanh toán qua VNPAY. </p>
+                                                <p><span style="font-weight: bold; color: red;">Lưu ý:</span> Bạn cần tải ứng dụng <strong>Internet Banking</strong> trên điện thoại trước để thực hiện giao dịch quét QR-Pay.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end thanh toan khi nhận hàng -->
+                                    <!-- start thanh toan vnpayqr-->
+                                    <div class="method-content">
+                                        <div class="content mt-2 row payment-3-content collapse">
+                                            <div class="col-xl-1 col-md-2 col-lg-2">
+                                                <center><img alt="Thanh toán qua ví Momo, ViettelPay" src="~/Images/it_service/Logo-zalopay.png" style="width: 64px; height: auto;"></center>
+                                            </div>
+                                            <div class="col-xl-11 col-md-10 col-lg-10">
+                                                <p>Thanh toán qua ví ZaloPay </p>
+                                                <p><span style="font-weight: bold; color: red;">Lưu ý:</span> Bạn cần tải ứng dụng <strong>ZaloPay</strong> trên điện thoại trước để thực hiện giao dịch. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end thanh toan vnpayqr-->
+                                    <!--start thanh toan bang thẻ quốc tế-->
+                                    <div class="method-content">
+                                        <div class="row content mt-2 payment-5-content collapse">
+                                            <div class="col-xl-1 col-md-2 col-lg-2">
+                                                <center><img src="~/Images/it_service/paypal.png" style="width: 64px; height: auto;"></center>
+                                            </div>
+                                            <div class="col-xl-11 col-md-10 col-lg-10">
+                                                <p>Hỗ trợ thẻ Visa, Master Card,...</p>
+                                                <p>Thanh toán thông qua cổng thanh toán quốc tế  PayPal</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end thanh toán bằng thẻ quốc tế-->
+                                </div>
+                            </div>
+                        </section>
+                        <!--end::Section-->
+                    </div>
+                </div>
+                <!--end::Payment and Delivery-->
+                <!--begin::Row-->
+                <div class="row mb-20px infor-user-checkout">
+                    <div class="col-lg-7 col-md-6 col-12 info_total">                                               
+                            <div class="user-page ck_notexist_address">
+                                <div class="page-title">Thông tin Người nhận</div>
+                                <!--begin::Form-->
+                                <div class="user-form d-flex justify-content-center">
+                                    <div class="d-flex">
+                                        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <rect id="Rectangle-185" fill="#8a2be2" x="4" y="11" width="16" height="2" rx="1"></rect>
+                                            <rect id="Rectangle-185-Copy" fill="#8a2be2" opacity="0.5" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) " x="4" y="11" width="16" height="2" rx="1"></rect>
+                                        </svg>
+                                        <a style="cursor:pointer;" id="popupcreateaddress"><span style="color: #8a2be2;">Thêm địa chỉ nhận hàng</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div hidden class="user-page create_order_address">
+                                <div class="page-title">Thông tin Người nhận</div>
+                                <!--begin::Form-->
+                                <div class="user-form">
+                                    <div class="form-wrap">
+                                        <div>
+                                           
+                                            
+                                            <!--end::Input Form Group-->
+                                            <!--begin::Input Form Group-->
+                                            <div class="settingrow form-group mb-3">
+                                                <!--begin::Label-->
+                                                <label class="settinglabel control-label col-sm-5">Lời nhắn</label>
+                                                <!--end::Label-->
+                                                <div class="col-sm-7">
+                                                    <textarea name="OrderNote" tabindex="4" cols="40" maxlength="200" class="w-100 form-control" rows="2" placeholder="Ví dụ: Giao hàng ngoài giờ hành chính"></textarea>
+                                                    <div class="form-des">(Không bắt buộc)</div>
+                                                </div>
+                                            </div>
+                                            <!--end::Input Form Group-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end::Form-->
+                            </div>
+                        
+                    </div>
+                    <!--end thông tin nhận hàng-->
+                    <!--begin::Col-->
+                    <div class="col-lg-5 col-md-6 col-12 info_total">
+                        <div class="shopping-cart-cart pb-order--now">
+                            <!--begin::Title-->
+                            <div class="page-title">Tóm tắt</div>
+                            <!--end::Title-->
+                            <!--begin::Table-->
+                            <table>
+                                <!--begin::Table Body-->
+                                <tbody class="total_checkout">
+                                    <tr>
+                                        <td>
+                                            <div class="label">Tạm tính:</div>
+                                        </td>
+                                        <td class="text-right">
+                                            <div class="value"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="label">Giảm giá:</div>
+                                        </td>
+                                        <td class="text-right">
+                                            <div class="value">
+                                                
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="label">Phí vận chuyển:</div>
+                                        </td>
+                                        <td class="text-right">
+                                            <div class="value"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="label">Thành tiền:</div>
+                                        </td>
+                                        <td class="text-right">
+                                            <div class="value order-total h5 fw-bold text-danger text-si"></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <!--begin::Table Body-->
+                            </table>
+                            <!--emd::Table-->
+                            <!--begin::Action-->
+                            <div class="ps-3 pe-3">
+                                <!--begin::Button-->
+                                <!--Đật hàng-->
+                                
+                                    <button type="button" disabled class="btn bg-button w-100 mt-2 mb-1 btn_submit_order">Đặt hàng ngay</button>
+                                    <div class="text-danger center message_order">(Vui lòng thêm địa chỉ nhận hàng)</div>
+                                
+                                <!--end::Button-->
+                            </div>
+                            <!--end::Action-->
+                        </div>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+            </form>
+        </div>
+    </div>
+    <!--end thông tin người nhận-->
+</div>
+<!--end::Container-->
+<!--begin::change order address-->
+<div class="modal fade create_modal" id="ckchangeaddress">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <button type="button" class="close_modal close">
+                    <span aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)" fill="#000000">
+                                <rect fill="#000000" x="0" y="7" width="16" height="2" rx="1"></rect>
+                                <rect fill="#000000" opacity="0.5" transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000)" x="0" y="7" width="16" height="2" rx="1"></rect>
+                            </g>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="change_order__address">
+                    <div class="mb-4 text-center">
+                        <!--begin::Title-->
+                        <h1 class="mb-3">Đổi địa chỉ nhận hàng</h1>
+                        <!--end::Title-->
+                    </div>
+                    <div class="d-flex flex-column mb-3 fv-row fv-plugins-icon-container">
+                        <!--begin::Label-->
+                        
+                        <!--end::Label-->
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-secondary me-3 close_modal">Quay lại</button>
+                        <button type="button" onclick="Change_order_address_confirm()" class="btn btn-primary">
+                            <span class="indicator-label">Lưu</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::change order address-->
+<!--begin::create address-->
+<div class="modal fade create_modal" id="ModalOrderAddCreate">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closemodal3">
+                    <span aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)" fill="#000000">
+                                <rect fill="#000000" x="0" y="7" width="16" height="2" rx="1"></rect>
+                                <rect fill="#000000" opacity="0.5" transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000)" x="0" y="7" width="16" height="2" rx="1"></rect>
+                            </g>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="create_address__order">
+                    <div class="mb-4 text-center">
+                        <!--begin::Title-->
+                        <h1 class="mb-3">Thêm mới địa chỉ</h1>
+                        <!--end::Title-->
+                        <!--begin::Description-->
+                        <!--end::Description-->
+                    </div>
+                    <div class="d-flex flex-column mb-3 fv-row fv-plugins-icon-container">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 mb-1">
+                            <span class="required">Họ tên<span class="ms-1 text-danger">*</span></span>
+                        </label>
+                        <!--end::Label-->
+                        <input type="text" maxlength="20" class="form-control form-control-solid" id="address_name" value="" placeholder="Nhập họ tên" name="account_address_username">
+                    </div>
+                    <div class="d-flex flex-column mb-3 fv-row fv-plugins-icon-container">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 mb-1">
+                            <span class="required">Số điện thoại<span class="ms-1 text-danger">*</span></span>
+                        </label>
+                        <!--end::Label-->
+                        <input type="number" maxlength="10" class="form-control form-control-solid" id="address_phone" placeholder="Số điện thoại" value="@" name="account_address_phonenumber">
+                    </div>
+                    <div class="d-flex flex-column mb-3 fv-row fv-plugins-icon-container">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 mb-1">
+                            <span class="required">Tỉnh/Thành Phố<span class="ms-1 text-danger">*</span></span>
+                        </label>
+                        <!--end::Label-->
+                        <select name="province_id" id="province" class="form-select form-select-solid select2-hidden-accessible">
+                            <option value="">Tỉnh/Thành Phố</option>
+                            
+                        </select>
+                    </div>
+                    <div class="d-flex flex-column mb-3 fv-row fv-plugins-icon-container">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 mb-1">
+                            <span class="required">Quận/Huyện<span class="ms-1 text-danger">*</span></span>
+                        </label>
+                        <!--end::Label-->
+                        <select disabled id="district" name="district_id" class="form-select form-select-solid select2-hidden-accessible cursor-disable">
+                            <option value="">Quận/Huyện</option>
+                        </select>
+                    </div>
+                    <div class="d-flex flex-column mb-3 fv-row fv-plugins-icon-container">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 mb-1">
+                            <span class="required">Phường/Xã<span class="ms-1 text-danger">*</span></span>
+                        </label>
+                        <!--end::Label-->
+                        <select disabled name="ward_id" id="ward" class="form-select form-select-solid select2-hidden-accessible cursor-disable">
+                            <option value="">Phường/Xã</option>
+                        </select>
+                    </div>
+                    <div class="d-flex flex-column fv-row fv-plugins-icon-container">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 mb-1">
+                            <span class="required">Địa chỉ cụ thể<span class="ms-1 text-danger">*</span></span>
+                        </label>
+                        <!--end::Label-->
+                        <input type="text" maxlength="50" class="form-control form-control-solid" id="address_content" placeholder="Nhập địa chỉ cụ thể" name="account_address_content">
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" hidden name="account_address_default" checked="checked" value="true" id="checkeddefault" />
+                    </div>
+                    <div class="text-danger fs-14px mb-4 mt-1">*Những mục đánh dấu màu đỏ là bắt buộc</div>
+                    <div class="text-center">
+                        <button type="reset" class="btn btn-secondary me-3">Huỷ</button>
+                        <button type="button" onclick="SaveAddressOrder()" class="btn btn-primary">
+                            <span class="indicator-label">Thêm</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::create address-->

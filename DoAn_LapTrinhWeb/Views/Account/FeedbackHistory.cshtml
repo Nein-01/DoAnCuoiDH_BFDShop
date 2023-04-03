@@ -1,0 +1,190 @@
+﻿@using PagedList.Mvc
+@using DoAn_LapTrinhWeb.Common.Helpers
+
+@model PagedList.IPagedList<DoAn_LapTrinhWeb.DTOs.FeedbackDTOs>
+@{
+    ViewBag.Title = "Lịch sử đánh giá sản phẩm";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+    var fb_img = (List<DoAn_LapTrinhWeb.Model.Feedback_Image>)ViewBag.fb_img;
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <!--begin::section-->
+    <section class="margin_profile margin_mobile_fixed">
+        <!--begin::container-->
+        <div class="container ">
+            <div class="center-noleftright">
+                <!--begin::Row-->
+                <div class="row no-gutters">
+                    <!--begin::Col-->
+                    <div class="col-12 col-lg-3 col-xl-3">
+                        @Html.Partial("_NavbarProfile")
+                    </div>
+                    <!--end::Col-->
+                    <!--begin:Edit profile-->
+                    <div class="col-12 col-lg-9 col-xl-9 mb-20px">
+                        <!--begin::User Page-->
+                        <div class="user-page com_rep_history">
+                            <div class="d-flex justify-content-between">
+                                <div class="page-title text-uppercase">Lịch sử đánh giá sản phẩm</div>
+                                <div>
+                                    <a href="#" class="dropdown-toggle dropdown_sort" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @if (ViewBag.sortname == null)
+                                        {
+                                            <i class="bi bi-funnel"></i><span>Bộ lọc:</span>
+                                        }
+                                        else
+                                        {
+                                            @ViewBag.sortname
+                                        }
+                                    </a>
+                                    <!--begin::Dropdown Menu-->
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <!--begin::Dropdown Item-->
+                                        <li><a class="dropdown-item" href="@Url.Action("FeedbackHistory", "Account", new { sortOrder = ViewBag.ResetSort})">Reset bộ lọc</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("FeedbackHistory", "Account", new { sortOrder = ViewBag.DateSortParm})">Cũ - Mới</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("FeedbackHistory", "Account", new { sortOrder = ViewBag.WaitingSortParm})">Chờ duyệt</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("FeedbackHistory", "Account", new { sortOrder = ViewBag.CompleteSortParm})">Đã duyệt</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("FeedbackHistory", "Account", new { sortOrder = ViewBag.CancleSortParm})">Hủy bỏ</a></li>
+                                    </ul>
+                                    <!--end::Dropdown Menu-->
+                                </div>
+                            </div>
+                            <div class="user-form row" style="max-width: 100% !important;">
+                                @if (Model.Count() == 0)
+                                {
+                                    <div class="col mt-100px">
+                                        <p class="h3 text-danger center">Không có đánh giá nào</p>
+                                    </div>
+                                }
+                                else
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        <div class="product_review col-12 mb-4">
+                                            <!--begin::Row-->
+                                            <div class="commant-text fs-14px">
+                                                <div>
+                                                    <!--begin::User Name-->
+                                                    <span class="font_roboto_medium">@item.Name</span>
+                                                    @if (item.status == "1")
+                                                    {
+                                                        <span class="bg-secondary text-white fs-12px rounded-1" style="padding:2.5px 5px;">Chờ duyệt</span>
+                                                    }
+                                                    else if (item.status == "2")
+                                                    {
+                                                        <span class="bg-success text-white fs-12px rounded-1" style="padding:2.5px 5px;">Đã duyệt</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="bg-danger text-white fs-12px rounded-1" style="padding:2.5px 5px;">Huỷ bỏ</span>
+                                                    }
+                                                    <!--end::User Name-->
+                                                    <!--begin:Rating Star-->
+                                                    <span class="rating">
+                                                        @if (item.rating_star == 0)
+                                                        {
+                                                            for (int i = 1; i <= 5; i++)
+                                                            {
+                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                            }
+                                                        }
+                                                        else if (item.rating_star == 1)
+                                                        {
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            for (int i = 1; i <= 4; i++)
+                                                            {
+                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                            }
+                                                        }
+                                                        else if (item.rating_star == 2)
+                                                        {
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            for (int i = 1; i <= 3; i++)
+                                                            {
+                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                            }
+                                                        }
+                                                        else if (item.rating_star == 3)
+                                                        {
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        }
+                                                        else if (item.rating_star == 4)
+                                                        {
+                                                            for (int i = 1; i <= 4; i++)
+                                                            {
+                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                            }
+                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        }
+                                                        else if (item.rating_star == 5)
+                                                        {
+                                                            for (int i = 1; i <= 5; i++)
+                                                            {
+                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                            }
+                                                        }
+                                                    </span>
+                                                    <!--end:Rating Star-->
+                                                    <!--begin::Feedback Content-->
+                                                    <p class="msg">
+                                                        @item.description
+                                                    </p>
+                                                    <!--end::Feedback Content-->
+                                                    @foreach (var fbimage in fb_img)
+                                                    {
+                                                        if (fbimage.feedback_id == item.feedback_id && fbimage.image != null && fbimage.image != "/Images/ImagesCollection/no-image-available.png")
+                                                        {
+                                                            <a data-fslightbox href="@fbimage.image">
+                                                                <img src="@fbimage.image" class="img_fb_product" />
+                                                            </a>
+                                                        }
+                                                    }
+                                                    <!--begin::Feedback Date-->
+                                                    <div style="color: #333;" class="fs-13px"><div>Sản phẩm: <a class="text-info" href="/product/@item.product_slug">@item.product_name</a></div></div>
+                                                    <div class="fs-12px text-muted">@item.create_at.ToString("dd-MM-yyyy HH:mm")</div>
+                                                    <!--end::Feedback Date-->
+                                                </div>
+                                            </div>
+                                            <!--end::Row-->
+                                        </div>
+                                    }
+                                }
+                                @if (Model.Count() > 5)
+                                {
+                                    <div class="center">
+                                        @Html.PagedListPager(Model, page => Url.Action("FeedbackHistory", new { @page = page }), new PagedListRenderOptions
+                                        {
+                                           LinkToPreviousPageFormat = "‹",
+                                           LinkToNextPageFormat = "›",
+                                           DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                                           DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                                           DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                                           DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                                           MaximumPageNumbersToDisplay = 10
+                                        })
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <!--begin::User Page-->
+                    </div>
+                    <!--end:Edit profile-->
+                </div>
+                <!--begin::Row-->
+            </div>
+        </div>
+        <!--end::container-->
+    </section>
+    <!--end::section-->
+}
