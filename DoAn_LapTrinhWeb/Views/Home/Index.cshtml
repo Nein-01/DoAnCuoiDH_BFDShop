@@ -6,7 +6,19 @@
     ViewBag.Tag = "Laptop, phụ kiện chính hãng";
     Layout = "~/Views/Shared/Main_Layout.cshtml";
     string defaultImg = "/Content/Images/no-image.jpg";
-   
+    var HotProduct = (List<DoAn_LapTrinhWeb.Models.Product>)ViewBag.HotProduct;
+    var HotProductmobile = (List<DoAn_LapTrinhWeb.Models.Product>)ViewBag.HotProductmobile;
+    var NewProduct = (List<DoAn_LapTrinhWeb.Models.Product>)ViewBag.NewProduct;
+    var ComponentSales = (List<DoAn_LapTrinhWeb.Models.Product>)ViewBag.ComponentSales;
+    var MonitorSales = (List<DoAn_LapTrinhWeb.Models.Product>)ViewBag.MonitorSales;
+    var LaptopSales = (List<DoAn_LapTrinhWeb.Models.Product>)ViewBag.LaptopSales;
+    var TableAndChairSales = (List<DoAn_LapTrinhWeb.Models.Product>)ViewBag.TableAndChairSales;
+    var AccessorySales = (List<DoAn_LapTrinhWeb.Models.Product>)ViewBag.AccessorySales;
+    var Recentnews = (List<DoAn_LapTrinhWeb.Models.News>)ViewBag.Recentnews;
+    var Brand = (List<DoAn_LapTrinhWeb.Models.Brand>)ViewBag.Brand;
+    var AvgFeedback = (List<DoAn_LapTrinhWeb.Model.Feedback>)ViewBag.AvgFeedback;
+    var OrderFeedback = (List<DoAn_LapTrinhWeb.Model.Order_Detail>)ViewBag.OrderFeedback;
+    var BannerDetail = (List<DoAn_LapTrinhWeb.Model.Banner_Detail>)ViewBag.BannerDetail;
     var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
 }
 @section scripts{
@@ -24,8 +36,25 @@
     </script>
 }
 <div class="container-fluid banner_vertical">
-    
-    
+    @if (ViewBag.BannerVertical.Count > 0)
+    {
+        foreach (var item in ViewBag.BannerVertical)
+        {
+            <div class="banner_vertical_left">
+                <a href="/promo/@item.slug">
+                    <img class="bannervertical_img rounded-2 shadow-lg" data-sticky data-sticky-wrap data-margin-top="50" data-margin-bottom="20" src="@item.image_thumbnail" />
+                </a>
+            </div>
+        }
+        foreach (var item in ViewBag.BannerVertical)
+        {
+            <div class="banner_vertical_right">
+                <a href="/promo/@item.slug"><img class="bannervertical_img rounded-2 shadow-lg" data-sticky data-sticky-wrap data-margin-top="50" data-margin-bottom="20" alt="@item.banner_name" src="@item.image_thumbnail" /></a>
+            </div>
+        }
+    }
+    else
+    {
         <div class="banner_vertical_left">
             <a href="#">
                 <img class="bannervertical_img rounded-2 shadow-lg" data-sticky data-sticky-wrap data-margin-top="50" data-margin-bottom="20" src="https://via.placeholder.com/150x350" />
@@ -34,7 +63,7 @@
         <div class="banner_vertical_right">
             <a href="#"><img class="bannervertical_img rounded-2 shadow-lg" data-sticky data-sticky-wrap data-margin-top="50" data-margin-bottom="20" src="https://via.placeholder.com/150x350" /></a>
         </div>
-    
+    }
 </div>
 <!--begin::Container-->
 <div class="container">
@@ -43,16 +72,58 @@
         <!--begin::Carousel-->
         <div class="carousel slide margin_carousel" id="main-carousel" data-ride="carousel">
             <ol class="carousel-indicators">
-                
+                @if (ViewBag.BannerHeader.Count > 0)
+                {
+                    <li data-target="#main-carousel" data-slide-to="0" class="active"></li>
+                    for (int i2 = 1; i2 < ViewBag.BannerHeader.Count; i2++)
+                    {
+                        <li data-target="#main-carousel" data-slide-to="@i2"></li>
+                    }
+                }
             </ol>
             <div class="carousel-inner rounded-3 shadow--banner-item">
-               
-                <div class="carousel-item active">
-                    <a href="#">
-                        <img class="bannerheader_img d-block img-fluid" src="https://via.placeholder.com/1600x472" alt="no-banner-image">
-                    </a>
-                </div>
-                
+                @{
+                    var first = true;
+                }
+                @if (ViewBag.BannerHeader.Count > 0)
+                {
+                    foreach (var item in ViewBag.BannerHeader)
+                    {
+                        if (item.Banner_Detail.Count < 2)
+                        {
+                            foreach (var item2 in BannerDetail)
+                            {
+                                if (item2.banner_id == item.banner_id)
+                                {
+                                    <div class="carousel-item @(first?Html.Raw("active"):Html.Raw(""))">
+                                        <a href="/product/@item2.Product.slug">
+                                            <img class="bannerheader_img d-block img-fluid" src="@item.image_thumbnail" alt="@item.banner_name">
+                                        </a>
+                                    </div>
+                                    first = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <div class="carousel-item @(first?Html.Raw("active"):Html.Raw(""))">
+                                <a href="/promo/@item.slug">
+                                    <img class="bannerheader_img d-block img-fluid" src="@item.image_thumbnail" alt="@item.banner_name">
+                                </a>
+                            </div>
+                            first = false;
+                        }
+                    }
+
+                }
+                else
+                {
+                    <div class="carousel-item active">
+                        <a href="#">
+                            <img class="bannerheader_img d-block img-fluid" src="https://via.placeholder.com/1600x472" alt="no-banner-image">
+                        </a>
+                    </div>
+                }
             </div>
             <!--begin::Butotn Prev-->
             <a href="#main-carousel" class="carousel-control-prev" data-slide="prev">
@@ -77,7 +148,14 @@
 <div class="container mt-2">
     <!--begin::Row-->
     <div class="row">
-       
+        @foreach (var item in ViewBag.BannerBottom)
+        {
+            <div class="col-md-3 col-lg-3 col-sm-6 col-6">
+                <a href="/promo/@item.slug">
+                    <img class="img-responsive rounded-3 shadow--banner-item transition bannerbottom_img" alt="@item.banner_name" src="@item.image_thumbnail">
+                </a>
+            </div>
+        }
     </div>
     <!--end::Row-->
 </div>
@@ -98,7 +176,189 @@
         <!--end::Row-->
         <!--begin::Row-->
         <div class="row">
-           
+            @foreach (var item in NewProduct)
+            {
+                <div class="col-md-3 col-lg-3 col-sm-6 col-6">
+                    <div class="product_list">
+                        <a href="/product/@item.slug">
+                            @*href bạn có thể thay bằng href="@Url.Action("Productdetail", "Products", new { id = @item.product_id })"*@
+                            <div class="product_img">
+                                <img class="img-responsive" src="@(item.image != null ? item.image : defaultImg)" alt="@item.product_name">
+                                @if (item.Discount != null)
+                                {
+                                    if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
+                                    {
+                                        <div class="discount-tag">
+                                            <div class="pd-discount-tag color-less25percent">
+                                                <div class="tag-title">
+                                                    Tiết kiệm
+                                                </div>
+                                                <div class="discount-price-tag">
+                                                    @item.Discount.discount_price.ToString("#,###₫", culture.NumberFormat)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="product_detail_btm">
+                                <div class="center">
+                                    <p class="limitlinetext color_text_primary">
+                                        @item.product_name
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="product_detail_btm">
+                            @{ double onestar = 1; int c_ontstar = 0; double truestar = 2; int c_truestar = 0;
+                                double threestar = 3; int c_threestar = 0; ; double fourstar = 4; int c_fourstar = 0;
+                                double fivestar = 5; int c_fivestar = 0; int totalrating = 0;
+                                foreach (var avg in AvgFeedback)
+                                {
+                                    if (avg.product_id == item.product_id && avg.status == "2" && avg.parent_feedback_id == 0)
+                                    {
+                                        totalrating++;
+                                        if (avg.rate_star == 1)
+                                        {
+                                            c_ontstar++;
+                                        }
+                                        if (avg.rate_star == 2)
+                                        {
+                                            c_truestar++;
+                                        }
+                                        if (avg.rate_star == 3)
+                                        {
+                                            c_threestar++;
+                                        }
+                                        if (avg.rate_star == 4)
+                                        {
+                                            c_fourstar++;
+                                        }
+                                        if (avg.rate_star == 5)
+                                        {
+                                            c_fivestar++;
+                                        }
+                                    }
+                                }
+                                if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                (fivestar * c_fivestar / totalrating)) >= 1) && (((onestar * c_ontstar / totalrating) +
+                                (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 2))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 5; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                (fivestar * c_fivestar / totalrating)) >= 2) && (((onestar * c_ontstar / totalrating) +
+                                (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 3))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 4; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                 (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                 (fivestar * c_fivestar / totalrating)) >= 3) && (((onestar * c_ontstar / totalrating) +
+                                 (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                 (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 4))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 3; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                 (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                 (fivestar * c_fivestar / totalrating)) >= 4) && (((onestar * c_ontstar / totalrating) +
+                                 (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                 (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 5))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 2; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if (((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                   (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                   (fivestar * c_fivestar / totalrating)) == 5)
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            <div class="product_price">
+                                <p>
+                                    @if (item.Discount != null)
+                                    {
+                                        if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
+                                        {
+                                            <span class="old_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span> <span class="new_price">@((item.price - item.Discount.discount_price).ToString("#,###₫", culture.NumberFormat))</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
         </div>
         <!--end::Row-->
     </div>
@@ -120,7 +380,191 @@
         <!--end::Row-->
         <!--begin::Row-->
         <div class="row">
-           
+            @foreach (var item in HotProductmobile)
+            {
+                <div class="col-md-3 col-lg-3 col-sm-6 col-6 ">
+                    <div class="product_list">
+                        <a href="/product/@item.slug">
+                            @*href bạn có thể thay bằng href="@Url.Action("Productdetail", "Products", new { id = @item.product_id })"*@
+                            <div class="product_img">
+                                <img class="img-responsive" src="@(item.image != null ? item.image : defaultImg)" alt="@item.product_name">
+                                @if (item.Discount != null)
+                                {
+                                    if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
+                                    {
+                                        <div class="discount-tag">
+                                            <div class="pd-discount-tag color-less25percent">
+                                                <div class="tag-title">
+                                                    Tiết kiệm
+                                                </div>
+                                                <div class="discount-price-tag">
+                                                    @item.Discount.discount_price.ToString("#,###₫", culture.NumberFormat)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="product_detail_btm">
+                                <div class="center">
+                                    <p class="limitlinetext color_text_primary">
+                                        @item.product_name
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="product_detail_btm">
+                            <div class="starratin">
+                                @{ double onestar = 1; int c_ontstar = 0; double truestar = 2; int c_truestar = 0;
+                                    double threestar = 3; int c_threestar = 0; ; double fourstar = 4; int c_fourstar = 0;
+                                    double fivestar = 5; int c_fivestar = 0; int totalrating = 0;
+                                    foreach (var avg in AvgFeedback)
+                                    {
+                                        if (avg.product_id == item.product_id && avg.status == "2" && avg.parent_feedback_id == 0)
+                                        {
+                                            totalrating++;
+                                            if (avg.rate_star == 1)
+                                            {
+                                                c_ontstar++;
+                                            }
+                                            if (avg.rate_star == 2)
+                                            {
+                                                c_truestar++;
+                                            }
+                                            if (avg.rate_star == 3)
+                                            {
+                                                c_threestar++;
+                                            }
+                                            if (avg.rate_star == 4)
+                                            {
+                                                c_fourstar++;
+                                            }
+                                            if (avg.rate_star == 5)
+                                            {
+                                                c_fivestar++;
+                                            }
+                                        }
+                                    }
+                                    if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                    (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                    (fivestar * c_fivestar / totalrating)) >= 1) && (((onestar * c_ontstar / totalrating) +
+                                    (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                    (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 2))
+                                    {
+                                        <div class="starratin">
+                                            <div class="center">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                @for (int i = 1; i < 5; i++)
+                                                {
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                    else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                    (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                    (fivestar * c_fivestar / totalrating)) >= 2) && (((onestar * c_ontstar / totalrating) +
+                                    (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                    (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 3))
+                                    {
+                                        <div class="starratin">
+                                            <div class="center">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                @for (int i = 1; i < 4; i++)
+                                                {
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                    else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                     (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                     (fivestar * c_fivestar / totalrating)) >= 3) && (((onestar * c_ontstar / totalrating) +
+                                     (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                     (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 4))
+                                    {
+                                        <div class="starratin">
+                                            <div class="center">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                @for (int i = 1; i < 3; i++)
+                                                {
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                    else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                     (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                     (fivestar * c_fivestar / totalrating)) >= 4) && (((onestar * c_ontstar / totalrating) +
+                                     (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                     (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 5))
+                                    {
+                                        <div class="starratin">
+                                            <div class="center">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                @for (int i = 1; i < 2; i++)
+                                                {
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                    else if (((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                       (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                       (fivestar * c_fivestar / totalrating)) == 5)
+                                    {
+                                        <div class="starratin">
+                                            <div class="center">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="starratin">
+                                            <div class="center">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="product_price">
+                                <p>
+                                    @if (item.Discount != null)
+                                    {
+                                        if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
+                                        {
+                                            <span class="old_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span> <span class="new_price">@((item.price - item.Discount.discount_price).ToString("#,###₫", culture.NumberFormat))</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="new_price">@item.price.ToString("#,###₫")</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
         </div>
         <!--end::Row-->
     </div>
@@ -140,7 +584,36 @@
         </div>
         <div class="row ">
             <section class="regular slider">
-               
+                @foreach (var item in HotProduct)
+                {
+                    <div class="product_slider">
+                        <a href="/product/@item.slug" tabindex="-1" style="position:relative;">
+                            <img src="@item.image" />
+                            <div class="weekly-caption">
+                                <h4>
+                                    <span class="description_news_carowsel mb-1 text-center">@item.product_name</span>
+                                    @if (item.Discount != null)
+                                    {
+                                        if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
+                                        {
+                                            <div style="text-align:center">
+                                                <span class="old_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span> <span class="new_price">@((item.price - item.Discount.discount_price).ToString("#,###₫", culture.NumberFormat))</span>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="new_price text-center">@item.price.ToString("#,###₫", culture.NumberFormat)</div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="new_price text-center">@item.price.ToString("#,###₫", culture.NumberFormat)</div>
+                                    }
+                                </h4>
+                            </div>
+                        </a>
+                    </div>
+                }
             </section>
         </div>
     </div>
@@ -162,7 +635,188 @@
         <!--end::Row-->
         <!--begin::Row-->
         <div class="row">
-           
+            @foreach (var item in MonitorSales)
+            {
+                <div class="col-md-3 col-lg-3 col-sm-6 col-6">
+                    <div class="product_list">
+                        <a href="/product/@item.slug">
+                            <div class="product_img">
+                                <img class="img-responsive" src="@(item.image != null ? item.image : defaultImg)" alt="@item.product_name">
+                                @if (item.Discount != null)
+                                {
+                                    if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
+                                    {
+                                        <div class="discount-tag">
+                                            <div class="pd-discount-tag color-less25percent">
+                                                <div class="tag-title">
+                                                    Tiết kiệm
+                                                </div>
+                                                <div class="discount-price-tag">
+                                                    @item.Discount.discount_price.ToString("#,###₫", culture.NumberFormat)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="product_detail_btm">
+                                <div class="center">
+                                    <p class="limitlinetext color_text_primary">
+                                        @item.product_name
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="product_detail_btm">
+                            @{ double onestar = 1; int c_ontstar = 0; double truestar = 2; int c_truestar = 0;
+                                double threestar = 3; int c_threestar = 0; ; double fourstar = 4; int c_fourstar = 0;
+                                double fivestar = 5; int c_fivestar = 0; int totalrating = 0;
+                                foreach (var avg in AvgFeedback)
+                                {
+                                    if (avg.product_id == item.product_id && avg.status == "2" && avg.parent_feedback_id == 0)
+                                    {
+                                        totalrating++;
+                                        if (avg.rate_star == 1)
+                                        {
+                                            c_ontstar++;
+                                        }
+                                        if (avg.rate_star == 2)
+                                        {
+                                            c_truestar++;
+                                        }
+                                        if (avg.rate_star == 3)
+                                        {
+                                            c_threestar++;
+                                        }
+                                        if (avg.rate_star == 4)
+                                        {
+                                            c_fourstar++;
+                                        }
+                                        if (avg.rate_star == 5)
+                                        {
+                                            c_fivestar++;
+                                        }
+                                    }
+                                }
+                                if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                (fivestar * c_fivestar / totalrating)) >= 1) && (((onestar * c_ontstar / totalrating) +
+                                (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 2))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 5; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                (fivestar * c_fivestar / totalrating)) >= 2) && (((onestar * c_ontstar / totalrating) +
+                                (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 3))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 4; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                 (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                 (fivestar * c_fivestar / totalrating)) >= 3) && (((onestar * c_ontstar / totalrating) +
+                                 (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                 (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 4))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 3; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                 (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                 (fivestar * c_fivestar / totalrating)) >= 4) && (((onestar * c_ontstar / totalrating) +
+                                 (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                 (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 5))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 2; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if (((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                   (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                   (fivestar * c_fivestar / totalrating)) == 5)
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            <div class="product_price">
+                                <p>
+                                    @if (item.Discount != null)
+                                    {
+                                        if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
+                                        {
+                                            <span class="old_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span> <span class="new_price">@((item.price - item.Discount.discount_price).ToString("#,###₫", culture.NumberFormat))</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
         </div>
         <!--end::Row-->
     </div>
@@ -184,7 +838,188 @@
         <!--end::Row-->
         <!--begin::Row-->
         <div class="row">
-           
+            @foreach (var item in ComponentSales)
+            {
+                <div class="col-md-3 col-lg-3 col-sm-6 col-6">
+                    <div class="product_list">
+                        <a href="/product/@item.slug">
+                            <div class="product_img">
+                                <img class="img-responsive" src="@(item.image != null ? item.image : defaultImg)" alt="@item.product_name">
+                                @if (item.Discount != null)
+                                {
+                                    if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
+                                    {
+                                        <div class="discount-tag">
+                                            <div class="pd-discount-tag color-less25percent">
+                                                <div class="tag-title">
+                                                    Tiết kiệm
+                                                </div>
+                                                <div class="discount-price-tag">
+                                                    @item.Discount.discount_price.ToString("#,###₫", culture.NumberFormat)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="product_detail_btm">
+                                <div class="center">
+                                    <p class="limitlinetext color_text_primary">
+                                        @item.product_name
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="product_detail_btm">
+                            @{ double onestar = 1; int c_ontstar = 0; double truestar = 2; int c_truestar = 0;
+                                double threestar = 3; int c_threestar = 0; ; double fourstar = 4; int c_fourstar = 0;
+                                double fivestar = 5; int c_fivestar = 0; int totalrating = 0;
+                                foreach (var avg in AvgFeedback)
+                                {
+                                    if (avg.product_id == item.product_id && avg.status == "2" && avg.parent_feedback_id == 0)
+                                    {
+                                        totalrating++;
+                                        if (avg.rate_star == 1)
+                                        {
+                                            c_ontstar++;
+                                        }
+                                        if (avg.rate_star == 2)
+                                        {
+                                            c_truestar++;
+                                        }
+                                        if (avg.rate_star == 3)
+                                        {
+                                            c_threestar++;
+                                        }
+                                        if (avg.rate_star == 4)
+                                        {
+                                            c_fourstar++;
+                                        }
+                                        if (avg.rate_star == 5)
+                                        {
+                                            c_fivestar++;
+                                        }
+                                    }
+                                }
+                                if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                (fivestar * c_fivestar / totalrating)) >= 1) && (((onestar * c_ontstar / totalrating) +
+                                (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 2))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 5; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                (fivestar * c_fivestar / totalrating)) >= 2) && (((onestar * c_ontstar / totalrating) +
+                                (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 3))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 4; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                 (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                 (fivestar * c_fivestar / totalrating)) >= 3) && (((onestar * c_ontstar / totalrating) +
+                                 (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                 (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 4))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 3; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                 (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                 (fivestar * c_fivestar / totalrating)) >= 4) && (((onestar * c_ontstar / totalrating) +
+                                 (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                 (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 5))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 2; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if (((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                   (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                   (fivestar * c_fivestar / totalrating)) == 5)
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            <div class="product_price">
+                                <p>
+                                    @if (item.Discount != null)
+                                    {
+                                        if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
+                                        {
+                                            <span class="old_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span> <span class="new_price">@((item.price - item.Discount.discount_price).ToString("#,###₫", culture.NumberFormat))</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
         </div>
         <!--end::Row-->
     </div>
@@ -206,7 +1041,188 @@
         <!--end::Row-->
         <!--begin::Row-->
         <div class="row">
-         
+            @foreach (var item in LaptopSales)
+            {
+                <div class="col-md-3 col-lg-3 col-sm-6 col-6 ">
+                    <div class="product_list">
+                        <a href="/product/@item.slug">
+                            <div class="product_img">
+                                <img class="img-responsive" src="@(item.image != null ? item.image : defaultImg)" alt="@item.product_name">
+                                @if (item.Discount != null)
+                                {
+                                    if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
+                                    {
+                                        <div class="discount-tag">
+                                            <div class="pd-discount-tag color-less25percent">
+                                                <div class="tag-title">
+                                                    Tiết kiệm
+                                                </div>
+                                                <div class="discount-price-tag">
+                                                    @item.Discount.discount_price.ToString("#,###₫", culture.NumberFormat)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="product_detail_btm">
+                                <div class="center">
+                                    <p class="limitlinetext color_text_primary">
+                                        @item.product_name
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="product_detail_btm">
+                            @{ double onestar = 1; int c_ontstar = 0; double truestar = 2; int c_truestar = 0;
+                                double threestar = 3; int c_threestar = 0; ; double fourstar = 4; int c_fourstar = 0;
+                                double fivestar = 5; int c_fivestar = 0; int totalrating = 0;
+                                foreach (var avg in AvgFeedback)
+                                {
+                                    if (avg.product_id == item.product_id && avg.status == "2" && avg.parent_feedback_id == 0)
+                                    {
+                                        totalrating++;
+                                        if (avg.rate_star == 1)
+                                        {
+                                            c_ontstar++;
+                                        }
+                                        if (avg.rate_star == 2)
+                                        {
+                                            c_truestar++;
+                                        }
+                                        if (avg.rate_star == 3)
+                                        {
+                                            c_threestar++;
+                                        }
+                                        if (avg.rate_star == 4)
+                                        {
+                                            c_fourstar++;
+                                        }
+                                        if (avg.rate_star == 5)
+                                        {
+                                            c_fivestar++;
+                                        }
+                                    }
+                                }
+                                if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                (fivestar * c_fivestar / totalrating)) >= 1) && (((onestar * c_ontstar / totalrating) +
+                                (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 2))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 5; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                (fivestar * c_fivestar / totalrating)) >= 2) && (((onestar * c_ontstar / totalrating) +
+                                (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 3))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 4; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                 (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                 (fivestar * c_fivestar / totalrating)) >= 3) && (((onestar * c_ontstar / totalrating) +
+                                 (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                 (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 4))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 3; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                 (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                 (fivestar * c_fivestar / totalrating)) >= 4) && (((onestar * c_ontstar / totalrating) +
+                                 (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                 (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 5))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 2; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if (((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                   (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                   (fivestar * c_fivestar / totalrating)) == 5)
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            <div class="product_price">
+                                <p>
+                                    @if (item.Discount != null)
+                                    {
+                                        if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
+                                        {
+                                            <span class="old_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span> <span class="new_price">@((item.price - item.Discount.discount_price).ToString("#,###₫", culture.NumberFormat))</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
         </div>
         <!--end::Row-->
     </div>
@@ -228,7 +1244,202 @@
         <!--end::Row-->
         <!--begin::Row-->
         <div class="row">
-           
+            @foreach (var item in TableAndChairSales)
+            {
+                <div class="col-md-3 col-lg-3 col-sm-6 col-6 ">
+                    <div class="product_list">
+                        <a href="/product/@item.slug">
+                            <div class="product_img">
+                                <img class="img-responsive" src="@(item.image != null ? item.image : defaultImg)" alt="@item.product_name">
+                                @if (item.Discount != null)
+                                {
+                                    if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
+                                    {
+                                        <div class="discount-tag">
+                                            <div class="pd-discount-tag color-less25percent">
+                                                <div class="tag-title">
+                                                    Tiết kiệm
+                                                </div>
+                                                <div class="discount-price-tag">
+                                                    @item.Discount.discount_price.ToString("#,###₫", culture.NumberFormat)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="product_detail_btm">
+                                <div class="center">
+                                    <p class="limitlinetext color_text_primary">
+                                        @item.product_name
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="product_detail_btm">
+                            @{ double onestar = 1; int c_ontstar = 0; double truestar = 2; int c_truestar = 0;
+                                double threestar = 3; int c_threestar = 0; ; double fourstar = 4; int c_fourstar = 0;
+                                double fivestar = 5; int c_fivestar = 0; int totalrating = 0;
+                                foreach (var avg in AvgFeedback)
+                                {
+                                    if (avg.product_id == item.product_id && avg.status == "2" && avg.parent_feedback_id == 0)
+                                    {
+                                        totalrating++;
+                                        if (avg.rate_star == 1)
+                                        {
+                                            c_ontstar++;
+                                        }
+                                        if (avg.rate_star == 2)
+                                        {
+                                            c_truestar++;
+                                        }
+                                        if (avg.rate_star == 3)
+                                        {
+                                            c_threestar++;
+                                        }
+                                        if (avg.rate_star == 4)
+                                        {
+                                            c_fourstar++;
+                                        }
+                                        if (avg.rate_star == 5)
+                                        {
+                                            c_fivestar++;
+                                        }
+                                    }
+                                }
+                                if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                (fivestar * c_fivestar / totalrating)) >= 1) && (((onestar * c_ontstar / totalrating) +
+                                (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 2))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 5; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                (fivestar * c_fivestar / totalrating)) >= 2) && (((onestar * c_ontstar / totalrating) +
+                                (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 3))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 4; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                 (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                 (fivestar * c_fivestar / totalrating)) >= 3) && (((onestar * c_ontstar / totalrating) +
+                                 (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                 (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 4))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 3; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                 (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                 (fivestar * c_fivestar / totalrating)) >= 4) && (((onestar * c_ontstar / totalrating) +
+                                 (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                 (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 5))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 2; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if (((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                   (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                   (fivestar * c_fivestar / totalrating)) == 5)
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 6; i++)
+                                            {
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if (((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                   (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                   (fivestar * c_fivestar / totalrating)) == 5)
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            <div class="product_price">
+                                <p>
+                                    @if (item.Discount != null)
+                                    {
+                                        if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
+                                        {
+                                            <span class="old_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span> <span class="new_price">@((item.price - item.Discount.discount_price).ToString("#,###₫", culture.NumberFormat))</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
         </div>
         <!--end::Row-->
     </div>
@@ -250,7 +1461,202 @@
         <!--end::Row-->
         <!--begin::Row-->
         <div class="row">
-           
+            @foreach (var item in AccessorySales)
+            {
+                <div class="col-md-3 col-lg-3 col-sm-6 col-6 ">
+                    <div class="product_list">
+                        <a href="/product/@item.slug">
+                            <div class="product_img">
+                                <img class="img-responsive" src="@(item.image != null ? item.image : defaultImg)" alt="@item.product_name">
+                                @if (item.Discount != null)
+                                {
+                                    if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
+                                    {
+                                        <div class="discount-tag">
+                                            <div class="pd-discount-tag color-less25percent">
+                                                <div class="tag-title">
+                                                    Tiết kiệm
+                                                </div>
+                                                <div class="discount-price-tag">
+                                                    @item.Discount.discount_price.ToString("#,###₫", culture.NumberFormat)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="product_detail_btm">
+                                <div class="center">
+                                    <p class="limitlinetext color_text_primary">
+                                        @item.product_name
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="product_detail_btm">
+                            @{ double onestar = 1; int c_ontstar = 0; double truestar = 2; int c_truestar = 0;
+                                double threestar = 3; int c_threestar = 0; ; double fourstar = 4; int c_fourstar = 0;
+                                double fivestar = 5; int c_fivestar = 0; int totalrating = 0;
+                                foreach (var avg in AvgFeedback)
+                                {
+                                    if (avg.product_id == item.product_id && avg.status == "2" && avg.parent_feedback_id == 0)
+                                    {
+                                        totalrating++;
+                                        if (avg.rate_star == 1)
+                                        {
+                                            c_ontstar++;
+                                        }
+                                        if (avg.rate_star == 2)
+                                        {
+                                            c_truestar++;
+                                        }
+                                        if (avg.rate_star == 3)
+                                        {
+                                            c_threestar++;
+                                        }
+                                        if (avg.rate_star == 4)
+                                        {
+                                            c_fourstar++;
+                                        }
+                                        if (avg.rate_star == 5)
+                                        {
+                                            c_fivestar++;
+                                        }
+                                    }
+                                }
+                                if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                (fivestar * c_fivestar / totalrating)) >= 1) && (((onestar * c_ontstar / totalrating) +
+                                (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 2))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 5; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                (fivestar * c_fivestar / totalrating)) >= 2) && (((onestar * c_ontstar / totalrating) +
+                                (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 3))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 4; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                 (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                 (fivestar * c_fivestar / totalrating)) >= 3) && (((onestar * c_ontstar / totalrating) +
+                                 (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                 (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 4))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 3; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if ((((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                 (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                 (fivestar * c_fivestar / totalrating)) >= 4) && (((onestar * c_ontstar / totalrating) +
+                                 (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) +
+                                 (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating)) < 5))
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 2; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if (((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                   (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                   (fivestar * c_fivestar / totalrating)) == 5)
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 6; i++)
+                                            {
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if (((onestar * c_ontstar / totalrating) + (truestar * c_truestar / totalrating) +
+                                   (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) +
+                                   (fivestar * c_fivestar / totalrating)) == 5)
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="starratin">
+                                        <div class="center">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            <div class="product_price">
+                                <p>
+                                    @if (item.Discount != null)
+                                    {
+                                        if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
+                                        {
+                                            <span class="old_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span> <span class="new_price">@((item.price - item.Discount.discount_price).ToString("#,###₫", culture.NumberFormat))</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
         </div>
         <!--end::Row-->
     </div>
@@ -269,7 +1675,91 @@
             </div>
         </div>
         <div class="row" style="padding-bottom: 20px;">
-          
+            @foreach (var item in Recentnews)
+            {
+                <div class="col-md-4">
+                    <div class="full blog_colum">
+                        <a href="/post/@item.slug">
+                            <div class="blog_feature_img">
+                                <img src="@item.image" alt="@item.news_title" />
+                            </div>
+                            <div class="post_time">
+                                <p>
+                                    @{
+                                        DateTime seconds = item.create_at.AddSeconds(60);
+                                        DateTime minutes = item.create_at.AddMinutes(60);
+                                        DateTime hour = item.create_at.AddHours(24);
+                                        DateTime date = item.create_at.AddDays(30);
+                                        DateTime months = item.create_at.AddMonths(12);
+                                    }
+                                    @if (seconds > DateTime.Now)
+                                    {
+                                        if ((item.create_at.Minute < DateTime.Now.Minute))
+                                        {
+                                            <span href="#"><i class="fa fa-clock-o"></i> @((DateTime.Now.Second - item.create_at.Second) +60) giây trước</span>
+                                        }
+                                        else
+                                        {
+                                            <span href="#"><i class="fa fa-clock-o"></i> @(DateTime.Now.Second - item.create_at.Second) giây trước</span>
+                                        }
+                                    }
+                                    else if (minutes > DateTime.Now)
+                                    {
+                                        if ((item.create_at.Hour < DateTime.Now.Hour) || (item.create_at.Day < DateTime.Now.Day))
+                                        {
+                                            <span href="#"><i class="fa fa-clock-o"></i> @((DateTime.Now.Minute - item.create_at.Minute)+60) phút trước</span>
+                                        }
+                                        else
+                                        {
+                                            <span href="#"><i class="fa fa-clock-o"></i> @(DateTime.Now.Minute - item.create_at.Minute) phút trước</span>
+                                        }
+                                    }
+                                    else if (hour > DateTime.Now)
+                                    {
+                                        if (item.create_at.Day < DateTime.Now.Day)
+                                        {
+                                            <span href="#"><i class="fa fa-clock-o"></i> @((DateTime.Now.Hour - item.create_at.Hour)+24) giờ trước</span>
+                                        }
+                                        else
+                                        {
+                                            <span href="#"><i class="fa fa-clock-o"></i> @(DateTime.Now.Hour - item.create_at.Hour) giờ trước</span>
+                                        }
+                                    }
+                                    else if (date > DateTime.Now)
+                                    {
+                                        if ((item.create_at.Month < DateTime.Now.Month))
+                                        {
+                                            <span><i class="fa fa-clock-o"></i> @((DateTime.Now.Day - item.create_at.Day)+30) ngày trước</span>
+                                        }
+                                        else
+                                        {
+                                            <span><i class="fa fa-clock-o"></i> @(DateTime.Now.Day - item.create_at.Day) ngày trước</span>
+                                        }
+                                    }
+                                    else if (months > DateTime.Now)
+                                    {
+                                        if ((item.create_at.Year < DateTime.Now.Year))
+                                        {
+                                            <span><i class="fa fa-clock-o"></i> @((DateTime.Now.Month - item.create_at.Month)+12) tháng trước</span>
+                                        }
+                                        else
+                                        {
+                                            <span><i class="fa fa-clock-o"></i> @(DateTime.Now.Month - item.create_at.Month) tháng trước</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span href="#"><i class="fa fa-clock-o"></i> @item.create_at.ToString("dd/MM/yyyy")</span>
+                                    }
+                                </p>
+                            </div>
+                            <div class="blog_feature_head">
+                                <p class="h6 @*limitlinetext*@">@item.news_title</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>
@@ -284,7 +1774,10 @@
                             <p class="h4 text-uppercase">Nhãn Hàng Đồng Hành</p>
                         </div>
                         <ul class="brand_list">
-                           
+                            @foreach (var item in Brand)
+                            {
+                                <li><a href="@item.Web_directory" target="_blank"><img class="img_brand_index" src="@item.brand_image" alt="@item.slug" /></a></li>
+                            }
                         </ul>
                     </div>
                 </div>
