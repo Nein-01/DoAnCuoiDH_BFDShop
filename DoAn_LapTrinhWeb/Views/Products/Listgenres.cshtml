@@ -1,7 +1,32 @@
 ﻿@model IEnumerable<DoAn_LapTrinhWeb.Model.ParentGenres>
 @{
     //danh mục con
-    
+    var productsgenres = (List<DoAn_LapTrinhWeb.Model.Genre>)ViewBag.productsgenres;
 }
-
+@foreach (var item in Model)
+{
+    <!--begin::Danh sách thể loại sản phẩm-->
+    <li>
+        <a class="d-flex" href="/category/@item.slug">
+            <span class="material-icons">@item.icon</span><div id="elementID">@item.name</div>
+            @if (item.Genres.Count > 0)
+            {
+                <span class="material-icons dropdown--menu-arrow">arrow_drop_down</span>
+            }
+        </a>
+        <ul class="child--item-genres">
+            @foreach (var product in productsgenres)
+            {
+                //show ra thể loại con nếu thể loại con có sản phẩm
+                if (product.parent_genre_id == item.id && product.status == "1" && (product.Products.Count() > 0))
+                {
+                    <li class="row d-flex">
+                        <a href="/category/@product.slug">@product.genre_name</a>
+                    </li>
+                }
+            }
+        </ul>
+    </li>
+    <!--end::Danh sách thể loại sản phẩm-->
+}
 

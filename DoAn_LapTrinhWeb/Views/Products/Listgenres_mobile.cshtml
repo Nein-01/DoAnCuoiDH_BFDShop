@@ -1,4 +1,7 @@
 ﻿<!--danh sách sản phẩm dành cho mobile-->
 @model IEnumerable<DoAn_LapTrinhWeb.Model.ParentGenres>
-
+@foreach (var item in Model)
+{
+    <li class="dropdown-item"><a href="/category/@item.slug">@item.name</a></li>
+}
 

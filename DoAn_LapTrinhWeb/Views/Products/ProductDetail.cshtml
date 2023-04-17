@@ -2,10 +2,34 @@
 @using DoAn_LapTrinhWeb.Common
 @using DoAn_LapTrinhWeb.Common.Helpers
 @{
-    
+    ViewBag.Title = Model.product_name;
+    ViewBag.ImageURL = Model.Image;
+    ViewBag.Keyword = Model.product_name;
+    ViewBag.Decription = Model.seo_title;
+    ViewBag.Tag = Model.seo_title;
     Layout = "~/Views/Shared/Main_Layout.cshtml";
     <!--relatedproduct | path: "action ProductDetail" - controller"Products"-->
-   
+    //=>hiển thị sản phẩm liên quan
+    var relatedproduct = (List<DoAn_LapTrinhWeb.Models.Product>)ViewBag.relatedproduct;
+    //=>bài viết sản phẩm
+    var newsproducts = (List<DoAn_LapTrinhWeb.Models.NewsProducts>)ViewBag.newsproducts;
+    //=>đánh giá sản phẩm
+    var feedbackproduct = (List<DoAn_LapTrinhWeb.Model.Feedback>)ViewBag.feedbackproduct;
+    //đánh gái trung bình
+    var AvgFeedback = (List<DoAn_LapTrinhWeb.Model.Feedback>)ViewBag.AvgFeedback;
+    //đánh giá trung bình của sản phẩm liên quan
+    var AvgFeedback_related = (List<DoAn_LapTrinhWeb.Model.Feedback>)ViewBag.AvgFeedback_related;
+    //=>check orderfeedback để tính trung bình sao
+    var OrderFeedback = (List<DoAn_LapTrinhWeb.Model.Order_Detail>)ViewBag.OrderFeedback;
+    //=>ảnh feedback
+    var feedbackimages = (List<DoAn_LapTrinhWeb.Model.Feedback_Image>)ViewBag.feedbackimages;
+    //tài khoản feedback
+    var Accountfeedback = (List<DoAn_LapTrinhWeb.Models.Account>)ViewBag.Accountfeedback;
+    //=>hiển thị code giảm giá trong chitet16 sản phẩm
+    var CouponGlobal = (List<DoAn_LapTrinhWeb.Model.Discount>)ViewBag.CouponGlobal;
+    //phản hồi của admin
+    var replyfeedback = (List<DoAn_LapTrinhWeb.Model.Feedback>)ViewBag.replyfeedback;
+    //=>chuyển đổi tiền tệ. get dấu chấm cho giá sản phẩm
     var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
 }
 @section scripts{
@@ -18,7 +42,7 @@
     <!--custom product images detail theo dạng slider sử dụng kèm carousel.min.js-->
     <script src="~/Scripts/my_js/product_detail.js"></script>
     <script src="https://unpkg.com/micromodal@0.4.6/dist/micromodal.min.js"></script>
- }
+}
 <div class="product_detail">
     <!--begin::Container-->
     <div class="container margin_mobile_fixed">
@@ -27,15 +51,1057 @@
             <ul class="breadcrumb__list">
                 <li><a href="/"><i aria-hidden="true" class="fa fa-home"></i></a> <i aria-hidden="true" class="far fa-angle-right"></i></li>
                 <li><a href="@Url.Action("Index", "Home")">Trang chủ</a> <i aria-hidden="true" class="far fa-angle-right"></i></li>
-                <li><a href=""></a> <i aria-hidden="true" class="far fa-angle-right"></i></li>
-                <li class="hide_li_breadcumb"><a href=""></a> <i aria-hidden="true" class="far fa-angle-right "></i></li>
-                <li class="breadcrumb_active"><a href=""></a></li>
+                <li><a href="/category/@Model.parent_genre_slug">@Model.parent_genre_name</a> <i aria-hidden="true" class="far fa-angle-right"></i></li>
+                <li class="hide_li_breadcumb"><a href="/category/@Model.genre_slug">@Model.genre_name</a> <i aria-hidden="true" class="far fa-angle-right "></i></li>
+                <li class="breadcrumb_active"><a href="">@Model.product_name</a></li>
             </ul>
         </div>
         <!--end::Breadcrumb-->
         <!--begin::Row-->
-       
-                     
+        <div class="boderproductdetail mb-30px min-h-img_pdetail">
+            <div class="row">
+                <!--begin::Col-->
+                <div class="col-lg-5 col-md-5 h_pduct_detail">
+                    <div class="p-3">
+                        <!--begin::product detail images-->
+                        <!--"data-fslightbox" using script full sreen images | path: /Scripts/fslightbox.js -->
+                        <!--id="slider", id="thumb" |path:Scripts/my_js/product_detail.js-->
+                        <div id="slider" class="owl-carousel product-slider">
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.Image != null)
+                                {
+                                    <a data-fslightbox href="@Model.Image">
+                                        <img src="@Model.Image" />
+                                    </a>
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_1 != null)
+                                {
+                                    <a data-fslightbox href="@Model.image_1">
+                                        <img src="@Model.image_1" />
+                                    </a>
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_2 != null)
+                                {
+                                    <a data-fslightbox href="@Model.image_2">
+                                        <img src="@Model.image_2" />
+                                    </a>
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_3 != null)
+                                {
+                                    <a data-fslightbox href="@Model.image_3">
+                                        <img src="@Model.image_3" />
+                                    </a>
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_4 != null)
+                                {
+                                    <a data-fslightbox href="@Model.image_4">
+                                        <img src="@Model.image_4" />
+                                    </a>
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_5 != null)
+                                {
+                                    <a data-fslightbox href="@Model.image_5">
+                                        <img src="@Model.image_5" />
+                                    </a>
+                                }
+                            </div>
+                            <!--end::Pic-->
+                        </div>
+                        <!--begin::thumbnail carousel slider-->
+                        <div id="thumb" class="owl-carousel product-thumb ">
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.Image != null)
+                                {
+                                    <img src="@Model.Image" />
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_1 != null)
+                                {
+                                    <img src="@Model.image_1" />
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_2 != null)
+                                {
+                                    <img src="@Model.image_2" />
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_3 != null)
+                                {
+                                    <img src="@Model.image_3" />
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_4 != null)
+                                {
+                                    <img src="@Model.image_4" />
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_5 != null)
+                                {
+                                    <img src="@Model.image_5" />
+                                }
+                            </div>
+                            <!--end::Pic-->
+                        </div>
+                        <!--end::thumbnail carousel slider-->
+                        <!--end::product detail images-->
+                    </div>
+                </div>
+                <!--begin::Col-->
+                <div class="col-lg-7 col-md-7">
+                    <div class="p-3">
+                        <!--begin::Row-->
+                        <div class="row">
+                            <!--begin::Product Name-->
+                            <div class="product-heading">
+                                <p class="name_product_detail">@Model.product_name </p>
+                            </div>
+                            <!--end::Product Name-->
+                            <!--begin::Product ID-->
+                            <div class="d-flex brand_sku">
+                                <span>Thương hiệu:</span>
+                                <a class="brand_pdtdetail" href="/brand/@Model.brand_slug">@Model.brand_name<span class="spacing_word"></span></a>
+                                <span class="">Mã SP: @Model.product_id</span><br>
+                            </div>
+                            <!--end::Product ID-->
+                            <!--begin::Product Detail Price-->
+                            <div class="price_product_detail">
+                                @if (Model.discount_start < DateTime.Now && Model.discount_end > DateTime.Now && Model.discount_status.Trim() == "1")
+                                {
+                                    <span class="old_price_detail">@Model.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                    <span class="new_price_detail">@((Model.price - Model.discount_price).ToString("#,###₫", culture.NumberFormat))</span><span class="text-success ms-1 fs-14px">-@((((Model.price)/(Model.price))-((Model.price-Model.discount_price)/(Model.price))).ToString("0.00%"))</span>
+                                }
+                                else
+                                {
+                                    <span class="new_price_detail">@Model.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                }
+                                <br />
+                                <!--begin::Product Star-->
+                                @{ double onestar = 1; int c_onestar = 0; double truestar = 2; int c_truestar = 0;
+                                    double threestar = 3; int c_threestar = 0; ; double fourstar = 4; int c_fourstar = 0;
+                                    double fivestar = 5; int c_fivestar = 0; int totalrating = 0; double avg1 = 0;
+                                    foreach (var item in AvgFeedback)
+                                    {
+                                        foreach (var orderitem in OrderFeedback)
+                                        {
+                                            if (orderitem.product_id == item.product_id && item.product_id == Model.product_id && item.status == "2" && item.parent_feedback_id == 0)
+                                            {
+                                                totalrating++;
+                                                if (item.rate_star == 1)
+                                                {
+                                                    c_onestar++;
+                                                }
+                                                if (item.rate_star == 2)
+                                                {
+                                                    c_truestar++;
+                                                }
+                                                if (item.rate_star == 3)
+                                                {
+                                                    c_threestar++;
+                                                }
+                                                if (item.rate_star == 4)
+                                                {
+                                                    c_fourstar++;
+                                                }
+                                                if (item.rate_star == 5)
+                                                {
+                                                    c_fivestar++;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    avg1 = (onestar * c_onestar / totalrating) + (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating);
+                                    if (avg1 >= 1 && avg1 < 2)
+                                    {
+                                        <span class="rating me-2">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 5; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </span>
+                                    }
+                                    else if ((avg1 >= 2) && (avg1 < 3))
+                                    {
+                                        <span class="rating me-2">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 4; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </span>
+                                    }
+                                    else if ((avg1 >= 3) && (avg1 < 4))
+                                    {
+                                        <span class="rating me-2">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 3; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </span>
+                                    }
+                                    else if ((avg1 >= 4) && (avg1 < 5))
+                                    {
+                                        <span class="rating me-2">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 2; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </span>
+                                    }
+                                    else if (avg1 == 5)
+                                    {
+                                        <span class="rating me-2">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            }
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="rating me-2">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </span>
+                                    }
+                                }
+                                <!--begin::Product Star-->
+                                <span class="review">(@ViewBag.CountFeedback Đánh giá)</span>
+                            </div>
+                            <!--begin::Discount-->
+                            <div class="col-lg-12 col-xl-10">
+                                <div class="pro-special-offer-container">
+                                    <div class="spec-title d-flex align-items-center justify-content-between">
+                                        <div class="spec-price font-weight-bold">
+                                            KHUYẾN MÃI
+                                        </div>
+                                    </div>
+                                    <ul class="ul">
+                                        @if (ViewBag.CheckExistBannerDetail != null || CouponGlobal.Count > 0)
+                                        {
+                                            foreach (var banner_detail in ViewBag.BannerDetail)
+                                            {
+                                                foreach (var banner in ViewBag.Banner)
+                                                {
+                                                    if (banner.banner_id == banner_detail.banner_id)
+                                                    {
+                                                        <li>
+                                                            <span class="text">
+                                                                @if (banner.description == null || banner.description == "")
+                                                                {
+                                                                    <span>@banner.banner_name - <a class="font_roboto_medium text-danger" href="/promo/@banner.slug">Xem chi tiết</a></span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span> @banner.description - <a class="font_roboto_medium text-danger" href="/promo/@banner.slug">Xem chi tiết</a></span>
+                                                                }
+                                                            </span>
+                                                        </li>
+
+                                                    }
+                                                }
+                                            }
+                                            foreach (var coupon in CouponGlobal)
+                                            {
+                                                if (coupon.discounts_type == 3)
+                                                {
+                                                    <li class="d-flex fs-14px">
+                                                        <span class="material-icons fs-6px me-1 position-relative mt-1"> circle </span><span class="text">Nhập mã <span class="font_roboto_medium">@coupon.discounts_code</span> giảm @coupon.discount_price% tối đa <span class="text-website font_roboto_medium">@coupon.discount_max.ToString("#,###₫", culture.NumberFormat)</span> - @coupon.discount_name, áp dụng đến @coupon.discount_end.ToString("dd/MM/yyyy") </span>
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    <li class="d-flex fs-14px">
+                                                        <span class="material-icons fs-6px me-1 position-relative mt-1"> circle </span><span class="text">Nhập mã <span class="font_roboto_medium">@coupon.discounts_code</span> giảm ngay <span class="text-website font_roboto_medium">@coupon.discount_price.ToString("#,###₫", culture.NumberFormat)</span> - @coupon.discount_name, áp dụng đến @coupon.discount_end.ToString("dd/MM/yyyy") </span>
+                                                    </li>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                <span class="text">Không có khuyễn mãi</span>
+                                            </li>
+                                        }
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--end::Discount-->
+                            <!--begin::Detail Content-->
+                            <div class="detail-contant">
+                                <!--begin::Quantity-->
+                                <div>
+                                    @if (Model.quantity.Trim() == "4" || Model.quantity.Trim() == "5" || Model.quantity.Trim() == "6" || Model.quantity.Trim() == "7" || Model.quantity.Trim() == "8" || Model.quantity.Trim() == "9" || Model.quantity.Trim() == "10")
+                                    {
+                                        <p class="status_stock"><span class="status status2"><i aria-hidden="true" class="fa fa-circle"></i>Còn ít</span></p>
+                                    }
+                                    else if (Model.quantity.Trim() == "3")
+                                    {
+                                        <p class="status_stock"><span class="status status3"><i aria-hidden="true" class="fa fa-circle"></i>Còn 3 sản phẩm</span></p>
+                                    }
+                                    else if (Model.quantity.Trim() == "2")
+                                    {
+                                        <p class="status_stock"><span class="status status3"><i aria-hidden="true" class="fa fa-circle"></i>Còn 2 sản phẩm</span></p>
+                                    }
+                                    else if (Model.quantity.Trim() == "1")
+                                    {
+                                        <p class="status_stock"><span class="status status3"><i aria-hidden="true" class="fa fa-circle"></i>Còn 1 sản phẩm</span></p>
+                                    }
+                                    else if (Model.quantity.Trim() == "0") //nếu quantity = 0 thì hiển thị hết hàng
+                                    {
+                                        <p class="status_stock"><span class="status status4"><i aria-hidden="true" class="fa fa-circle"></i>Hết hàng</span></p>
+                                    }
+                                    else //ngược lại các điều kiện trên thì hiển thị còn hàng
+                                    {
+                                        <p class="status_stock"><span class="status status1"><i aria-hidden="true" class="fa fa-circle"></i>Còn hàng</span></p>
+                                    }
+                                </div>
+                                <!--end::Quantity-->
+                                <!--begin::Form-->
+                                <form class="cart" method="post" action="#">
+                                    <!--nếu là quyền quản trị thì sẽ không được mua hàng, chỉ quyền người dùng mới được phép mua hàng-->
+                                    @if (Model.quantity.Trim() != "0")
+                                    {
+                                        <!--"Const.ROLE..." | path: /Common/Const.cs-->
+                                        if (User.Identity.IsAuthenticated && User.Identity.GetRole() != 1) //Const.ROLE_ADMIN_NAME chỉ là đặt tên cho role thôi,trong databasse "0" là admin "1" là user(nguòi dùng)
+                                        {
+                                            <!--begin::Add to Cart-->
+                                            <div class="quantity" style="margin-right:5px;">
+                                                <input step="0" min="0" max="@Model.quantity" name="quantity" value="0" title="Số lượng" class="input-text qty text" type="number" readonly>
+                                            </div>
+                                            //nếu bạn là admin sẽ hiển thị nút này số âm
+                                            <a class="btn bg-danger">For Users</a>
+                                            <!--end::Add to Cart-->
+                                        }
+                                        else
+                                        {
+                                            <!--begin::Add to Cart-->
+                                            //đã ràng buộc không cho nhập số âm
+                                            <div class="quantity">
+                                                <input step="1" min="1" max="@Model.quantity.Trim()" name="quantity" value="1" oninput="validity.valid || (value = '');" title="số lượng" class="input-text qty text" size="4" type="number">
+                                            </div>
+                                            //nếu bạn là user sẽ thêm được số lượng", id="btnAddToCart" | path: ~/Scripts/my_js/product/detail.js
+                                            <a id="btnAddToCart" data-id="@Model.product_id" class="btn bg-button ms-1">Thêm vào giỏ</a>
+                                            <!--end::Add to Cart-->
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <!--begin::Add to Cart-->
+                                        <div class="quantity">
+                                            <input min="0" max="0" name="quantity" value="0" title="số lượng" class="input-text qty text" size="4" type="number">
+                                        </div>
+                                        // nếu số lượng của sản phẩm = 0 sẽ hiện lên button "Liên hệ", id="btnAddToCart" | path: ~/Scripts/my_js/product/detail.js
+                                        <a class="btn btn-secondary ms-2" target="_blank" href="https://www.messenger.com/t/109633994706435/">Liên hệ</a>
+                                        <!--end::Add to Cart-->
+                                    }
+                                </form>
+                                <!--begin::Form-->
+                                <!--begin::Button Share-->
+                                <div class="share-post">
+                                    <a href="#" class="share-text">Chia sẻ:</a>
+                                    <ul class="social_icons">
+                                        <!--id="fb-share-button" | path: /Scripts/my_js/button_share_fb.js-->
+                                        <li><a href="#" id="fb-share-button"><img src="~/Images/svg/brand-logos/facebook-4.svg" class="img_button_share" /></a></li>
+                                        <li><a href="#"><img src="~/Images/svg/brand-logos/twitter.svg" class="img_button_share" /></a></li>
+                                        <li><a href="#"> <img src="~/Images/svg/brand-logos/pinterest-p.svg" class="img_button_share" /></a></li>
+                                        <li><a href="#"><img src="~/Images/svg/brand-logos/github.svg" class="img_button_share" /></a></li>
+                                    </ul>
+                                </div>
+                                <!--end::Button Share-->
+                            </div>
+                            <!--end::Detail Content-->
+                        </div>
+                        <!--end::Row-->
+                    </div>
+                </div>
+            </div>
+            <!--end:Row-->
+            <!--end product-->
+        </div>
+        <!--end::Row-->
+        <!--begin::View Product decription-->
+        <div class="modal fade popup_detail_desc" id="popupmodal_detail_decription" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <!--begin::Modal Content-->
+                <div class="modal-content">
+                    <!--begin::Modal Header-->
+                    <div class="modal-header">
+                        <p class="modal-title center h6" id="exampleModalLongTitle">Mô tả sản phẩm: @Model.product_name</p>
+                        <a href="#" class="close bg-transparent" data-dismiss="modal" aria-label="Close">
+                            <span class="material-icons" aria-hidden="true">close</span>
+                        </a>
+                    </div>
+                    <!--end::Modal Header-->
+                    <div class="modal-body detail_decs_product">
+                        @Html.Raw(Model.description)
+                    </div>
+                    <!--begin::Modal Footer-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                    </div>
+                    <!--begin::Modal Footer-->
+                </div>
+                <!--end::Modal Content-->
+            </div>
+        </div>
+        <!--end::View Product decription-->
+        <!--begin::Row-->
+        <div class="boderproductdetail">
+            <div class="row pb-3">
+                <div class="col-md-12">
+                    <div class="pd_productdetail">
+                        <div class="full">
+                            <!--begin::Tab Bars-->
+                            <div class="tab_bar_section">
+                                <!--begin::Nav Tabs-->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <!--begin::Nav Item-->
+                                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#description">Mô tả sản phẩm</a> </li>
+                                    <li class="nav-item"> <a class="nav-link " data-toggle="tab" href="#specs">Thông số kĩ thuật</a> </li>
+                                    <!--end::Nav Item-->
+                                </ul>
+                                <!--end::Nav Tabs-->
+                                <!--begin::Tab Content-->
+                                <div class="tab-content">
+                                    <!--begin::Tab Panel-->
+                                    <div id="description" class="tab-pane active">
+                                        @if (Model.description == "" || Model.description == null)
+                                        {
+                                            <div>Đang cập nhật</div>
+                                        }
+                                        else
+                                        {
+                                            <!--begin::Decription-->
+                                            <div class="product_desc" style="padding:0 4rem;">
+                                                @Html.Raw(Model.description)
+                                            </div>
+                                            <!--end::Decription-->
+                                            <div class="bg-article"></div>
+                                            <!--begin::View More Decription-->
+                                            <a href="#" data-toggle="modal" data-target="#popupmodal_detail_decription">
+                                                <span class="btn-detail btn-short-spec not-have-instruction d-flex center btn_detail_decription">
+                                                    <span style="font-family: Roboto-Regular;margin-top: 7px;">Xem thêm nội dung</span><span class="material-icons">keyboard_arrow_down</span>
+                                                </span>
+                                            </a>
+                                            <!--end::View More Decription-->
+                                        }
+                                    </div>
+                                    <!--end::Tab Panel-->
+                                    <!--begin::Tab Panel-->
+                                    <div id="specs" class="tab-pane fade">
+                                        <div id="specs" class="tab-pane ">
+                                            @if (Model.specification == "" || Model.specification == null)
+                                            {
+                                                <div>Đang cập nhật</div>
+                                            }
+                                            else
+                                            {
+                                                <!--begin::Spectification-->
+                                                <div class="product_spec center mt-3">
+                                                    @Html.Raw(Model.specification)
+                                                </div>
+                                                <!--end::Spectification-->
+                                            }
+                                        </div>
+                                    </div>
+                                    <!--end::Tab Panel-->
+                                </div>
+                                <!--end::Tab Content-->
+                            </div>
+                            <!--end::Tab Bars-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Row-->
+        <!--begin::Row-->
+        <div class="boderproductdetail">
+            <div class="row pb-3">
+                <div class="col-md-12">
+                    <div class="pd_productdetail">
+                        <div class="full">
+                            <!--begin::Tab Bars-->
+                            <div class="tab_bar_section">
+                                <!--begin::Nav Tabs-->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <!--begin::Nav Item-->
+                                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#reviews">Đánh giá (@ViewBag.CountFeedback)</a> </li>
+                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#comment_product">Bình luận</a> </li>
+                                    <!--end::Nav Item-->
+                                </ul>
+                                <!--end::Nav Tabs-->
+                                <!--begin::Tab Content-->
+                                <div class="tab-content">
+                                    <!--begin::Tab Panel-->
+                                    <div id="reviews" class="tab-pane active ">
+                                        <div class="row">
+                                            <!--begin::Product Review-->
+                                            <div class="product_review col-lg-7">
+                                                <h3 class="mb-1">Đánh giá (@ViewBag.CountFeedback)</h3>
+                                                @foreach (var fb in feedbackproduct)
+                                                {
+                                                    if (fb.product_id == Model.product_id)
+                                                    {
+                                                        foreach (var ac in Accountfeedback)
+                                                        {
+                                                            if (ac.account_id == fb.account_id && fb.status == "2")
+                                                            {
+                                                                <!--begin::Row-->
+                                                                <div class="commant-text">
+                                                                    <div>
+                                                                        <!--begin::User Name-->
+                                                                        <span class="font_roboto_medium">@ac.Name</span>
+                                                                        <!--end::User Name-->
+
+                                                                        @{ string fbconfirm = "";
+                                                                            string verify = "";
+                                                                            foreach (var odt in OrderFeedback)
+                                                                            {
+                                                                                if (odt.Order.account_id == fb.account_id && odt.product_id == fb.product_id && odt.Order.status == "3")
+                                                                                {
+                                                                                    fbconfirm = "Đã mua tại NVT";
+                                                                                    verify = "verified";
+                                                                                }
+                                                                            }
+                                                                            <span class="fs-14px text-success"><span class="material-icons fs-14px">@verify</span><span>@fbconfirm</span></span>
+                                                                        }
+                                                                        <!--begin:Rating Star-->
+                                                                        <span class="rating">
+                                                                            @if (fb.rate_star == 0)
+                                                                            {
+                                                                                for (int i = 1; i <= 5; i++)
+                                                                                {
+                                                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                                                }
+                                                                            }
+                                                                            else if (fb.rate_star == 1)
+                                                                            {
+                                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                                                for (int i = 1; i <= 4; i++)
+                                                                                {
+                                                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                                                }
+                                                                            }
+                                                                            else if (fb.rate_star == 2)
+                                                                            {
+                                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                                                for (int i = 1; i <= 3; i++)
+                                                                                {
+                                                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                                                }
+                                                                            }
+                                                                            else if (fb.rate_star == 3)
+                                                                            {
+                                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                                            }
+                                                                            else if (fb.rate_star == 4)
+                                                                            {
+                                                                                for (int i = 1; i <= 4; i++)
+                                                                                {
+                                                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                                                }
+                                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                                            }
+                                                                            else if (fb.rate_star == 5)
+                                                                            {
+                                                                                for (int i = 1; i <= 5; i++)
+                                                                                {
+                                                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                                                }
+                                                                            }
+                                                                        </span>
+                                                                        <!--end:Rating Star-->
+                                                                        <!--begin::Feedback Content-->
+                                                                        <p class="msg">
+                                                                            @fb.description
+                                                                        </p>
+                                                                        <!--end::Feedback Content-->
+                                                                        @foreach (var fbimg in feedbackimages)
+                                                                        {
+                                                                            if (fbimg.feedback_id == fb.feedback_id && fbimg.image != "/Images/ImagesCollection/no-image-available.png")
+                                                                            {
+                                                                                <a data-fslightbox href="@fbimg.image">
+                                                                                    <img src="@fbimg.image" class="img_fb_product" />
+                                                                                </a>
+                                                                            }
+                                                                        }
+                                                                        <!--begin::Feedback Date-->
+                                                                        <div class="fs-12px text-muted">@fb.create_at.ToString("dd-MM-yyyy HH:mm")</div>
+                                                                        <!--end::Feedback Date-->
+                                                                    </div>
+                                                                    @foreach (var reply in replyfeedback)
+                                                                    {
+                                                                        if (reply.parent_feedback_id == fb.feedback_id)
+                                                                        {
+                                                                            <div class="bg-reply-fb">
+                                                                                <div>
+                                                                                    <span class="font_roboto_medium">@reply.Account.Name</span>
+                                                                                    @if (reply.Account.role_id != 1)
+                                                                                    {
+                                                                                        <span class="fs-12px fb-role-color ms-1">@reply.Account.Roles.role_name</span>
+                                                                                    }
+                                                                                </div>
+                                                                                <p class="msg" style="margin-top:unset!important">
+                                                                                    @reply.description
+                                                                                </p>
+                                                                                <div class="fs-12px text-muted">@reply.create_at.ToString("dd-MM-yyyy HH:mm")</div>
+                                                                            </div>
+                                                                        }
+                                                                    }
+                                                                </div>
+                                                                <!--end::Row-->
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                            <!--begin::Row-->
+                                            <div class="col-lg-5 mt-bg--add-rating">
+                                                @{ double onestar1 = 1; int c_ontstar1 = 0; double truestar1 = 2; int c_truestar1 = 0;
+                                                    double threestar1 = 3; int c_threestar1 = 0; ; double fourstar1 = 4; int c_fourstar1 = 0;
+                                                    double fivestar1 = 5; int c_fivestar1 = 0; int totalrating1 = 0; double avg2 = 0;
+                                                    foreach (var item in AvgFeedback)
+                                                    {
+                                                        foreach (var orderitem in OrderFeedback)
+                                                        {
+                                                            if (orderitem.product_id == item.product_id && item.product_id == Model.product_id && item.status == "2" && item.parent_feedback_id == 0)
+                                                            {
+                                                                totalrating1++;
+                                                                if (item.rate_star == 1)
+                                                                {
+                                                                    c_ontstar1++;
+                                                                }
+                                                                if (item.rate_star == 2)
+                                                                {
+                                                                    c_truestar1++;
+                                                                }
+                                                                if (item.rate_star == 3)
+                                                                {
+                                                                    c_threestar1++;
+                                                                }
+                                                                if (item.rate_star == 4)
+                                                                {
+                                                                    c_fourstar1++;
+                                                                }
+                                                                if (item.rate_star == 5)
+                                                                {
+                                                                    c_fivestar1++;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    avg2 = (onestar1 * c_ontstar1 / totalrating1) + (truestar1 * c_truestar1 / totalrating1) + (threestar1 * c_threestar1 / totalrating1) + (fourstar1 * c_fourstar1 / totalrating1) + (fivestar1 * c_fivestar1 / totalrating1);
+                                                    <div class="d-flex justify-content-center avg_feedback">
+                                                        @if (ViewBag.CountFeedback == 0)
+                                                        {
+                                                            <span>0.0</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>
+                                                                @string.Format("{0:0.0}", (avg2))
+                                                            </span>
+                                                        }
+                                                    </div>
+                                                    if (avg2 >= 1 && avg2 < 2)
+                                                    {
+                                                        <div class="rating d-flex justify-content-center">
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            @for (int i = 1; i < 5; i++)
+                                                            {
+                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    else if (avg2 >= 2 && avg2 < 3)
+                                                    {
+                                                        <div class="rating d-flex justify-content-center">
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            @for (int i = 1; i < 4; i++)
+                                                            {
+                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    else if (avg2 >= 3 && avg2 < 4)
+                                                    {
+                                                        <div class="rating d-flex justify-content-center">
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            @for (int i = 1; i < 3; i++)
+                                                            {
+                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    else if (avg2 >= 4 && avg2 < 5)
+                                                    {
+                                                        <div class="rating d-flex justify-content-center">
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            @for (int i = 1; i < 2; i++)
+                                                            {
+                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    else if (avg2 == 5)
+                                                    {
+                                                        <div class="rating d-flex justify-content-center">
+                                                            @for (int i = 1; i <= 5; i++)
+                                                            {
+                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="rating d-flex justify-content-center">
+                                                            @for (int i = 1; i <= 5; i++)
+                                                            {
+                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    <div class="d-flex justify-content-center fs-14px text-muted">(@ViewBag.CountFeedback lượt đánh giá)</div>
+                                                }
+                                                <div class="full review_bt_section d-flex justify-content-center">
+                                                    @if (User.Identity.IsAuthenticated)
+                                                    {
+                                                        if (User.Identity.GetRole() == 1)
+                                                        {
+                                                            if (ViewBag.CheckEditOrder > 0)
+                                                            {
+                                                                if (ViewBag.CheckExistFb == 0)
+                                                                {
+                                                                    <button class="btn bg-button" id="button_add_rating">Thêm đánh giá</button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button class="btn bg-danger" disabled>Đã đánh giá</button>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <div>
+                                                                    <div class="center">
+                                                                        <button class="btn bg-button cursor-disable" disabled>Thêm đánh giá</button>
+                                                                    </div>
+                                                                    <div class="text-danger center mt-1">(Hoàn tất đơn hàng chứa sản phẩm này để đánh giá)</div>
+                                                                </div>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <button class="btn bg-danger" disabled>For User</button>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="btn bg-button rating_login">Thêm đánh giá</button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end::Row-->
+                                        <!--end::Product Review-->
+                                    </div>
+                                    <!--end::Tab Panel-->
+                                    <!--begin::Tab Panel-->
+                                    <div id="comment_product" class="tab-pane fade">
+                                        <div class="fb-comments" data-href="https://localhost:44336/product/@Model.slug" data-width="" data-numposts="5"></div>
+                                    </div>
+                                    <!--end::Tab Panel-->
+                                </div>
+                                <!--end::Tab Content-->
+                            </div>
+                            <!--end::Tab Bars-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Row-->
+        @if (relatedproduct.Count > 0)
+        {
+            <!--begin::Row-->
+            <div class="boderproductdetail">
+                <div class="pd_productdetail">
+                    <!--begin:Row-->
+                    <div class="row">
+                        <!--begin::Col-->
+                        <div class="col-12">
+                            <div class="full">
+                                <!--begin:Title Head-->
+                                <div class="main_heading related_product_heading">
+                                    <p class="h4">Xem thêm sản phẩm cùng dòng @Model.genre_name</p>
+                                </div>
+                                <!--end:Title Head-->
+                            </div>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end:Row-->
+                    <div class="row">
+                        @foreach (var item in relatedproduct)//hiển thị những sản phẩm liên quan
+                        {
+                            <!--begin::Col-->
+                            <div class="col-md-3 col-lg-3 col-sm-6 col-6">
+                                <!--begin::Product List-->
+                                <div class="product_list">
+                                    <a href="/product/@item.slug">
+                                        @*href bạn có thể thay bằng href="@Url.Action("Productdetail", "Products", new { id = @item.product_id })"*@
+                                        <div class="product_img"> <img class="img-responsive" src="@item.image" alt="@item.product_name"></div>
+                                        <div class="product_detail_btm">
+                                            <!--begin::Product Name-->
+                                            <div class="center">
+                                                <p class="limitlinetext color_text_primary">@item.product_name</p>
+                                            </div>
+                                            <!--end::Product Name-->
+                                        </div>
+                                    </a>
+                                    <div class="product_detail_btm">
+                                        @{ double onestar_1 = 1; int c_onetstar_1 = 0; double truestar_1 = 2; int c_truestar_1 = 0;
+                                            double threestar_1 = 3; int c_threestar_1 = 0; ; double fourstar_1 = 4; int c_fourstar_1 = 0;
+                                            double fivestar_1 = 5; int c_fivestar_1 = 0; int totalrating_1 = 0; double avg3 = 0;
+                                            foreach (var avg in AvgFeedback_related)
+                                            {
+                                                if (avg.product_id == item.product_id && avg.status == "2" && avg.parent_feedback_id == 0)
+                                                {
+                                                    totalrating_1++;
+                                                    if (avg.rate_star == 1)
+                                                    {
+                                                        c_onetstar_1++;
+                                                    }
+                                                    if (avg.rate_star == 2)
+                                                    {
+                                                        c_truestar_1++;
+                                                    }
+                                                    if (avg.rate_star == 3)
+                                                    {
+                                                        c_threestar_1++;
+                                                    }
+                                                    if (avg.rate_star == 4)
+                                                    {
+                                                        c_fourstar_1++;
+                                                    }
+                                                    if (avg.rate_star == 5)
+                                                    {
+                                                        c_fivestar_1++;
+                                                    }
+                                                }
+                                            }
+                                            avg3 = (onestar_1 * c_onetstar_1 / totalrating_1) + (truestar_1 * c_truestar_1 / totalrating_1) +
+                                            (threestar_1 * c_threestar_1 / totalrating_1) + (fourstar_1 * c_fourstar_1 / totalrating_1) +
+                                            (fivestar_1 * c_fivestar_1 / totalrating_1);
+                                            if (avg3 >= 1 && avg3 < 2)
+                                            {
+                                                <div class="starratin">
+                                                    <div class="center">
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        @for (int i = 1; i < 5; i++)
+                                                        {
+                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            else if (avg3 >= 2 && avg3 < 3)
+                                            {
+                                                <div class="starratin">
+                                                    <div class="center">
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        @for (int i = 1; i < 4; i++)
+                                                        {
+                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            else if (avg3 >= 3 && avg3 < 4)
+                                            {
+                                                <div class="starratin">
+                                                    <div class="center">
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        @for (int i = 1; i < 3; i++)
+                                                        {
+                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            else if (avg3 >= 4 && avg3 < 5)
+                                            {
+                                                <span class="rating me-2">
+
+                                                </span>
+                                                <div class="starratin">
+                                                    <div class="center">
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        @for (int i = 1; i < 2; i++)
+                                                        {
+                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            else if (avg3 == 5)
+                                            {
+                                                <div class="starratin">
+                                                    <div class="center">
+                                                        @for (int i = 1; i <= 5; i++)
+                                                        {
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="starratin">
+                                                    <div class="center">
+                                                        @for (int i = 1; i <= 5; i++)
+                                                        {
+                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                        <!--begin::Product Price-->
+                                        <div class="product_price">
+                                            <p>
+                                                @if (item.Discount != null)
+                                                {
+                                                    if ((item.Discount.discount_start < DateTime.Now && item.Discount.discount_end >= DateTime.Now) && item.Discount.status.Trim() == "1")//nếu ngày giảm giá bé hơn ngày hiện tài và ngày kết thúc phải lớn hơn hoặc bằng ngày hiện tại
+                                                    {
+                                                        <span class="old_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span> <span class="new_price">@((item.price - item.Discount.discount_price).ToString("#,###₫", culture.NumberFormat))</span>//hiển thị giá sau khi trừ khhuyến mãi
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                                }
+                                            </p>
+                                        </div>
+                                        <!--end::Product Price-->
+                                    </div>
+                                </div>
+                                <!--end::Product List-->
+                            </div>
+                            <!--end::Col-->
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        @if (newsproducts.Count > 0)
+        {
+            <div class="boderproductdetail">
+                <div class="p-3">
+                    <!--begin:Row-->
+                    <div class="row">
+                        <!--begin::Col-->
+                        <div class="col-md-12">
+                            <div class="full">
+                                <!--begin:Title Head-->
+                                <div class="main_heading related_product_heading">
+                                    <p class="h4">Bài viết liên quan</p>
+                                </div>
+                                <!--end:Title Head-->
+                            </div>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <div class="row">
+                        <!--end:Row-->
+                        @foreach (var item in newsproducts)
+                        {
+                            <div class="col-md-3 col-lg-3 col-sm-6 col-6 product_related_post">
+                                <div><a href="/news/list_post/@item.News.ChildCategory.slug" class="me-2 category_sidebar_url">@item.News.ChildCategory.name</a><a href="/post/@item.News.slug"><img class="img_related_post" src="@item.News.image2" alt="@item.News.slug"></a></div>
+                                <a href="/post/@item.News.slug" class="post-url-side-bar">
+                                    @item.News.news_title
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        <!--end::Row-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::section-->
 <!--begin::rating product-->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -55,8 +1121,1160 @@
                         <i id="rate4" onmouseout="CRateOut(4)" onmouseover="CRateOver(4)" onclick="CRateClick(4)" class="fa fa-star-o" aria-hidden="true"></i>
                         <i id="rate5" onmouseout="CRateOut(5)" onmouseover="CRateOver(5)" onclick="CRateClick(5)" class="fa fa-star-o" aria-hidden="true"></i>
                     </div>
-                    <input hidden name="product_id" class="form-control" value="" id="ProD_ID">
-                    <input hidden name="genre_id" class="form-control" value="" id="Genre_ID">
+                    <input hidden name="product_id" class="form-control" value="@Model.product_id" id="ProD_ID">
+                    <input hidden name="genre_id" class="form-control" value="@Model.genre_id" id="Genre_ID">
+                    <input hidden name="rate_star" class="form-control" id="lblRating">
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Nội dung đánh giá:</label>
+                        <textarea disabled maxlength="200" rows="3" placeholder="Viết đánh giá của bạn tại đây" class="form-control form-control-solid cursor-disable write_content_fb" name="description" id="FBk_Content"></textarea>
+                        <div id="the-count">
+                            <span id="dcript_content_fb" class="me-2 font_roboto_medium" style="color:red;">Chọn mức sao đánh giá</span>
+                            <span id="current">0</span>
+                            <span id="maximum">/ 200</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <input disabled type="file" name="UploadImageMultiple" hidden class="uploadimgcheck" accept=".jpg,.jpeg,.png" id="uploadimgrate" multiple onchange="preview()" />
+                            <label class="btn_uploadimgrating" for="uploadimgrate">Thêm ảnh</label>
+                            <span class="text-danger show_error_limit_img font_roboto_medium fs-14px"></span>
+                            <div class="preimg_rate d-flex" id="pre_img_rate"></div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center mt-55px">
+                        <button id="ConfirmAdd" disabled class="btn btn-primary">Gửi đánh giá</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::rating product-->
+@model DoAn_LapTrinhWeb.DTOs.ProductDTOs
+@using DoAn_LapTrinhWeb.Common
+@using DoAn_LapTrinhWeb.Common.Helpers
+@{
+    ViewBag.Title = Model.product_name;
+    ViewBag.ImageURL = Model.Image;
+    ViewBag.Keyword = Model.product_name;
+    ViewBag.Decription = Model.seo_title;
+    ViewBag.Tag = Model.seo_title;
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+    <!--relatedproduct | path: "action ProductDetail" - controller"Products"-->
+    //=>hiển thị sản phẩm liên quan
+    var relatedproduct = (List<DoAn_LapTrinhWeb.Models.Product>)ViewBag.relatedproduct;
+    //=>bài viết sản phẩm
+    var newsproducts = (List<DoAn_LapTrinhWeb.Models.NewsProducts>)ViewBag.newsproducts;
+    //=>đánh giá sản phẩm
+    var feedbackproduct = (List<DoAn_LapTrinhWeb.Model.Feedback>)ViewBag.feedbackproduct;
+    //đánh gái trung bình
+    var AvgFeedback = (List<DoAn_LapTrinhWeb.Model.Feedback>)ViewBag.AvgFeedback;
+    //đánh giá trung bình của sản phẩm liên quan
+    var AvgFeedback_related = (List<DoAn_LapTrinhWeb.Model.Feedback>)ViewBag.AvgFeedback_related;
+    //=>check orderfeedback để tính trung bình sao
+    var OrderFeedback = (List<DoAn_LapTrinhWeb.Model.Order_Detail>)ViewBag.OrderFeedback;
+    //=>ảnh feedback
+    var feedbackimages = (List<DoAn_LapTrinhWeb.Model.Feedback_Image>)ViewBag.feedbackimages;
+    //tài khoản feedback
+    var Accountfeedback = (List<DoAn_LapTrinhWeb.Models.Account>)ViewBag.Accountfeedback;
+    //=>hiển thị code giảm giá trong chitet16 sản phẩm
+    var CouponGlobal = (List<DoAn_LapTrinhWeb.Model.Discount>)ViewBag.CouponGlobal;
+    //phản hồi của admin
+    var replyfeedback = (List<DoAn_LapTrinhWeb.Model.Feedback>)ViewBag.replyfeedback;
+    //=>chuyển đổi tiền tệ. get dấu chấm cho giá sản phẩm
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+@section scripts{
+    <!--script xử lý phần đánh giá sản phẩm-->
+    <script src="~/Scripts/my_js/rating_product.js"></script>
+    <!--chia sẻ ảnh, bài viết, sản phẩm lên fb, instagram,...-->
+    <script src="~/Scripts/my_js/button_share_fb.js"></script>
+    <!--xử lý sự kiện thêm sản phẩm-->
+    <script src="~/Scripts/my_js/product/detail.js"></script>
+    <!--custom product images detail theo dạng slider sử dụng kèm carousel.min.js-->
+    <script src="~/Scripts/my_js/product_detail.js"></script>
+    <script src="https://unpkg.com/micromodal@0.4.6/dist/micromodal.min.js"></script>
+}
+<div class="product_detail">
+    <!--begin::Container-->
+    <div class="container margin_mobile_fixed">
+        <!--begin::Breadcrumb-->
+        <div class="breadcrumb1">
+            <ul class="breadcrumb__list">
+                <li><a href="/"><i aria-hidden="true" class="fa fa-home"></i></a> <i aria-hidden="true" class="far fa-angle-right"></i></li>
+                <li><a href="@Url.Action("Index", "Home")">Trang chủ</a> <i aria-hidden="true" class="far fa-angle-right"></i></li>
+                <li><a href="/category/@Model.parent_genre_slug">@Model.parent_genre_name</a> <i aria-hidden="true" class="far fa-angle-right"></i></li>
+                <li class="hide_li_breadcumb"><a href="/category/@Model.genre_slug">@Model.genre_name</a> <i aria-hidden="true" class="far fa-angle-right "></i></li>
+                <li class="breadcrumb_active"><a href="">@Model.product_name</a></li>
+            </ul>
+        </div>
+        <!--end::Breadcrumb-->
+        <!--begin::Row-->
+        <div class="boderproductdetail mb-30px min-h-img_pdetail">
+            <div class="row">
+                <!--begin::Col-->
+                <div class="col-lg-5 col-md-5 h_pduct_detail">
+                    <div class="p-3">
+                        <!--begin::product detail images-->
+                        <!--"data-fslightbox" using script full sreen images | path: /Scripts/fslightbox.js -->
+                        <!--id="slider", id="thumb" |path:Scripts/my_js/product_detail.js-->
+                        <div id="slider" class="owl-carousel product-slider">
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.Image != null)
+                                {
+                                    <a data-fslightbox href="@Model.Image">
+                                        <img src="@Model.Image" />
+                                    </a>
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_1 != null)
+                                {
+                                    <a data-fslightbox href="@Model.image_1">
+                                        <img src="@Model.image_1" />
+                                    </a>
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_2 != null)
+                                {
+                                    <a data-fslightbox href="@Model.image_2">
+                                        <img src="@Model.image_2" />
+                                    </a>
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_3 != null)
+                                {
+                                    <a data-fslightbox href="@Model.image_3">
+                                        <img src="@Model.image_3" />
+                                    </a>
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_4 != null)
+                                {
+                                    <a data-fslightbox href="@Model.image_4">
+                                        <img src="@Model.image_4" />
+                                    </a>
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_5 != null)
+                                {
+                                    <a data-fslightbox href="@Model.image_5">
+                                        <img src="@Model.image_5" />
+                                    </a>
+                                }
+                            </div>
+                            <!--end::Pic-->
+                        </div>
+                        <!--begin::thumbnail carousel slider-->
+                        <div id="thumb" class="owl-carousel product-thumb ">
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.Image != null)
+                                {
+                                    <img src="@Model.Image" />
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_1 != null)
+                                {
+                                    <img src="@Model.image_1" />
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_2 != null)
+                                {
+                                    <img src="@Model.image_2" />
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_3 != null)
+                                {
+                                    <img src="@Model.image_3" />
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_4 != null)
+                                {
+                                    <img src="@Model.image_4" />
+                                }
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Pic-->
+                            <div class="item">
+                                @if (Model.image_5 != null)
+                                {
+                                    <img src="@Model.image_5" />
+                                }
+                            </div>
+                            <!--end::Pic-->
+                        </div>
+                        <!--end::thumbnail carousel slider-->
+                        <!--end::product detail images-->
+                    </div>
+                </div>
+                <!--begin::Col-->
+                <div class="col-lg-7 col-md-7">
+                    <div class="p-3">
+                        <!--begin::Row-->
+                        <div class="row">
+                            <!--begin::Product Name-->
+                            <div class="product-heading">
+                                <p class="name_product_detail">@Model.product_name </p>
+                            </div>
+                            <!--end::Product Name-->
+                            <!--begin::Product ID-->
+                            <div class="d-flex brand_sku">
+                                <span>Thương hiệu:</span>
+                                <a class="brand_pdtdetail" href="/brand/@Model.brand_slug">@Model.brand_name<span class="spacing_word"></span></a>
+                                <span class="">Mã SP: @Model.product_id</span><br>
+                            </div>
+                            <!--end::Product ID-->
+                            <!--begin::Product Detail Price-->
+                            <div class="price_product_detail">
+                                @if (Model.discount_start < DateTime.Now && Model.discount_end > DateTime.Now && Model.discount_status.Trim() == "1")
+                                {
+                                    <span class="old_price_detail">@Model.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                    <span class="new_price_detail">@((Model.price - Model.discount_price).ToString("#,###₫", culture.NumberFormat))</span><span class="text-success ms-1 fs-14px">-@((((Model.price)/(Model.price))-((Model.price-Model.discount_price)/(Model.price))).ToString("0.00%"))</span>
+                                }
+                                else
+                                {
+                                    <span class="new_price_detail">@Model.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                }
+                                <br />
+                                <!--begin::Product Star-->
+                                @{ double onestar = 1; int c_onestar = 0; double truestar = 2; int c_truestar = 0;
+                                    double threestar = 3; int c_threestar = 0; ; double fourstar = 4; int c_fourstar = 0;
+                                    double fivestar = 5; int c_fivestar = 0; int totalrating = 0; double avg1 = 0;
+                                    foreach (var item in AvgFeedback)
+                                    {
+                                        foreach (var orderitem in OrderFeedback)
+                                        {
+                                            if (orderitem.product_id == item.product_id && item.product_id == Model.product_id && item.status == "2" && item.parent_feedback_id == 0)
+                                            {
+                                                totalrating++;
+                                                if (item.rate_star == 1)
+                                                {
+                                                    c_onestar++;
+                                                }
+                                                if (item.rate_star == 2)
+                                                {
+                                                    c_truestar++;
+                                                }
+                                                if (item.rate_star == 3)
+                                                {
+                                                    c_threestar++;
+                                                }
+                                                if (item.rate_star == 4)
+                                                {
+                                                    c_fourstar++;
+                                                }
+                                                if (item.rate_star == 5)
+                                                {
+                                                    c_fivestar++;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    avg1 = (onestar * c_onestar / totalrating) + (truestar * c_truestar / totalrating) + (threestar * c_threestar / totalrating) + (fourstar * c_fourstar / totalrating) + (fivestar * c_fivestar / totalrating);
+                                    if (avg1 >= 1 && avg1 < 2)
+                                    {
+                                        <span class="rating me-2">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 5; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </span>
+                                    }
+                                    else if ((avg1 >= 2) && (avg1 < 3))
+                                    {
+                                        <span class="rating me-2">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 4; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </span>
+                                    }
+                                    else if ((avg1 >= 3) && (avg1 < 4))
+                                    {
+                                        <span class="rating me-2">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 3; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </span>
+                                    }
+                                    else if ((avg1 >= 4) && (avg1 < 5))
+                                    {
+                                        <span class="rating me-2">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            @for (int i = 1; i < 2; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </span>
+                                    }
+                                    else if (avg1 == 5)
+                                    {
+                                        <span class="rating me-2">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            }
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="rating me-2">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            }
+                                        </span>
+                                    }
+                                }
+                                <!--begin::Product Star-->
+                                <span class="review">(@ViewBag.CountFeedback Đánh giá)</span>
+                            </div>
+                            <!--begin::Discount-->
+                            <div class="col-lg-12 col-xl-10">
+                                <div class="pro-special-offer-container">
+                                    <div class="spec-title d-flex align-items-center justify-content-between">
+                                        <div class="spec-price font-weight-bold">
+                                            KHUYẾN MÃI
+                                        </div>
+                                    </div>
+                                    <ul class="ul">
+                                        @if (ViewBag.CheckExistBannerDetail != null || CouponGlobal.Count > 0)
+                                        {
+                                            foreach (var banner_detail in ViewBag.BannerDetail)
+                                            {
+                                                foreach (var banner in ViewBag.Banner)
+                                                {
+                                                    if (banner.banner_id == banner_detail.banner_id)
+                                                    {
+                                                        <li>
+                                                            <span class="text">
+                                                                @if (banner.description == null || banner.description == "")
+                                                                {
+                                                                    <span>@banner.banner_name - <a class="font_roboto_medium text-danger" href="/promo/@banner.slug">Xem chi tiết</a></span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span> @banner.description - <a class="font_roboto_medium text-danger" href="/promo/@banner.slug">Xem chi tiết</a></span>
+                                                                }
+                                                            </span>
+                                                        </li>
+
+                                                    }
+                                                }
+                                            }
+                                            foreach (var coupon in CouponGlobal)
+                                            {
+                                                if (coupon.discounts_type == 3)
+                                                {
+                                                    <li class="d-flex fs-14px">
+                                                        <span class="material-icons fs-6px me-1 position-relative mt-1"> circle </span><span class="text">Nhập mã <span class="font_roboto_medium">@coupon.discounts_code</span> giảm @coupon.discount_price% tối đa <span class="text-website font_roboto_medium">@coupon.discount_max.ToString("#,###₫", culture.NumberFormat)</span> - @coupon.discount_name, áp dụng đến @coupon.discount_end.ToString("dd/MM/yyyy") </span>
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    <li class="d-flex fs-14px">
+                                                        <span class="material-icons fs-6px me-1 position-relative mt-1"> circle </span><span class="text">Nhập mã <span class="font_roboto_medium">@coupon.discounts_code</span> giảm ngay <span class="text-website font_roboto_medium">@coupon.discount_price.ToString("#,###₫", culture.NumberFormat)</span> - @coupon.discount_name, áp dụng đến @coupon.discount_end.ToString("dd/MM/yyyy") </span>
+                                                    </li>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                <span class="text">Không có khuyễn mãi</span>
+                                            </li>
+                                        }
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--end::Discount-->
+                            <!--begin::Detail Content-->
+                            <div class="detail-contant">
+                                <!--begin::Quantity-->
+                                <div>
+                                    @if (Model.quantity.Trim() == "4" || Model.quantity.Trim() == "5" || Model.quantity.Trim() == "6" || Model.quantity.Trim() == "7" || Model.quantity.Trim() == "8" || Model.quantity.Trim() == "9" || Model.quantity.Trim() == "10")
+                                    {
+                                        <p class="status_stock"><span class="status status2"><i aria-hidden="true" class="fa fa-circle"></i>Còn ít</span></p>
+                                    }
+                                    else if (Model.quantity.Trim() == "3")
+                                    {
+                                        <p class="status_stock"><span class="status status3"><i aria-hidden="true" class="fa fa-circle"></i>Còn 3 sản phẩm</span></p>
+                                    }
+                                    else if (Model.quantity.Trim() == "2")
+                                    {
+                                        <p class="status_stock"><span class="status status3"><i aria-hidden="true" class="fa fa-circle"></i>Còn 2 sản phẩm</span></p>
+                                    }
+                                    else if (Model.quantity.Trim() == "1")
+                                    {
+                                        <p class="status_stock"><span class="status status3"><i aria-hidden="true" class="fa fa-circle"></i>Còn 1 sản phẩm</span></p>
+                                    }
+                                    else if (Model.quantity.Trim() == "0") //nếu quantity = 0 thì hiển thị hết hàng
+                                    {
+                                        <p class="status_stock"><span class="status status4"><i aria-hidden="true" class="fa fa-circle"></i>Hết hàng</span></p>
+                                    }
+                                    else //ngược lại các điều kiện trên thì hiển thị còn hàng
+                                    {
+                                        <p class="status_stock"><span class="status status1"><i aria-hidden="true" class="fa fa-circle"></i>Còn hàng</span></p>
+                                    }
+                                </div>
+                                <!--end::Quantity-->
+                                <!--begin::Form-->
+                                <form class="cart" method="post" action="#">
+                                    <!--nếu là quyền quản trị thì sẽ không được mua hàng, chỉ quyền người dùng mới được phép mua hàng-->
+                                    @if (Model.quantity.Trim() != "0")
+                                    {
+                                        <!--"Const.ROLE..." | path: /Common/Const.cs-->
+                                        if (User.Identity.IsAuthenticated && User.Identity.GetRole() != 1) //Const.ROLE_ADMIN_NAME chỉ là đặt tên cho role thôi,trong databasse "0" là admin "1" là user(nguòi dùng)
+                                        {
+                                            <!--begin::Add to Cart-->
+                                            <div class="quantity" style="margin-right:5px;">
+                                                <input step="0" min="0" max="@Model.quantity" name="quantity" value="0" title="Số lượng" class="input-text qty text" type="number" readonly>
+                                            </div>
+                                            //nếu bạn là admin sẽ hiển thị nút này số âm
+                                            <a class="btn bg-danger">For Users</a>
+                                            <!--end::Add to Cart-->
+                                        }
+                                        else
+                                        {
+                                            <!--begin::Add to Cart-->
+                                            //đã ràng buộc không cho nhập số âm
+                                            <div class="quantity">
+                                                <input step="1" min="1" max="@Model.quantity.Trim()" name="quantity" value="1" oninput="validity.valid || (value = '');" title="số lượng" class="input-text qty text" size="4" type="number">
+                                            </div>
+                                            //nếu bạn là user sẽ thêm được số lượng", id="btnAddToCart" | path: ~/Scripts/my_js/product/detail.js
+                                            <a id="btnAddToCart" data-id="@Model.product_id" class="btn bg-button ms-1">Thêm vào giỏ</a>
+                                            <!--end::Add to Cart-->
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <!--begin::Add to Cart-->
+                                        <div class="quantity">
+                                            <input min="0" max="0" name="quantity" value="0" title="số lượng" class="input-text qty text" size="4" type="number">
+                                        </div>
+                                        // nếu số lượng của sản phẩm = 0 sẽ hiện lên button "Liên hệ", id="btnAddToCart" | path: ~/Scripts/my_js/product/detail.js
+                                        <a class="btn btn-secondary ms-2" target="_blank" href="https://www.messenger.com/t/109633994706435/">Liên hệ</a>
+                                        <!--end::Add to Cart-->
+                                    }
+                                </form>
+                                <!--begin::Form-->
+                                <!--begin::Button Share-->
+                                <div class="share-post">
+                                    <a href="#" class="share-text">Chia sẻ:</a>
+                                    <ul class="social_icons">
+                                        <!--id="fb-share-button" | path: /Scripts/my_js/button_share_fb.js-->
+                                        <li><a href="#" id="fb-share-button"><img src="~/Images/svg/brand-logos/facebook-4.svg" class="img_button_share" /></a></li>
+                                        <li><a href="#"><img src="~/Images/svg/brand-logos/twitter.svg" class="img_button_share" /></a></li>
+                                        <li><a href="#"> <img src="~/Images/svg/brand-logos/pinterest-p.svg" class="img_button_share" /></a></li>
+                                        <li><a href="#"><img src="~/Images/svg/brand-logos/github.svg" class="img_button_share" /></a></li>
+                                    </ul>
+                                </div>
+                                <!--end::Button Share-->
+                            </div>
+                            <!--end::Detail Content-->
+                        </div>
+                        <!--end::Row-->
+                    </div>
+                </div>
+            </div>
+            <!--end:Row-->
+            <!--end product-->
+        </div>
+        <!--end::Row-->
+        <!--begin::View Product decription-->
+        <div class="modal fade popup_detail_desc" id="popupmodal_detail_decription" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <!--begin::Modal Content-->
+                <div class="modal-content">
+                    <!--begin::Modal Header-->
+                    <div class="modal-header">
+                        <p class="modal-title center h6" id="exampleModalLongTitle">Mô tả sản phẩm: @Model.product_name</p>
+                        <a href="#" class="close bg-transparent" data-dismiss="modal" aria-label="Close">
+                            <span class="material-icons" aria-hidden="true">close</span>
+                        </a>
+                    </div>
+                    <!--end::Modal Header-->
+                    <div class="modal-body detail_decs_product">
+                        @Html.Raw(Model.description)
+                    </div>
+                    <!--begin::Modal Footer-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                    </div>
+                    <!--begin::Modal Footer-->
+                </div>
+                <!--end::Modal Content-->
+            </div>
+        </div>
+        <!--end::View Product decription-->
+        <!--begin::Row-->
+        <div class="boderproductdetail">
+            <div class="row pb-3">
+                <div class="col-md-12">
+                    <div class="pd_productdetail">
+                        <div class="full">
+                            <!--begin::Tab Bars-->
+                            <div class="tab_bar_section">
+                                <!--begin::Nav Tabs-->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <!--begin::Nav Item-->
+                                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#description">Mô tả sản phẩm</a> </li>
+                                    <li class="nav-item"> <a class="nav-link " data-toggle="tab" href="#specs">Thông số kĩ thuật</a> </li>
+                                    <!--end::Nav Item-->
+                                </ul>
+                                <!--end::Nav Tabs-->
+                                <!--begin::Tab Content-->
+                                <div class="tab-content">
+                                    <!--begin::Tab Panel-->
+                                    <div id="description" class="tab-pane active">
+                                        @if (Model.description == "" || Model.description == null)
+                                        {
+                                            <div>Đang cập nhật</div>
+                                        }
+                                        else
+                                        {
+                                            <!--begin::Decription-->
+                                            <div class="product_desc" style="padding:0 4rem;">
+                                                @Html.Raw(Model.description)
+                                            </div>
+                                            <!--end::Decription-->
+                                            <div class="bg-article"></div>
+                                            <!--begin::View More Decription-->
+                                            <a href="#" data-toggle="modal" data-target="#popupmodal_detail_decription">
+                                                <span class="btn-detail btn-short-spec not-have-instruction d-flex center btn_detail_decription">
+                                                    <span style="font-family: Roboto-Regular;margin-top: 7px;">Xem thêm nội dung</span><span class="material-icons">keyboard_arrow_down</span>
+                                                </span>
+                                            </a>
+                                            <!--end::View More Decription-->
+                                        }
+                                    </div>
+                                    <!--end::Tab Panel-->
+                                    <!--begin::Tab Panel-->
+                                    <div id="specs" class="tab-pane fade">
+                                        <div id="specs" class="tab-pane ">
+                                            @if (Model.specification == "" || Model.specification == null)
+                                            {
+                                                <div>Đang cập nhật</div>
+                                            }
+                                            else
+                                            {
+                                                <!--begin::Spectification-->
+                                                <div class="product_spec center mt-3">
+                                                    @Html.Raw(Model.specification)
+                                                </div>
+                                                <!--end::Spectification-->
+                                            }
+                                        </div>
+                                    </div>
+                                    <!--end::Tab Panel-->
+                                </div>
+                                <!--end::Tab Content-->
+                            </div>
+                            <!--end::Tab Bars-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Row-->
+        <!--begin::Row-->
+        <div class="boderproductdetail">
+            <div class="row pb-3">
+                <div class="col-md-12">
+                    <div class="pd_productdetail">
+                        <div class="full">
+                            <!--begin::Tab Bars-->
+                            <div class="tab_bar_section">
+                                <!--begin::Nav Tabs-->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <!--begin::Nav Item-->
+                                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#reviews">Đánh giá (@ViewBag.CountFeedback)</a> </li>
+                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#comment_product">Bình luận</a> </li>
+                                    <!--end::Nav Item-->
+                                </ul>
+                                <!--end::Nav Tabs-->
+                                <!--begin::Tab Content-->
+                                <div class="tab-content">
+                                    <!--begin::Tab Panel-->
+                                    <div id="reviews" class="tab-pane active ">
+                                        <div class="row">
+                                            <!--begin::Product Review-->
+                                            <div class="product_review col-lg-7">
+                                                <h3 class="mb-1">Đánh giá (@ViewBag.CountFeedback)</h3>
+                                                @foreach (var fb in feedbackproduct)
+                                                {
+                                                    if (fb.product_id == Model.product_id)
+                                                    {
+                                                        foreach (var ac in Accountfeedback)
+                                                        {
+                                                            if (ac.account_id == fb.account_id && fb.status == "2")
+                                                            {
+                                                                <!--begin::Row-->
+                                                                <div class="commant-text">
+                                                                    <div>
+                                                                        <!--begin::User Name-->
+                                                                        <span class="font_roboto_medium">@ac.Name</span>
+                                                                        <!--end::User Name-->
+
+                                                                        @{ string fbconfirm = "";
+                                                                            string verify = "";
+                                                                            foreach (var odt in OrderFeedback)
+                                                                            {
+                                                                                if (odt.Order.account_id == fb.account_id && odt.product_id == fb.product_id && odt.Order.status == "3")
+                                                                                {
+                                                                                    fbconfirm = "Đã mua tại NVT";
+                                                                                    verify = "verified";
+                                                                                }
+                                                                            }
+                                                                            <span class="fs-14px text-success"><span class="material-icons fs-14px">@verify</span><span>@fbconfirm</span></span>
+                                                                        }
+                                                                        <!--begin:Rating Star-->
+                                                                        <span class="rating">
+                                                                            @if (fb.rate_star == 0)
+                                                                            {
+                                                                                for (int i = 1; i <= 5; i++)
+                                                                                {
+                                                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                                                }
+                                                                            }
+                                                                            else if (fb.rate_star == 1)
+                                                                            {
+                                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                                                for (int i = 1; i <= 4; i++)
+                                                                                {
+                                                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                                                }
+                                                                            }
+                                                                            else if (fb.rate_star == 2)
+                                                                            {
+                                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                                                for (int i = 1; i <= 3; i++)
+                                                                                {
+                                                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                                                }
+                                                                            }
+                                                                            else if (fb.rate_star == 3)
+                                                                            {
+                                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                                            }
+                                                                            else if (fb.rate_star == 4)
+                                                                            {
+                                                                                for (int i = 1; i <= 4; i++)
+                                                                                {
+                                                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                                                }
+                                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                                            }
+                                                                            else if (fb.rate_star == 5)
+                                                                            {
+                                                                                for (int i = 1; i <= 5; i++)
+                                                                                {
+                                                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                                                }
+                                                                            }
+                                                                        </span>
+                                                                        <!--end:Rating Star-->
+                                                                        <!--begin::Feedback Content-->
+                                                                        <p class="msg">
+                                                                            @fb.description
+                                                                        </p>
+                                                                        <!--end::Feedback Content-->
+                                                                        @foreach (var fbimg in feedbackimages)
+                                                                        {
+                                                                            if (fbimg.feedback_id == fb.feedback_id && fbimg.image != "/Images/ImagesCollection/no-image-available.png")
+                                                                            {
+                                                                                <a data-fslightbox href="@fbimg.image">
+                                                                                    <img src="@fbimg.image" class="img_fb_product" />
+                                                                                </a>
+                                                                            }
+                                                                        }
+                                                                        <!--begin::Feedback Date-->
+                                                                        <div class="fs-12px text-muted">@fb.create_at.ToString("dd-MM-yyyy HH:mm")</div>
+                                                                        <!--end::Feedback Date-->
+                                                                    </div>
+                                                                    @foreach (var reply in replyfeedback)
+                                                                    {
+                                                                        if (reply.parent_feedback_id == fb.feedback_id)
+                                                                        {
+                                                                            <div class="bg-reply-fb">
+                                                                                <div>
+                                                                                    <span class="font_roboto_medium">@reply.Account.Name</span>
+                                                                                    @if (reply.Account.role_id != 1)
+                                                                                    {
+                                                                                        <span class="fs-12px fb-role-color ms-1">@reply.Account.Roles.role_name</span>
+                                                                                    }
+                                                                                </div>
+                                                                                <p class="msg" style="margin-top:unset!important">
+                                                                                    @reply.description
+                                                                                </p>
+                                                                                <div class="fs-12px text-muted">@reply.create_at.ToString("dd-MM-yyyy HH:mm")</div>
+                                                                            </div>
+                                                                        }
+                                                                    }
+                                                                </div>
+                                                                <!--end::Row-->
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                            <!--begin::Row-->
+                                            <div class="col-lg-5 mt-bg--add-rating">
+                                                @{ double onestar1 = 1; int c_ontstar1 = 0; double truestar1 = 2; int c_truestar1 = 0;
+                                                    double threestar1 = 3; int c_threestar1 = 0; ; double fourstar1 = 4; int c_fourstar1 = 0;
+                                                    double fivestar1 = 5; int c_fivestar1 = 0; int totalrating1 = 0; double avg2 = 0;
+                                                    foreach (var item in AvgFeedback)
+                                                    {
+                                                        foreach (var orderitem in OrderFeedback)
+                                                        {
+                                                            if (orderitem.product_id == item.product_id && item.product_id == Model.product_id && item.status == "2" && item.parent_feedback_id == 0)
+                                                            {
+                                                                totalrating1++;
+                                                                if (item.rate_star == 1)
+                                                                {
+                                                                    c_ontstar1++;
+                                                                }
+                                                                if (item.rate_star == 2)
+                                                                {
+                                                                    c_truestar1++;
+                                                                }
+                                                                if (item.rate_star == 3)
+                                                                {
+                                                                    c_threestar1++;
+                                                                }
+                                                                if (item.rate_star == 4)
+                                                                {
+                                                                    c_fourstar1++;
+                                                                }
+                                                                if (item.rate_star == 5)
+                                                                {
+                                                                    c_fivestar1++;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    avg2 = (onestar1 * c_ontstar1 / totalrating1) + (truestar1 * c_truestar1 / totalrating1) + (threestar1 * c_threestar1 / totalrating1) + (fourstar1 * c_fourstar1 / totalrating1) + (fivestar1 * c_fivestar1 / totalrating1);
+                                                    <div class="d-flex justify-content-center avg_feedback">
+                                                        @if (ViewBag.CountFeedback == 0)
+                                                        {
+                                                            <span>0.0</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>
+                                                                @string.Format("{0:0.0}", (avg2))
+                                                            </span>
+                                                        }
+                                                    </div>
+                                                    if (avg2 >= 1 && avg2 < 2)
+                                                    {
+                                                        <div class="rating d-flex justify-content-center">
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            @for (int i = 1; i < 5; i++)
+                                                            {
+                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    else if (avg2 >= 2 && avg2 < 3)
+                                                    {
+                                                        <div class="rating d-flex justify-content-center">
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            @for (int i = 1; i < 4; i++)
+                                                            {
+                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    else if (avg2 >= 3 && avg2 < 4)
+                                                    {
+                                                        <div class="rating d-flex justify-content-center">
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            @for (int i = 1; i < 3; i++)
+                                                            {
+                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    else if (avg2 >= 4 && avg2 < 5)
+                                                    {
+                                                        <div class="rating d-flex justify-content-center">
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                            @for (int i = 1; i < 2; i++)
+                                                            {
+                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    else if (avg2 == 5)
+                                                    {
+                                                        <div class="rating d-flex justify-content-center">
+                                                            @for (int i = 1; i <= 5; i++)
+                                                            {
+                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="rating d-flex justify-content-center">
+                                                            @for (int i = 1; i <= 5; i++)
+                                                            {
+                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    <div class="d-flex justify-content-center fs-14px text-muted">(@ViewBag.CountFeedback lượt đánh giá)</div>
+                                                }
+                                                <div class="full review_bt_section d-flex justify-content-center">
+                                                    @if (User.Identity.IsAuthenticated)
+                                                    {
+                                                        if (User.Identity.GetRole() == 1)
+                                                        {
+                                                            if (ViewBag.CheckEditOrder > 0)
+                                                            {
+                                                                if (ViewBag.CheckExistFb == 0)
+                                                                {
+                                                                    <button class="btn bg-button" id="button_add_rating">Thêm đánh giá</button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button class="btn bg-danger" disabled>Đã đánh giá</button>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <div>
+                                                                    <div class="center">
+                                                                        <button class="btn bg-button cursor-disable" disabled>Thêm đánh giá</button>
+                                                                    </div>
+                                                                    <div class="text-danger center mt-1">(Hoàn tất đơn hàng chứa sản phẩm này để đánh giá)</div>
+                                                                </div>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <button class="btn bg-danger" disabled>For User</button>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="btn bg-button rating_login">Thêm đánh giá</button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end::Row-->
+                                        <!--end::Product Review-->
+                                    </div>
+                                    <!--end::Tab Panel-->
+                                    <!--begin::Tab Panel-->
+                                    <div id="comment_product" class="tab-pane fade">
+                                        <div class="fb-comments" data-href="https://localhost:44336/product/@Model.slug" data-width="" data-numposts="5"></div>
+                                    </div>
+                                    <!--end::Tab Panel-->
+                                </div>
+                                <!--end::Tab Content-->
+                            </div>
+                            <!--end::Tab Bars-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Row-->
+        @if (relatedproduct.Count > 0)
+        {
+            <!--begin::Row-->
+            <div class="boderproductdetail">
+                <div class="pd_productdetail">
+                    <!--begin:Row-->
+                    <div class="row">
+                        <!--begin::Col-->
+                        <div class="col-12">
+                            <div class="full">
+                                <!--begin:Title Head-->
+                                <div class="main_heading related_product_heading">
+                                    <p class="h4">Xem thêm sản phẩm cùng dòng @Model.genre_name</p>
+                                </div>
+                                <!--end:Title Head-->
+                            </div>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end:Row-->
+                    <div class="row">
+                        @foreach (var item in relatedproduct)//hiển thị những sản phẩm liên quan
+                        {
+                            <!--begin::Col-->
+                            <div class="col-md-3 col-lg-3 col-sm-6 col-6">
+                                <!--begin::Product List-->
+                                <div class="product_list">
+                                    <a href="/product/@item.slug">
+                                        @*href bạn có thể thay bằng href="@Url.Action("Productdetail", "Products", new { id = @item.product_id })"*@
+                                        <div class="product_img"> <img class="img-responsive" src="@item.image" alt="@item.product_name"></div>
+                                        <div class="product_detail_btm">
+                                            <!--begin::Product Name-->
+                                            <div class="center">
+                                                <p class="limitlinetext color_text_primary">@item.product_name</p>
+                                            </div>
+                                            <!--end::Product Name-->
+                                        </div>
+                                    </a>
+                                    <div class="product_detail_btm">
+                                        @{ double onestar_1 = 1; int c_onetstar_1 = 0; double truestar_1 = 2; int c_truestar_1 = 0;
+                                            double threestar_1 = 3; int c_threestar_1 = 0; ; double fourstar_1 = 4; int c_fourstar_1 = 0;
+                                            double fivestar_1 = 5; int c_fivestar_1 = 0; int totalrating_1 = 0; double avg3 = 0;
+                                            foreach (var avg in AvgFeedback_related)
+                                            {
+                                                if (avg.product_id == item.product_id && avg.status == "2" && avg.parent_feedback_id == 0)
+                                                {
+                                                    totalrating_1++;
+                                                    if (avg.rate_star == 1)
+                                                    {
+                                                        c_onetstar_1++;
+                                                    }
+                                                    if (avg.rate_star == 2)
+                                                    {
+                                                        c_truestar_1++;
+                                                    }
+                                                    if (avg.rate_star == 3)
+                                                    {
+                                                        c_threestar_1++;
+                                                    }
+                                                    if (avg.rate_star == 4)
+                                                    {
+                                                        c_fourstar_1++;
+                                                    }
+                                                    if (avg.rate_star == 5)
+                                                    {
+                                                        c_fivestar_1++;
+                                                    }
+                                                }
+                                            }
+                                            avg3 = (onestar_1 * c_onetstar_1 / totalrating_1) + (truestar_1 * c_truestar_1 / totalrating_1) +
+                                            (threestar_1 * c_threestar_1 / totalrating_1) + (fourstar_1 * c_fourstar_1 / totalrating_1) +
+                                            (fivestar_1 * c_fivestar_1 / totalrating_1);
+                                            if (avg3 >= 1 && avg3 < 2)
+                                            {
+                                                <div class="starratin">
+                                                    <div class="center">
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        @for (int i = 1; i < 5; i++)
+                                                        {
+                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            else if (avg3 >= 2 && avg3 < 3)
+                                            {
+                                                <div class="starratin">
+                                                    <div class="center">
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        @for (int i = 1; i < 4; i++)
+                                                        {
+                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            else if (avg3 >= 3 && avg3 < 4)
+                                            {
+                                                <div class="starratin">
+                                                    <div class="center">
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        @for (int i = 1; i < 3; i++)
+                                                        {
+                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            else if (avg3 >= 4 && avg3 < 5)
+                                            {
+                                                <span class="rating me-2">
+
+                                                </span>
+                                                <div class="starratin">
+                                                    <div class="center">
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        @for (int i = 1; i < 2; i++)
+                                                        {
+                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            else if (avg3 == 5)
+                                            {
+                                                <div class="starratin">
+                                                    <div class="center">
+                                                        @for (int i = 1; i <= 5; i++)
+                                                        {
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="starratin">
+                                                    <div class="center">
+                                                        @for (int i = 1; i <= 5; i++)
+                                                        {
+                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                        <!--begin::Product Price-->
+                                        <div class="product_price">
+                                            <p>
+                                                @if (item.Discount != null)
+                                                {
+                                                    if ((item.Discount.discount_start < DateTime.Now && item.Discount.discount_end >= DateTime.Now) && item.Discount.status.Trim() == "1")//nếu ngày giảm giá bé hơn ngày hiện tài và ngày kết thúc phải lớn hơn hoặc bằng ngày hiện tại
+                                                    {
+                                                        <span class="old_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span> <span class="new_price">@((item.price - item.Discount.discount_price).ToString("#,###₫", culture.NumberFormat))</span>//hiển thị giá sau khi trừ khhuyến mãi
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                                }
+                                            </p>
+                                        </div>
+                                        <!--end::Product Price-->
+                                    </div>
+                                </div>
+                                <!--end::Product List-->
+                            </div>
+                            <!--end::Col-->
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        @if (newsproducts.Count > 0)
+        {
+            <div class="boderproductdetail">
+                <div class="p-3">
+                    <!--begin:Row-->
+                    <div class="row">
+                        <!--begin::Col-->
+                        <div class="col-md-12">
+                            <div class="full">
+                                <!--begin:Title Head-->
+                                <div class="main_heading related_product_heading">
+                                    <p class="h4">Bài viết liên quan</p>
+                                </div>
+                                <!--end:Title Head-->
+                            </div>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <div class="row">
+                        <!--end:Row-->
+                        @foreach (var item in newsproducts)
+                        {
+                            <div class="col-md-3 col-lg-3 col-sm-6 col-6 product_related_post">
+                                <div><a href="/news/list_post/@item.News.ChildCategory.slug" class="me-2 category_sidebar_url">@item.News.ChildCategory.name</a><a href="/post/@item.News.slug"><img class="img_related_post" src="@item.News.image2" alt="@item.News.slug"></a></div>
+                                <a href="/post/@item.News.slug" class="post-url-side-bar">
+                                    @item.News.news_title
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        <!--end::Row-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::section-->
+<!--begin::rating product-->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title h5 font_roboto_medium" id="exampleModalLongTitle">Đánh giá sản phẩm</h5>
+                <button type="button" class="close" id="modelclose" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="RatingFromData" method="post" enctype="multipart/form-data" onsubmit="AjaxPost(this)">
+                    <div onmouseout="CRateSelected()" class="star_ratingfb">
+                        <i id="rate1" onmouseout="CRateOut(1)" onmouseover="CRateOver(1)" onclick="CRateClick(1)" class="fa fa-star-o" aria-hidden="true"></i>
+                        <i id="rate2" onmouseout="CRateOut(2)" onmouseover="CRateOver(2)" onclick="CRateClick(2)" class="fa fa-star-o" aria-hidden="true"></i>
+                        <i id="rate3" onmouseout="CRateOut(3)" onmouseover="CRateOver(3)" onclick="CRateClick(3)" class="fa fa-star-o" aria-hidden="true"></i>
+                        <i id="rate4" onmouseout="CRateOut(4)" onmouseover="CRateOver(4)" onclick="CRateClick(4)" class="fa fa-star-o" aria-hidden="true"></i>
+                        <i id="rate5" onmouseout="CRateOut(5)" onmouseover="CRateOver(5)" onclick="CRateClick(5)" class="fa fa-star-o" aria-hidden="true"></i>
+                    </div>
+                    <input hidden name="product_id" class="form-control" value="@Model.product_id" id="ProD_ID">
+                    <input hidden name="genre_id" class="form-control" value="@Model.genre_id" id="Genre_ID">
                     <input hidden name="rate_star" class="form-control" id="lblRating">
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Nội dung đánh giá:</label>
