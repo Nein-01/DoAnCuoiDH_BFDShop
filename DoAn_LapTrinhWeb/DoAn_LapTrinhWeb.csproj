@@ -224,6 +224,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Common\AccountEmail.cs" />
     <Compile Include="Common\Library\ModelNotification.cs" />
     <Compile Include="Common\Library\Notification.cs" />
@@ -6133,6 +6135,9 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\admin_js\ckfinder\plugins\fileeditor\codemirror\LICENSE" />
     <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\LayoutAdmin.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_MessageAlert.cshtml" />
     <None Include="bin\DoAn_LapTrinhWeb.dll.config" />
     <Content Include="bin\roslyn\csc.exe.config" />
     <Content Include="bin\roslyn\csc.rsp" />
@@ -6381,7 +6386,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Images\FeedbackImages\" />
     <Folder Include="Images\flash\" />
     <Folder Include="Images\ImagesAccessory\" />
