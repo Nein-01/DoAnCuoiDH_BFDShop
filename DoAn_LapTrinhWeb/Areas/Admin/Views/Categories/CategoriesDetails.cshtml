@@ -1,0 +1,293 @@
+﻿@model DoAn_LapTrinhWeb.Models.ParentCategory
+@{
+    ViewBag.Title = "Chi tiết danh mục cha";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Toolbar-->
+    <div class="toolbar" id="kt_toolbar">
+        <!--begin::Container-->
+        <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+            <!--begin::Page title-->
+            <div data-kt-place="true" data-kt-place-mode="prepend" data-kt-place-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center me-3 flex-wrap mb-5 mb-lg-0 lh-1">
+                <!--begin::Title-->
+                <h1 class="d-flex align-items-center text-dark fw-bolder my-1 fs-3">Thông tin danh mục</h1>
+                <!--end::Title-->
+                <!--begin::Separator-->
+                <span class="h-20px border-gray-200 border-start mx-4"></span>
+                <!--end::Separator-->
+                <!--begin::Breadcrumb-->
+                <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">
+                        <a href="@Url.Action("Index", "Dashboard")" class="text-muted text-hover-primary">Bảng điều khiển</a>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">Quản lý bài viết</li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">
+                        <a href="@Url.Action("CategoryIndex", "Categories")" class="text-muted text-hover-primary">Danh sách danh mục</a>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-dark">Thông tin danh mục</li>
+                    <!--end::Item-->
+                </ul>
+                <!--end::Breadcrumb-->
+            </div>
+            <!--end::Page title-->
+            <!--begin::Actions-->
+            <div class="d-flex align-items-center py-1">
+                <!--begin::Button-->
+                <a onclick="window.history.go(-1)" class="btn btn-sm btn-primary ms-2">
+                    <span class="svg-icon svg-icon-2">
+                        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21.4451171,17.7910156 C21.4451171,16.9707031 21.6208984,13.7333984 19.0671874,11.1650391 C17.3484374,9.43652344 14.7761718,9.13671875 11.6999999,9 L11.6999999,4.69307548 C11.6999999,4.27886191 11.3642135,3.94307548 10.9499999,3.94307548 C10.7636897,3.94307548 10.584049,4.01242035 10.4460626,4.13760526 L3.30599678,10.6152626 C2.99921905,10.8935795 2.976147,11.3678924 3.2544639,11.6746702 C3.26907199,11.6907721 3.28437331,11.7062312 3.30032452,11.7210037 L10.4403903,18.333467 C10.7442966,18.6149166 11.2188212,18.596712 11.5002708,18.2928057 C11.628669,18.1541628 11.6999999,17.9721616 11.6999999,17.7831961 L11.6999999,13.5 C13.6531249,13.5537109 15.0443703,13.6779456 16.3083984,14.0800781 C18.1284272,14.6590944 19.5349747,16.3018455 20.5280411,19.0083314 L20.5280247,19.0083374 C20.6363903,19.3036749 20.9175496,19.5 21.2321404,19.5 L21.4499999,19.5 C21.4499999,19.0068359 21.4451171,18.2255859 21.4451171,17.7910156 Z" id="Shape" fill="#7e8299" fill-rule="nonzero"></path>
+                        </svg>
+                    </span>
+                    Quay về
+                </a>
+                <!--end::Button-->
+            </div>
+            <!--end::Actions-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Toolbar-->
+    <!--begin::Post-->
+    <div class="post d-flex flex-column-fluid" id="kt_post">
+        <!--begin::Container-->
+        <div id="kt_content_container" class="container">
+            <!--begin::Navbar-->
+            <div class="card mb-5 mb-xl-10">
+                <div class="card-body pt-9 pb-0">
+                    <!--begin::Details-->
+                    <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
+                        <!--begin: Pic-->
+                        <div class="me-7 mb-4">
+                            <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
+                                <img src="@Model.image" />
+                            </div>
+                        </div>
+                        <!--end::Pic-->
+                        <!--begin::Info-->
+                        <div class="flex-grow-1">
+                            <!--begin::Title-->
+                            <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
+                                <!--begin::User-->
+                                <div class="d-flex flex-column">
+                                    <!--begin::Name-->
+                                    <div class="d-flex align-items-center mb-2">
+                                        <a href="#" class="text-gray-800 text-hover-primary fs-2 fw-bolder me-1">@Model.name</a>
+                                    </div>
+                                    <!--end::Name-->
+                                </div>
+                                <!--end::User-->
+                            </div>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Info-->
+                    </div>
+                    <!--end::Details-->
+                </div>
+            </div>
+            <!--end::Navbar-->
+            <!--begin::details View-->
+            <div class="card" id="kt_profile_details_view">
+                <!--begin::Card header-->
+                <div class="card-header cursor-pointer">
+                    <!--begin::Card title-->
+                    <div class="card-title m-0">
+                        <h3 class="fw-bolder m-0">Thông tin danh mục</h3>
+                    </div>
+                    <!--end::Card title-->
+                </div>
+                <!--begin::Card header-->
+                <!--begin::Card body-->
+                <div class="card-body p-9">
+                    <!--begin::Row-->
+                    <div class="row mb-7">
+                        <!--begin::Label-->
+                        <label class="col-lg-4 fw-bold text-muted">Tên danh mục</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-8">
+                            <span class="fw-bolder fs-6 text-dark">@Model.name</span>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Row-->
+                    <!--begin::Input group-->
+                    <div class="row mb-7">
+                        <!--begin::Label-->
+                        <label class="col-lg-4 fw-bold text-muted">ID danh mục</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-8 fv-row">
+                            <span class="fw-bold fs-6">@Model.id</span>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-7">
+                        <!--begin::Label-->
+                        <label class="col-lg-4 fw-bold text-muted">Mô tả</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-8">
+                            <a id="decription" class="cursor-pointer fw-bold fs-6">Xem chi tiết mô tả</a>
+                            <!--begin::Decription-->
+                            <div id="kt_drawer_example_dismiss" class="bg-white" data-kt-drawer="true" data-kt-drawer-activate="true" data-kt-drawer-toggle="#decription" data-kt-drawer-close="#kt_drawer_example_dismiss_close" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'300px', 'md': '500px'}">
+                                <!--begin::Card-->
+                                <div class="card w-100">
+                                    <!--begin::Card header-->
+                                    <div class="card-header pe-5">
+                                        <!--begin::Title-->
+                                        <div class="card-title">
+                                            <!--begin::Decription-->
+                                            <div class="d-flex justify-content-center flex-column me-3">
+                                                <a href="#" class="fs-4 fw-bolder text-gray-900 text-hover-primary me-1 lh-1">Mô tả danh mục</a>
+                                            </div>
+                                            <!--end::Decription-->
+                                        </div>
+                                        <!--end::Title-->
+                                        <!--begin::Card toolbar-->
+                                        <div class="card-toolbar">
+                                            <!--begin::Close-->
+                                            <div class="btn btn-sm btn-icon btn-active-light-primary" id="kt_drawer_example_dismiss_close">
+                                                <!--begin::Svg Icon | path: fonts/duotone/Navigation/Close.svg-->
+                                                <span class="svg-icon svg-icon-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                        <g transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)" fill="#000000">
+                                                            <rect fill="#000000" x="0" y="7" width="16" height="2" rx="1" />
+                                                            <rect fill="#000000" opacity="0.5" transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000)" x="0" y="7" width="16" height="2" rx="1" />
+                                                        </g>
+                                                    </svg>
+                                                </span>
+                                                <!--end::Svg Icon-->
+                                            </div>
+                                            <!--end::Close-->
+                                        </div>
+                                        <!--end::Card toolbar-->
+                                    </div>
+                                    <!--end::Card header-->
+                                    <!--begin::Card body-->
+                                    <div class="card-body hover-scroll-overlay-y decription_product_detail">
+                                        @Html.Raw(Model.category_description)
+                                    </div>
+                                    <!--end::Card body-->
+                                    <!--begin::Card footer-->
+                                    <div class="card-footer">
+                                        <!--begin::Dismiss button-->
+                                        <button class="btn btn-light-danger" data-kt-drawer-dismiss="true">Đóng</button>
+                                        <!--end::Dismiss button-->
+                                    </div>
+                                    <!--end::Card footer-->
+                                </div>
+                                <!--end::Card-->
+                            </div>
+                            <!--end::Decription-->
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-7">
+                        <!--begin::Label-->
+                        <label class="col-lg-4 fw-bold text-muted">Trạng thái</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-8 fv-row">
+                            @if (Model.status == "1")
+                            {
+                                <span class="badge badge-light-success fw-bold fs-6">Hoạt động</span>
+                            }
+                            else if (Model.status == "0")
+                            {
+                                <span class="badge badge-light-danger fw-bold fs-6">Không hoạt động</span>
+                            }
+                            else if (Model.status == "2")
+                            {
+                                <span class="badge badge-light-dark fw-bold fs-6">Vô hiệu hóa</span>
+                            }
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-7">
+                        <!--begin::Label-->
+                        <label class="col-lg-4 fw-bold text-muted">Ngày tạo</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-8">
+                            <span class="fw-bolder fs-6 text-dark">@Model.create_at.ToString("dd-MM-yyyy HH:mm")</span>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-7">
+                        <!--begin::Label-->
+                        <label class="col-lg-4 fw-bold text-muted">Ngày cập nhật</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-8">
+                            <span class="fw-bolder fs-6 text-dark">@Model.update_at.ToString("dd-MM-yyyy HH:mm")</span>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-7">
+                        <!--begin::Label-->
+                        <label class="col-lg-4 fw-bold text-muted">Người tạo</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-8">
+                            <span class="fw-bolder fs-6 text-dark">@Model.create_by</span>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-7">
+                        <!--begin::Label-->
+                        <label class="col-lg-4 fw-bold text-muted">Người cập nhật</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-8">
+                            <span class="fw-bolder fs-6 text-dark">@Model.update_by</span>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                </div>
+                <!--end::Card body-->
+            </div>
+            <!--end::details View-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Post-->
+</div>
+<!--end::content-->

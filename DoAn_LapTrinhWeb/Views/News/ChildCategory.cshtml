@@ -1,0 +1,40 @@
+﻿@using PagedList
+@model IPagedList<DoAn_LapTrinhWeb.Models.ChildCategory>
+@{
+    ViewBag.Title = "Danh mục - " + ViewBag.category;
+    ViewBag.ImageURL = "/Images/ImagesCollection/tin-tuc.jpg";
+    ViewBag.Decription = "";
+    ViewBag.Tag = "Danh mục tin tức";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+}
+<div class="mt-20px margin_mobile_fixed">
+    <div class="container">
+        <div class="row boderproductdetail news_list_section">
+            <div class="news-img-head">
+                    <img src="@ViewBag.categoryimage" class="img_Newscategory" />
+                <span class="font_roboto_medium_italic">Danh mục: @ViewBag.category</span>
+            </div>
+            <!--begin::item newscategory-->
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-6 listnewscategory">
+                    <div class="blog_section">
+                        <a href="/news/list_post/@item.slug">
+                            <div class="blog_feature_img disable_scale_img"> <img class="img-responsive transition" src="@item.image" alt="#"> </div>
+                            <div class="blog_feature_cantant">
+                                <p class="blog_head d-flex justify-content-center">@item.name</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+            <!--end::item newscategory-->
+            <!--begin::pagination-->
+            <div class="center mt-20px mb-20px">
+                @Html.Partial("Pager", Model)
+            </div>
+             <!--begin::pagination-->
+        </div>
+    </div>
+</div>
+<!-- end content news -->

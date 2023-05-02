@@ -1,0 +1,483 @@
+﻿@model DoAn_LapTrinhWeb.DTOs.ProductDTOs
+@{
+    ViewBag.Title = "Chỉnh sửa sản phẩm - " + Model.product_name;
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+@section scripts{
+    <!--begin::ckeditor - ckfinder-->
+    <!--script dùng để gõ văn bản, upload ảnh-->
+    <script src="~/Scripts/admin_js/custom_ckfinder_ckeditor.js"></script>
+    <script src="~/Scripts/admin_js/custom_ckfinder_ckeditor_2.js"></script>
+    <!--end::ckeditor - ckfinder-->
+    <script src="~/Scripts/admin_js/create_product.js"></script>
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Toolbar-->
+        <div class="toolbar" id="kt_toolbar">
+            <!--begin::Container-->
+            <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+                <!--begin::Page title-->
+                <div data-kt-place="true" data-kt-place-mode="prepend" data-kt-place-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center me-3 flex-wrap mb-5 mb-lg-0 lh-1">
+                    <!--begin::Title-->
+                    <h1 class="d-flex align-items-center text-dark fw-bolder my-1 fs-3">Chỉnh sửa thông tin sản phẩm</h1>
+                    <!--end::Title-->
+                    <!--begin::Separator-->
+                    <span class="h-20px border-gray-200 border-start mx-4"></span>
+                    <!--end::Separator-->
+                    <!--begin::Breadcrumb-->
+                    <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">
+                            <a href="@Url.Action("Index", "Dashboard")" class="text-muted text-hover-primary">Bảng điều khiển</a>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">Quản lý sản phẩm</li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">
+                            <a href="@Url.Action("ProductIndex", "ProductsAdmin")" class="text-muted text-hover-primary">Danh sách sản phẩm</a>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-dark">Chỉnh sửa thông tin sản phẩm</li>
+                        <!--end::Item-->
+                    </ul>
+                    <!--end::Breadcrumb-->
+                </div>
+                <!--end::Page title-->
+                <!--begin::Actions-->
+                <div class="d-flex align-items-center py-1">
+                    <!--begin::Button-->
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <g id="Stockholm-icons-/-Files-/-Upload" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+                                <path d="M2,13 C2,12.5 2.5,12 3,12 C3.5,12 4,12.5 4,13 C4,13.3333333 4,15 4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 C2,15 2,13.3333333 2,13 Z" id="Path-57" fill="#fff" fill-rule="nonzero" opacity="0.3"></path>
+                                <rect id="Rectangle" fill="#fff" opacity="0.3" x="11" y="2" width="2" height="14" rx="1"></rect>
+                                <path d="M12.0362375,3.37797611 L7.70710678,7.70710678 C7.31658249,8.09763107 6.68341751,8.09763107 6.29289322,7.70710678 C5.90236893,7.31658249 5.90236893,6.68341751 6.29289322,6.29289322 L11.2928932,1.29289322 C11.6689749,0.916811528 12.2736364,0.900910387 12.6689647,1.25670585 L17.6689647,5.75670585 C18.0794748,6.12616487 18.1127532,6.75845471 17.7432941,7.16896473 C17.3738351,7.57947475 16.7415453,7.61275317 16.3310353,7.24329415 L12.0362375,3.37797611 Z" id="Path-102" fill="#fff" fill-rule="nonzero"></path>
+                            </g>
+                        </svg>
+                        Lưu
+                    </button>
+                    <!--end::Button-->
+                    <!--begin::Button-->
+                    <a onclick="window.history.go(-1)" class="btn btn-sm btn-secondary ms-2">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21.4451171,17.7910156 C21.4451171,16.9707031 21.6208984,13.7333984 19.0671874,11.1650391 C17.3484374,9.43652344 14.7761718,9.13671875 11.6999999,9 L11.6999999,4.69307548 C11.6999999,4.27886191 11.3642135,3.94307548 10.9499999,3.94307548 C10.7636897,3.94307548 10.584049,4.01242035 10.4460626,4.13760526 L3.30599678,10.6152626 C2.99921905,10.8935795 2.976147,11.3678924 3.2544639,11.6746702 C3.26907199,11.6907721 3.28437331,11.7062312 3.30032452,11.7210037 L10.4403903,18.333467 C10.7442966,18.6149166 11.2188212,18.596712 11.5002708,18.2928057 C11.628669,18.1541628 11.6999999,17.9721616 11.6999999,17.7831961 L11.6999999,13.5 C13.6531249,13.5537109 15.0443703,13.6779456 16.3083984,14.0800781 C18.1284272,14.6590944 19.5349747,16.3018455 20.5280411,19.0083314 L20.5280247,19.0083374 C20.6363903,19.3036749 20.9175496,19.5 21.2321404,19.5 L21.4499999,19.5 C21.4499999,19.0068359 21.4451171,18.2255859 21.4451171,17.7910156 Z" id="Shape" fill="#7e8299" fill-rule="nonzero"></path>
+                            </svg>
+                        </span>
+                        Quay về
+                    </a>
+                    <!--end::Button-->
+                </div>
+                <!--end::Actions-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Toolbar-->
+        <!--begin::Post-->
+        <div class="post d-flex flex-column-fluid" id="kt_post">
+            <!--begin::Container-->
+            <div id="kt_content_container" class="container">
+                <!--begin::Navbar-->
+                <div class="card mb-5 mb-xl-10">
+                    <div class="card-body pt-9 pb-0">
+                        <!--begin::Details-->
+                        <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
+                            <!--begin: Pic-->
+                            <div class="me-7 mb-4">
+                                <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
+                                    <img src="@Model.Image" />
+                                </div>
+                            </div>
+                            <!--end::Pic-->
+                            <!--begin::Info-->
+                            <div class="flex-grow-1">
+                                <!--begin::Title-->
+                                <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
+                                    <!--begin::User-->
+                                    <div class="d-flex flex-column">
+                                        <!--begin::Name-->
+                                        <div class="d-flex align-items-center mb-2">
+                                            <a href="#" class="text-gray-800 text-hover-primary fs-4 fw-bolder me-1 limit_productname_detail">@Model.product_name</a>
+                                        </div>
+                                        <!--end::Name-->
+                                    </div>
+                                    <!--end::User-->
+                                </div>
+                                <!--end::Title-->
+                                <!--begin::Stats-->
+                                <div class="d-flex flex-wrap flex-stack">
+                                    <!--begin::Wrapper-->
+                                    <div class="d-flex flex-column flex-grow-1 pe-8">
+                                        <!--begin::Stats-->
+                                        <div class="d-flex flex-wrap">
+                                            <!--begin::Stat-->
+                                            <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+                                                <!--begin::Number-->
+                                                <div class="d-flex align-items-center">
+                                                    <!--begin::Svg Icon | path: icons/duotone/Navigation/Arrow-up.svg-->
+                                                    <span class="svg-icon svg-icon-3 svg-icon-success me-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <polygon points="0 0 24 0 24 24 0 24" />
+                                                                <rect fill="#000000" opacity="0.5" x="11" y="5" width="2" height="14" rx="1" />
+                                                                <path d="M6.70710678,12.7071068 C6.31658249,13.0976311 5.68341751,13.0976311 5.29289322,12.7071068 C4.90236893,12.3165825 4.90236893,11.6834175 5.29289322,11.2928932 L11.2928932,5.29289322 C11.6714722,4.91431428 12.2810586,4.90106866 12.6757246,5.26284586 L18.6757246,10.7628459 C19.0828436,11.1360383 19.1103465,11.7686056 18.7371541,12.1757246 C18.3639617,12.5828436 17.7313944,12.6103465 17.3242754,12.2371541 L12.0300757,7.38413782 L6.70710678,12.7071068 Z" fill="#000000" fill-rule="nonzero" />
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <!--end::Svg Icon-->
+                                                    <div class="fs-2 fw-bolder" data-kt-countup="true">@Model.buyturn</div>
+                                                </div>
+                                                <!--end::Number-->
+                                                <!--begin::Label-->
+                                                <div class="fw-bold fs-6 text-gray-400">Lượt mua</div>
+                                                <!--end::Label-->
+                                            </div>
+                                            <!--end::Stat-->
+                                            <!--begin::Stat-->
+                                            <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+                                                <!--begin::Number-->
+                                                <div class="d-flex align-items-center">
+                                                    <!--begin::Svg Icon | path: icons/duotone/Navigation/Arrow-up.svg-->
+                                                    <span class="svg-icon svg-icon-3 svg-icon-success me-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <polygon points="0 0 24 0 24 24 0 24" />
+                                                                <rect fill="#000000" opacity="0.5" x="11" y="5" width="2" height="14" rx="1" />
+                                                                <path d="M6.70710678,12.7071068 C6.31658249,13.0976311 5.68341751,13.0976311 5.29289322,12.7071068 C4.90236893,12.3165825 4.90236893,11.6834175 5.29289322,11.2928932 L11.2928932,5.29289322 C11.6714722,4.91431428 12.2810586,4.90106866 12.6757246,5.26284586 L18.6757246,10.7628459 C19.0828436,11.1360383 19.1103465,11.7686056 18.7371541,12.1757246 C18.3639617,12.5828436 17.7313944,12.6103465 17.3242754,12.2371541 L12.0300757,7.38413782 L6.70710678,12.7071068 Z" fill="#000000" fill-rule="nonzero" />
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <!--end::Svg Icon-->
+                                                    <div class="fs-2 fw-bolder" data-kt-countup="true">@Model.view</div>
+                                                </div>
+                                                <!--end::Number-->
+                                                <!--begin::Label-->
+                                                <div class="fw-bold fs-6 text-gray-400">Lượt xem</div>
+                                                <!--end::Label-->
+                                            </div>
+                                            <!--end::Stat-->
+                                            <!--begin::Stat-->
+                                            <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+                                                <!--begin::Number-->
+                                                <div class="d-flex align-items-center">
+                                                    <!--begin::Svg Icon | path: fonts/duotone/Navigation/Arrow-up.svg-->
+                                                    <span class="svg-icon svg-icon-3 svg-icon-success me-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <polygon points="0 0 24 0 24 24 0 24" />
+                                                                <rect fill="#000000" opacity="0.5" x="11" y="5" width="2" height="14" rx="1" />
+                                                                <path d="M6.70710678,12.7071068 C6.31658249,13.0976311 5.68341751,13.0976311 5.29289322,12.7071068 C4.90236893,12.3165825 4.90236893,11.6834175 5.29289322,11.2928932 L11.2928932,5.29289322 C11.6714722,4.91431428 12.2810586,4.90106866 12.6757246,5.26284586 L18.6757246,10.7628459 C19.0828436,11.1360383 19.1103465,11.7686056 18.7371541,12.1757246 C18.3639617,12.5828436 17.7313944,12.6103465 17.3242754,12.2371541 L12.0300757,7.38413782 L6.70710678,12.7071068 Z" fill="#000000" fill-rule="nonzero" />
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <!--end::Svg Icon-->
+                                                    <div class="fs-2 fw-bolder" data-kt-countup="true">
+                                                        @ViewBag.countfeedback
+                                                    </div>
+                                                </div>
+                                                <!--end::Number-->
+                                                <!--begin::Label-->
+                                                <div class="fw-bold fs-6 text-gray-400">Đánh giá</div>
+                                                <!--end::Label-->
+                                            </div>
+                                            <!--end::Stat-->
+                                            <!--begin::Stat-->
+                                            <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+                                                <!--begin::Number-->
+                                                <div class="d-flex align-items-center">
+                                                    <!--begin::Svg Icon | path: fonts/duotone/Navigation/Arrow-up.svg-->
+                                                    <span class="svg-icon svg-icon-3 svg-icon-success me-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <polygon points="0 0 24 0 24 24 0 24" />
+                                                                <rect fill="#000000" opacity="0.5" x="11" y="5" width="2" height="14" rx="1" />
+                                                                <path d="M6.70710678,12.7071068 C6.31658249,13.0976311 5.68341751,13.0976311 5.29289322,12.7071068 C4.90236893,12.3165825 4.90236893,11.6834175 5.29289322,11.2928932 L11.2928932,5.29289322 C11.6714722,4.91431428 12.2810586,4.90106866 12.6757246,5.26284586 L18.6757246,10.7628459 C19.0828436,11.1360383 19.1103465,11.7686056 18.7371541,12.1757246 C18.3639617,12.5828436 17.7313944,12.6103465 17.3242754,12.2371541 L12.0300757,7.38413782 L6.70710678,12.7071068 Z" fill="#000000" fill-rule="nonzero" />
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <!--end::Svg Icon-->
+                                                    <div class="fs-2 fw-bolder" data-kt-countup="true">
+                                                        @Model.count_Banner_detail
+                                                    </div>
+                                                </div>
+                                                <!--end::Number-->
+                                                <!--begin::Label-->
+                                                <div class="fw-bold fs-6 text-gray-400">CTKM</div>
+                                                <!--end::Label-->
+                                            </div>
+                                            <!--end::Stat-->
+                                        </div>
+                                        <!--end::Stats-->
+                                    </div>
+                                    <!--end::Wrapper-->
+                                </div>
+                                <!--end::Stats-->
+                            </div>
+                            <!--end::Info-->
+                        </div>
+                        <!--end::Details-->
+                    </div>
+                </div>
+                <!--end::Navbar-->
+                <!--begin::Product info-->
+                <div class="card">
+                    <!--begin::Card header-->
+                    <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
+                        <!--begin::Card title-->
+                        <div class="card-title m-0">
+                            <h3 class="fw-bolder m-0">Chỉnh sửa thông tin sản phẩm</h3>
+                        </div>
+                        <!--end::Card title-->
+                    </div>
+                    <!--begin::Card header-->
+                    <!--begin::Content-->
+                    <div>
+                        <!--begin::Form-->
+                        <form id="kt_account_profile_details_form" class="form">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.product_id)
+                            @Html.HiddenFor(model => model.genre_id)
+                            @Html.HiddenFor(model => model.slug)
+                            <!--begin::Card body-->
+                            <div class="card-body border-top p-9">
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label  fw-bold fs-6">
+                                        <span class="required">Chương trình giảm giá</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7 text-gray-500" data-bs-toggle="tooltip" data-bs-placement="top" title="Giảm giá chỉ áp dụng cho chính sản phẩm đó,không thể đổi qua chương trình giảm giá khác. Bạn chỉ có thể chỉnh sửa giá, ngày bắt đầu - kết thúc giảm giá sản phẩm, của sản phẫm" data-bs-original-title="" aria-label="Phone number must be active"></i>
+                                    </label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        <a class="cursor-pointer" href="@Url.Action("DiscountEdit","Discounts",new { id= Model.discount_id })">Chỉnh sửa</a>
+                                        @Html.DropDownListFor(model => model.discount_id, (SelectList)ViewBag.ListDiscount, "--Chọn chương trình giảm giá--", new { @class = "form-select form-select-solid" })
+                                        @Html.ValidationMessageFor(model => model.discount_id, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label required fw-bold fs-6">Thương hiệu</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        @Html.DropDownListFor(model => model.brand_id, (SelectList)ViewBag.ListBrand, "-- Chọn thương hiệu --", new { @class = "form-select form-select-solid" })
+                                        @Html.ValidationMessageFor(model => model.brand_id, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label required fw-bold fs-6">VAT</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">                                      
+                                        @Html.DropDownListFor(model => model.taxes_id, (SelectList)ViewBag.ListTaxes, "-- Chọn VAT --", new { @class = "form-select form-select-solid" })
+                                        @Html.ValidationMessageFor(model => model.taxes_id, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label fw-bold fs-6">
+                                        <span>Thể loại</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7 text-gray-500" data-bs-toggle="tooltip" data-bs-placement="top" title="Thể loại không được chỉnh sửa vì dính khóa trong table khác" data-bs-original-title="" aria-label="Phone number must be active"></i>
+                                    </label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        @Html.DropDownListFor(model => model.genre_id, (SelectList)ViewBag.ListGenre, "Chọn thể loại", new { @class = "form-control form-control-solid text-muted", @disabled = "disabled" })
+                                        @Html.ValidationMessageFor(model => model.genre_id, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label required fw-bold fs-6">Tên sản phẩm</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        @Html.EditorFor(model => model.product_name, new { htmlAttributes = new { @class = "form-control form-control-solid", placeholder = "Nhập tên sản phẩm" } })
+                                        @Html.ValidationMessageFor(model => model.product_name, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label fw-bold fs-6">
+                                        <span class="required">Thời gian bảo hành</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7 text-gray-500" data-bs-toggle="tooltip" data-bs-placement="top" title="Ghi ngắn gọn: vd: Macbook Pro M1 2020, khi khách hàng bấm vào đường link sẽ hiển thị như sau: https://nvtcomputer.tech/laptop/macbook-pro-m1-2020-'+id' " data-bs-original-title="" aria-label="Phone number must be active"></i>
+                                    </label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        @Html.EditorFor(model => model.seo_title, new { htmlAttributes = new { @class = "form-control form-control-solid", placeholder = "Nhập tiêu đề SEO" } })
+                                        @Html.ValidationMessageFor(model => model.seo_title, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label fw-bold fs-6">
+                                        <span class="required">Ảnh sản phẩm</span>
+                                        <i class="fas fa-exclamation-circle ms-1 fs-7 text-gray-500" data-bs-toggle="tooltip" title="Kích thước ảnh nên up là hình vuông 600x600px" data-bs-original-title="" aria-label="Phone number must be active"></i>
+                                    </label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-4 fv-row">
+                                        <!--id = "linkimages" | path: ~/Scripts/admin_js/custom_ckfinder_ckeditor.js-->
+                                        @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control form-control-solid", placeholder = "Chọn ảnh từ máy tính", id = "linkimages", @readonly = "readonly" } })
+                                    </div>
+                                    <div class="col-lg-2 fv-row">
+                                        <button type="button" id="selectimage" class="btn btn-primary form-control"><i class="bi bi-upload"></i>Đổi ảnh</button>
+                                    </div>
+                                    <div class="col-lg-2 fv-row">
+                                        <button type="button" onclick="location.href='@Url.Action("ProductImgEdit", "Product_Image", new {id = Model.product_id})'" class=" btn btn-primary form-control"><i class="bi bi-pencil-square"></i>Sửa album ảnh</button>
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label required fw-bold fs-6">Giá sản phẩm</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        @Html.EditorFor(model => model.price, new
+                                        {
+                                            htmlAttributes = new
+                                            {
+                                                @class = "form-control form-control-solid",
+                                        placeholder = "Nhập giá sản phẩm",
+                                                type = "number",
+                                                value = "0",
+                                                oninput = "validity.valid || (value = '');"
+                                            }
+                                        })
+                                        @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label required fw-bold fs-6">Số lượng</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        @Html.EditorFor(model => model.quantity, new
+                                        {
+                                            htmlAttributes = new
+                                            {
+                                                @class = "form-control form-control-solid",
+                                        placeholder = "Nhập số lượng",
+                                                type = "number",
+                                                value = "0",
+                                                oninput = "validity.valid || (value = '');"
+                                            }
+                                        })
+                                        @Html.ValidationMessageFor(model => model.quantity, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label fw-bold fs-6"><span class="required">Trạng thái</span></label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        @Html.DropDownListFor(model => model.status, new[] { new SelectListItem { Value = "1", Text = "Hoạt động" },
+                                        new SelectListItem { Value = "0", Text = "Không hoạt động" } }, new { @class = "form-select form-select-solid" })
+                                        @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label fw-bold fs-6">Thông số kỹ thuật</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        <!--id="ckedittor_uploadimage1" | path: ~/Scripts/admin_js/custom_ckfinder_ckeditor2.js-->
+                                        <textarea class="form-control" name="specification" id="ckedittor_uploadimage1">@Model.specification</textarea>
+                                        @Html.ValidationMessageFor(model => model.specification, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label  fw-bold fs-6">Mô tả sản phẩm</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        <!--id="ckedittor_uploadimage" | path: ~/Scripts/admin_js/custom_ckfinder_ckeditor.js-->
+                                        <textarea class="form-control" name="description" id="ckedittor_uploadimage">@Model.description</textarea>
+                                        @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::Card body-->
+                            <!--begin::Actions-->
+                            <div class="card-footer d-flex justify-content-end py-6 px-9">
+                                <button type="reset" class="btn btn-danger data-bs-toggle tooltip" data-bs-placement="top" title="Reset lại form và xóa toàn bộ dữ liệu đã nhập">Reset</button>
+                            </div>
+                            <!--end::Actions-->
+                        </form>
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Content-->
+                </div>
+                <!--end::Product info-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Post-->
+    </div>
+    <!--end::content-->
+}

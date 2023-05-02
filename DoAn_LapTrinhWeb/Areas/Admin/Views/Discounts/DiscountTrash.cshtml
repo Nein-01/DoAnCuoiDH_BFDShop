@@ -1,0 +1,392 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<DoAn_LapTrinhWeb.Model.Discount>
+@{
+    ViewBag.Title = "Thùng rác";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+<!--css paging-->
+<link href="~/Content/admin_css/PagedList.css" rel="stylesheet"/>
+<!--css paging-->
+
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+<!--begin::Toolbar-->
+<div class="toolbar" id="kt_toolbar">
+    <!--begin::Container-->
+    <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+        <!--begin::Page title-->
+        <div data-kt-place="true" data-kt-place-mode="prepend" data-kt-place-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center me-3 flex-wrap mb-5 mb-lg-0 lh-1">
+            <!--begin::Title-->
+            <h1 class="d-flex align-items-center text-dark fw-bolder my-1 fs-3">Giảm giá: Thùng rác</h1>
+            <!--end::Title-->
+            <!--begin::Separator-->
+            <span class="h-20px border-gray-200 border-start mx-4"></span>
+            <!--end::Separator-->
+            <!--begin::Breadcrumb-->
+            <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                <!--begin::Item-->
+                <li class="breadcrumb-item text-muted">
+                    <a href="@Url.Action("Index", "Dashboard")" class="text-muted text-hover-primary">Bảng điều khiển</a>
+                </li>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <li class="breadcrumb-item">
+                    <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                </li>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <li class="breadcrumb-item text-muted">Quản lý sản phẩm</li>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <li class="breadcrumb-item">
+                    <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                </li>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <li class="breadcrumb-item text-muted">Khuyến mãi và giảm giá</li>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <li class="breadcrumb-item">
+                    <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                </li>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <li class="breadcrumb-item text-dark">Giảm giá: Thùng rác</li>
+                <!--end::Item-->
+            </ul>
+            <!--end::Breadcrumb-->
+        </div>
+        <!--end::Page title-->
+        <!--begin::Actions-->
+        <div class="d-flex align-items-center py-1">
+            <!--begin::Wrapper-->
+            <div>
+                <!--begin::Menu-->
+                <a href="#" class="btn btn-sm btn-flex btn-light btn-active-primary fw-bolder" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                    <!--begin::Svg Icon | path: icons/duotone/Text/Filter.svg-->
+                    <span class="svg-icon svg-icon-5 svg-icon-gray-500 me-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <rect x="0" y="0" width="24" height="24"/>
+                                <path d="M5,4 L19,4 C19.2761424,4 19.5,4.22385763 19.5,4.5 C19.5,4.60818511 19.4649111,4.71345191 19.4,4.8 L14,12 L14,20.190983 C14,20.4671254 13.7761424,20.690983 13.5,20.690983 C13.4223775,20.690983 13.3458209,20.6729105 13.2763932,20.6381966 L10,19 L10,12 L4.6,4.8 C4.43431458,4.5790861 4.4790861,4.26568542 4.7,4.1 C4.78654809,4.03508894 4.89181489,4 5,4 Z" fill="#000000"/>
+                            </g>
+                        </svg>
+                    </span>
+                    <!--end::Svg Icon-->
+                    @if (ViewBag.sortname == null)
+                    {
+                        <span>Bộ lọc</span>
+                    }
+                    else
+                    {
+                        @ViewBag.sortname
+                    }
+                </a>
+                <!--begin::Menu-->
+                <div class="menu menu-sub menu-sub-dropdown w-250px w-md-300px" data-kt-menu="true">
+                    <!--begin::Menu separator-->
+                    <div class="separator border-gray-200"></div>
+                    <!--end::Menu separator-->
+                    <!--begin::Form-->
+                    <div class="px-7 py-5">
+                        <!--begin::Input group-->
+                        <div class="mb-2 border-bottom-3">
+                            <!--begin::Label-->
+                            <a class="text-gray-700 text-hover-primary fw-bold " href="@Url.Action("DiscountTrash", "Discounts", new { sortOrder = ViewBag.ResetSort })">Reset bộ lọc</a>
+                            <!--end::Label-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="mb-2 border-bottom-3">
+                            <!--begin::Label-->
+                            <a class="text-gray-700 text-hover-primary fw-bold " href="@Url.Action("DiscountTrash", "Discounts", new { sortOrder = ViewBag.DateSortParm })">Mới - cũ</a>
+                            <!--end::Label-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="mb-2 ">
+                            <!--begin::Label-->
+                            <a class="text-gray-700 text-hover-primary fw-bold" href="@Url.Action("DiscountTrash", "Discounts", new { sortOrder = ViewBag.PriceSortParm })">Mức giảm cao - thấp</a>
+                            <!--end::Label-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="mb-2 border-bottom-3">
+                            <!--begin::Label-->
+                            <a class="text-gray-700 text-hover-primary fw-bold " href="@Url.Action("DiscountTrash", "Discounts", new { sortOrder = ViewBag.DiscountGlobal })">Hiển thị toàn sản</a>
+                            <!--end::Label-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="mb-2 dropdownsort">
+                            <!--begin::Label-->
+                            <a class="text-gray-700 text-hover-primary fw-bold dropbtnsort" href="#">Loại giảm giá</a>
+                            <!--end::Label-->
+                            <div class="dropdown-contentsort">
+                                <a href="@Url.Action("DiscountTrash", "Discounts", new { sortOrder = ViewBag.CodeSortParm })">Code giảm giá theo giá tiền</a>
+                                <a href="@Url.Action("DiscountTrash", "Discounts", new { sortOrder = ViewBag.CodePercentSortParm })">Code giảm giá theo phần trăm</a>
+                                <a href="@Url.Action("DiscountTrash", "Discounts", new { sortOrder = ViewBag.ProductSortParm })">Giảm giá trực tiếp sản phẩm</a>
+                            </div>
+                        </div>
+                        <!--end::Input group-->
+                    </div>
+                    <!--end::Form-->
+                </div>
+                <!--end::Menu 1-->
+                <!--end::Menu-->
+            </div>
+            <!--end::Wrapper-->
+        </div>
+        <!--end::Actions-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Toolbar-->
+<!--begin::Post-->
+<div class="post d-flex flex-column-fluid" id="kt_post">
+<!--begin::Container-->
+<div id="kt_content_container" class="container">
+<!--begin::Card-->
+<div class="card">
+<!--begin::Card header-->
+<div class="card-header border-0 pt-6">
+    <!--begin::Card title-->
+    <div class="card-title">
+        <!--begin::Search-->
+        <div class="d-flex align-items-center position-relative my-1">
+            <!--begin::Svg Icon | path: icons/duotone/General/Search.svg-->
+            <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <rect x="0" y="0" width="24" height="24"/>
+                        <path d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
+                        <path d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z" fill="#000000" fill-rule="nonzero"/>
+                    </g>
+                </svg>
+            </span>
+            <form class="d-flex">
+                <!--end::Svg Icon-->
+                <input type="text" data-kt-customer-table-filter="search" name="search" class="form-control form-control-solid w-250px ps-14" placeholder="Tìm kiếm giảm giá"/>
+                <!--begin::Search Filter-->
+                <button type="button" class="btn btn-light-primary ms-2" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                    <!--begin::Svg Icon | path: icons/duotone/Text/Filter.svg-->
+                    <span class="svg-icon svg-icon-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <rect x="0" y="0" width="24" height="24"/>
+                                <path d="M5,4 L19,4 C19.2761424,4 19.5,4.22385763 19.5,4.5 C19.5,4.60818511 19.4649111,4.71345191 19.4,4.8 L14,12 L14,20.190983 C14,20.4671254 13.7761424,20.690983 13.5,20.690983 C13.4223775,20.690983 13.3458209,20.6729105 13.2763932,20.6381966 L10,19 L10,12 L4.6,4.8 C4.43431458,4.5790861 4.4790861,4.26568542 4.7,4.1 C4.78654809,4.03508894 4.89181489,4 5,4 Z" fill="#000000"/>
+                            </g>
+                        </svg>
+                    </span>
+                    <!--end::Svg Icon-->Tất cả
+                </button>
+                <!--begin::Menu 1-->
+                <div class="menu menu-sub menu-sub-dropdown w-300px w-md-325px" data-kt-menu="true">
+                    <!--begin::Header-->
+                    <div class="px-7 py-5">
+                        <div class="fs-5 text-dark fw-bolder">Bộ lọc tìm kiếm</div>
+                    </div>
+                    <!--end::Header-->
+                    <!--begin::Separator-->
+                    <div class="separator border-gray-200"></div>
+                    <!--end::Separator-->
+                    <!--begin::Content-->
+                    <div class="px-7 py-5" data-kt-user-table-filter="form">
+                        <!--begin::Input group-->
+                        <div class="mb-10">
+                            <label class="form-label fs-6 fw-bold">Tìm kiếm theo:</label>
+                            <select id="show" name="show" class="form-select form-select-solid fw-bolder" data-kt-select2="true" data-placeholder="Select option" data-allow-clear="true" data-kt-user-table-filter="role" data-hide-search="true">
+                                <option value="1">Tìm kiếm tất cả</option>
+                                <option value="2">Theo ID</option>
+                                <option value="3">Tên chương trình</option>
+                                <option value="4">Mức giảm</option>
+                            </select>
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Actions-->
+                        <div class="d-flex justify-content-end">
+                            <button type="reset" class="btn btn-white btn-active-light-primary fw-bold me-2 px-6" data-kt-menu-dismiss="true" data-kt-user-table-filter="reset">Reset</button>
+                            <button type="button" class="btn btn-primary fw-bold px-6" data-kt-menu-dismiss="true" data-kt-user-table-filter="filter">Apply</button>
+                        </div>
+                        <!--end::Actions-->
+                    </div>
+                    <!--end::Content-->
+                </div>
+                <!--end::Menu 1-->
+                <!--end::Search Filter-->
+            </form>
+        </div>
+        <!--end::Search-->
+    </div>
+    <!--begin::Card title-->
+    <!--begin::Card toolbar-->
+    <div class="card-toolbar">
+        <!--begin::Toolbar-->
+        <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
+            <!--begin::Button-->
+            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("DiscountIndex", "Discounts")'">
+                <!--begin::Svg Icon | path: icons/duotone/Navigation/Plus.svg-->
+                <span class="svg-icon svg-icon-2">
+                    <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21.4451171,17.7910156 C21.4451171,16.9707031 21.6208984,13.7333984 19.0671874,11.1650391 C17.3484374,9.43652344 14.7761718,9.13671875 11.6999999,9 L11.6999999,4.69307548 C11.6999999,4.27886191 11.3642135,3.94307548 10.9499999,3.94307548 C10.7636897,3.94307548 10.584049,4.01242035 10.4460626,4.13760526 L3.30599678,10.6152626 C2.99921905,10.8935795 2.976147,11.3678924 3.2544639,11.6746702 C3.26907199,11.6907721 3.28437331,11.7062312 3.30032452,11.7210037 L10.4403903,18.333467 C10.7442966,18.6149166 11.2188212,18.596712 11.5002708,18.2928057 C11.628669,18.1541628 11.6999999,17.9721616 11.6999999,17.7831961 L11.6999999,13.5 C13.6531249,13.5537109 15.0443703,13.6779456 16.3083984,14.0800781 C18.1284272,14.6590944 19.5349747,16.3018455 20.5280411,19.0083314 L20.5280247,19.0083374 C20.6363903,19.3036749 20.9175496,19.5 21.2321404,19.5 L21.4499999,19.5 C21.4499999,19.0068359 21.4451171,18.2255859 21.4451171,17.7910156 Z" id="Shape" fill="#000000" fill-rule="nonzero"></path>
+                    </svg>
+                </span>
+                <!--end::Svg Icon-->Quay về
+            </button>
+            <!--end::Button-->
+        </div>
+        <!--end::Toolbar-->
+        <!--begin::Group actions-->
+        <div class="d-flex justify-content-end align-items-center d-none" data-kt-customer-table-toolbar="selected">
+            <div class="fw-bolder me-5">
+                <span class="me-2" data-kt-customer-table-select="selected_count"></span>Đã chọn
+            </div>
+            <button type="button" class="btn btn-danger" data-kt-customer-table-select="delete_selected">Xóa mục đã chọn</button>
+        </div>
+        <!--end::Group actions-->
+    </div>
+    <!--end::Card toolbar-->
+</div>
+<!--end::Card header-->
+<!--begin::Body-->
+<div class="card-body py-3">
+    <!--begin::Table container-->
+    <!--begin::Table-->
+    <table class="table table-sortable table-row-dashed table-row-gray-300 gy-7 center_th_table">
+        <!--begin::Table head-->
+        <thead>
+        <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
+            <th class="center_th_table">
+                <div class="form-check form-check-sm form-check-custom form-check-solid ">
+                    <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_customers_table .form-check-input" value="1"/>
+                </div>
+            </th>
+            <th class="text-center">ID</th>
+            <th class="text-center">Tên chương trình</th>
+            <th class="text-center">Mức giảm</th>
+            <th class="text-center">Ngày bắt đầu</th>
+            <th class="text-center">Ngày kết thúc</th>
+            <th class="text-center">Người tạo</th>
+            <th class="text-center">Trạng thái</th>
+            <th class="text-center">Hành động</th>
+        </tr>
+        </thead>
+        <!--end::Table head-->
+        <!--begin::Table body-->
+        <tbody class="fw-normal text-gray-600">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center">
+                    <div class="form-check form-check-sm form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="1"/>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <a href="@Url.Action("DiscountDetails", "Discounts", new { id = item.disscount_id })" class="text-gray-700 text-hover-primary fw-bold">@item.disscount_id</a>
+                </td>
+                <td class="text-center">
+                    <span class="limit_discount_name">@item.discount_name</span>
+                </td>
+                <td class="text-center">
+                    @if (item.discount_price == 0)
+                    {
+                        <span>Không giảm</span>
+                    }
+                    else
+                    {
+                        <span>@item.discount_price.ToString("#,0₫", culture.NumberFormat)</span>
+                    }
+                </td>
+                <td class="text-center">
+                    <span>@item.discount_start.ToString("dd-MM-yyyy HH:mm")</span>
+                </td>
+                <td class="text-center">
+                    <span>@item.discount_end.ToString("dd-MM-yyyy HH:mm")</span>
+                </td>
+                <td class="text-center">
+                    <span>@item.create_by</span>
+                </td>
+                <td class="text-center">
+                    @if (item.status == "2")
+                    {
+                        <span class="badge badge-light-dark ">Vô hiệu hóa</span>
+                    }
+                </td>
+                <td class="text-center">
+                    <a href="@Url.Action("DiscountDetails", "Discounts", new { id = item.disscount_id })" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                        <!--begin::Svg Icon | path: fonts/duotone/General/Settings-1.svg-->
+                        <span class="svg-icon svg-icon-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Xem chi tiết">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect x="0" y="0" width="24" height="24"/>
+                                    <path d="M4,7 L20,7 L20,19.5 C20,20.3284271 19.3284271,21 18.5,21 L5.5,21 C4.67157288,21 4,20.3284271 4,19.5 L4,7 Z M10,10 C9.44771525,10 9,10.4477153 9,11 C9,11.5522847 9.44771525,12 10,12 L14,12 C14.5522847,12 15,11.5522847 15,11 C15,10.4477153 14.5522847,10 14,10 L10,10 Z" fill="#000000"/>
+                                    <rect fill="#000000" opacity="0.3" x="2" y="3" width="20" height="4" rx="1"/>
+                                </g>
+                            </svg>
+                        </span>
+                        <!--end::Svg Icon-->
+                    </a>
+                    <a href="@Url.Action("Undo", "Discounts", new { id = item.disscount_id })" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1">
+                        <!--begin::Svg Icon | path: fonts/duotone/Communication/Write.svg-->
+                        <span class="svg-icon svg-icon-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Khôi phục">
+                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <g id="Stockholm-icons-/-Text-/-Undo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+                                    <path d="M21.4451171,17.7910156 C21.4451171,16.9707031 21.6208984,13.7333984 19.0671874,11.1650391 C17.3484374,9.43652344 14.7761718,9.13671875 11.6999999,9 L11.6999999,4.69307548 C11.6999999,4.27886191 11.3642135,3.94307548 10.9499999,3.94307548 C10.7636897,3.94307548 10.584049,4.01242035 10.4460626,4.13760526 L3.30599678,10.6152626 C2.99921905,10.8935795 2.976147,11.3678924 3.2544639,11.6746702 C3.26907199,11.6907721 3.28437331,11.7062312 3.30032452,11.7210037 L10.4403903,18.333467 C10.7442966,18.6149166 11.2188212,18.596712 11.5002708,18.2928057 C11.628669,18.1541628 11.6999999,17.9721616 11.6999999,17.7831961 L11.6999999,13.5 C13.6531249,13.5537109 15.0443703,13.6779456 16.3083984,14.0800781 C18.1284272,14.6590944 19.5349747,16.3018455 20.5280411,19.0083314 L20.5280247,19.0083374 C20.6363903,19.3036749 20.9175496,19.5 21.2321404,19.5 L21.4499999,19.5 C21.4499999,19.0068359 21.4451171,18.2255859 21.4451171,17.7910156 Z" id="Shape" fill="#000000" fill-rule="nonzero"></path>
+                                </g>
+                            </svg>
+                        </span>
+                        <!--end::Svg Icon-->
+                    </a>
+                    <a href="@Url.Action("DiscountDelete", "Discounts", new { id = item.disscount_id })" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm">
+                        <!--begin::Svg Icon | path: fonts/duotone/General/Trash.svg-->
+                        <span class="svg-icon svg-icon-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Xóa vĩnh viễn">
+                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <g id="Stockholm-icons-/-Files-/-Deleted-file" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+                                    <path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+                                    <path d="M10.5857864,13 L9.17157288,11.5857864 C8.78104858,11.1952621 8.78104858,10.5620972 9.17157288,10.1715729 C9.56209717,9.78104858 10.1952621,9.78104858 10.5857864,10.1715729 L12,11.5857864 L13.4142136,10.1715729 C13.8047379,9.78104858 14.4379028,9.78104858 14.8284271,10.1715729 C15.2189514,10.5620972 15.2189514,11.1952621 14.8284271,11.5857864 L13.4142136,13 L14.8284271,14.4142136 C15.2189514,14.8047379 15.2189514,15.4379028 14.8284271,15.8284271 C14.4379028,16.2189514 13.8047379,16.2189514 13.4142136,15.8284271 L12,14.4142136 L10.5857864,15.8284271 C10.1952621,16.2189514 9.56209717,16.2189514 9.17157288,15.8284271 C8.78104858,15.4379028 8.78104858,14.8047379 9.17157288,14.4142136 L10.5857864,13 Z" id="Combined-Shape" fill="#000000"></path>
+                                </g>
+                            </svg>
+                        </span>
+                        <!--end::Svg Icon-->
+                    </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+        <!--end::Table body-->
+    </table>
+    <!--end::Table-->
+    <!--end::Table container-->
+    <!--begin::Pagination-->
+    <div class="paging_custom row">
+        <div class="col-lg-5">
+            <span> Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+        </div>
+        <div class="col-lg-7 d-flex  flex-row-reverse">
+            @Html.PagedListPager(Model, page => Url.Action("DiscountTrash", new { page }), new PagedListRenderOptions
+            {
+                LinkToPreviousPageFormat = "‹",
+                LinkToNextPageFormat = "›",
+                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                MaximumPageNumbersToDisplay = 10
+            })
+        </div>
+    </div>
+    <!--end::Pagination-->
+</div>
+<!--begin::Body-->
+</div>
+<!--begin::Card-->
+</div>
+<!--end::Container-->
+</div>
+<!--end::Post-->
+</div>
+<!--end::Content-->

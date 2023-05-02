@@ -17,8 +17,8 @@
         <ul class="child--item-genres">
             @foreach (var product in productsgenres)
             {
-                //show ra thể loại con nếu thể loại con có sản phẩm
-                if (product.parent_genre_id == item.id && product.status == "1" && (product.Products.Count() > 0))
+                //show ra thể loại con nếu thể loại con có sản phẩm  
+                if (product.parent_genre_id == item.id && product.status=="1" && (product.Products.Count() > 0))
                 {
                     <li class="row d-flex">
                         <a href="/category/@product.slug">@product.genre_name</a>

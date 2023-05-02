@@ -1,0 +1,232 @@
+﻿@model DoAn_LapTrinhWeb.Models.ParentCategory
+@{
+    ViewBag.Title = "Chỉnh sửa danh mục cha";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+@section scripts{
+    <script src="~/Scripts/admin_js/custom_ckfinder.js"></script>
+    <script src="~/Scripts/admin_js/custom_ckfinder_2.js"></script>
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Toolbar-->
+        <div class="toolbar" id="kt_toolbar">
+            <!--begin::Container-->
+            <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+                <!--begin::Page title-->
+                <div data-kt-place="true" data-kt-place-mode="prepend" data-kt-place-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center me-3 flex-wrap mb-5 mb-lg-0 lh-1">
+                    <!--begin::Title-->
+                    <h1 class="d-flex align-items-center text-dark fw-bolder my-1 fs-3">Chỉnh sửa thông tin danh mục</h1>
+                    <!--end::Title-->
+                    <!--begin::Separator-->
+                    <span class="h-20px border-gray-200 border-start mx-4"></span>
+                    <!--end::Separator-->
+                    <!--begin::Breadcrumb-->
+                    <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">
+                            <a href="@Url.Action("Index", "Dashboard")" class="text-muted text-hover-primary">Bảng điều khiển</a>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">Quản lý bài viết</li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">
+                            <a href="@Url.Action("CategoryIndex", "Categories")" class="text-muted text-hover-primary">Danh sách danh mục tin tức</a>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-dark">Chỉnh sửa thông tin danh mục</li>
+                        <!--end::Item-->
+                    </ul>
+                    <!--end::Breadcrumb-->
+                </div>
+                <!--end::Page title-->
+                <!--begin::Actions-->
+                <div class="d-flex align-items-center py-1">
+                    <!--begin::Button-->
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <g id="Stockholm-icons-/-Files-/-Upload" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+                                <path d="M2,13 C2,12.5 2.5,12 3,12 C3.5,12 4,12.5 4,13 C4,13.3333333 4,15 4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 C2,15 2,13.3333333 2,13 Z" id="Path-57" fill="#fff" fill-rule="nonzero" opacity="0.3"></path>
+                                <rect id="Rectangle" fill="#fff" opacity="0.3" x="11" y="2" width="2" height="14" rx="1"></rect>
+                                <path d="M12.0362375,3.37797611 L7.70710678,7.70710678 C7.31658249,8.09763107 6.68341751,8.09763107 6.29289322,7.70710678 C5.90236893,7.31658249 5.90236893,6.68341751 6.29289322,6.29289322 L11.2928932,1.29289322 C11.6689749,0.916811528 12.2736364,0.900910387 12.6689647,1.25670585 L17.6689647,5.75670585 C18.0794748,6.12616487 18.1127532,6.75845471 17.7432941,7.16896473 C17.3738351,7.57947475 16.7415453,7.61275317 16.3310353,7.24329415 L12.0362375,3.37797611 Z" id="Path-102" fill="#fff" fill-rule="nonzero"></path>
+                            </g>
+                        </svg>
+                        Lưu
+                    </button>
+                    <!--end::Button-->
+                    <!--begin::Button-->
+                    <a onclick="window.history.go(-1)" class="btn btn-sm btn-secondary ms-2">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21.4451171,17.7910156 C21.4451171,16.9707031 21.6208984,13.7333984 19.0671874,11.1650391 C17.3484374,9.43652344 14.7761718,9.13671875 11.6999999,9 L11.6999999,4.69307548 C11.6999999,4.27886191 11.3642135,3.94307548 10.9499999,3.94307548 C10.7636897,3.94307548 10.584049,4.01242035 10.4460626,4.13760526 L3.30599678,10.6152626 C2.99921905,10.8935795 2.976147,11.3678924 3.2544639,11.6746702 C3.26907199,11.6907721 3.28437331,11.7062312 3.30032452,11.7210037 L10.4403903,18.333467 C10.7442966,18.6149166 11.2188212,18.596712 11.5002708,18.2928057 C11.628669,18.1541628 11.6999999,17.9721616 11.6999999,17.7831961 L11.6999999,13.5 C13.6531249,13.5537109 15.0443703,13.6779456 16.3083984,14.0800781 C18.1284272,14.6590944 19.5349747,16.3018455 20.5280411,19.0083314 L20.5280247,19.0083374 C20.6363903,19.3036749 20.9175496,19.5 21.2321404,19.5 L21.4499999,19.5 C21.4499999,19.0068359 21.4451171,18.2255859 21.4451171,17.7910156 Z" id="Shape" fill="#7e8299" fill-rule="nonzero"></path>
+                            </svg>
+                        </span>
+                        Quay về
+                    </a>
+                    <!--end::Button-->
+                </div>
+                <!--end::Actions-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Toolbar-->
+        <!--begin::Post-->
+        <div class="post d-flex flex-column-fluid" id="kt_post">
+            <!--begin::Container-->
+            <div id="kt_content_container" class="container">
+                <!--begin::Basic info-->
+                <div class="card">
+                    <!--begin::Card header-->
+                    <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
+                        <!--begin::Card title-->
+                        <div class="card-title m-0">
+                            <h3 class="fw-bolder m-0">Chỉnh sửa danh mục</h3>
+                        </div>
+                        <!--end::Card title-->
+                    </div>
+                    <!--begin::Card header-->
+                    <!--begin::Content-->
+                    <div id="kt_account_profile_details" class="collapse show">
+                        <!--begin::Form-->
+                        <form id="kt_account_profile_details_form" class="form">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.id)
+                            @Html.HiddenFor(model => model.create_at)
+                            @Html.HiddenFor(model => model.create_by)
+                            @Html.HiddenFor(model => model.slug)
+                            <!--begin::Card body-->
+                            <div class="card-body border-top p-9">
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label required fw-bold fs-6">Tên danh mục</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control form-control-solid", placeholder = "Nhập tên danh mục" } })
+                                        @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label required fw-bold fs-6">Ảnh 1(vuông)</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 d-flex">
+                                        <div class="col-lg-3 fv-row">
+                                            <a data-fslightbox href="@Model.image">
+                                                <img class="form-control form-control-solid" src="@Model.image" />
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-6 ps-2 pe-2 fv-row">
+                                            <!--id = "linkimages" | path :Scripts/admin_js/custom_ckfinder_ckeditor.js-->
+                                            @Html.EditorFor(model => model.image, new { htmlAttributes = new { @class = "form-control form-control-solid", placeholder = "Chọn ảnh 1", @readonly = "readonly", id = "linkimages1" } })
+                                            @Html.ValidationMessageFor(model => model.image, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-lg-3 fv-row">
+                                            <button type="button" id="selectimage1" class=" btn btn-primary form-control "> <i class="bi bi-upload"></i>Chọn ảnh</button>
+                                        </div>
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label required fw-bold fs-6">Ảnh 2(chữ nhật ngang)</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 d-flex">
+                                        <div class="col-lg-3 fv-row">
+                                            <a data-fslightbox href="@Model.image2">
+                                                <img class="form-control form-control-solid" src="@Model.image2" />
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-6 ps-2 pe-2 fv-row">
+                                            <!--id = "linkimages" | path :Scripts/admin_js/custom_ckfinder_ckeditor.js-->
+                                            @Html.EditorFor(model => model.image2, new { htmlAttributes = new { @class = "form-control form-control-solid", placeholder = "Chọn ảnh 2", @readonly = "readonly", id = "linkimages3" } })
+                                            @Html.ValidationMessageFor(model => model.image2, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-lg-3 fv-row">
+                                            <button type="button" id="selectimage3" class=" btn btn-primary form-control "> <i class="bi bi-upload"></i>Chọn ảnh</button>
+                                        </div>
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label fw-bold fs-6"><span class="required">Trạng thái</span></label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        @Html.DropDownListFor(model => model.status, new[] { new SelectListItem { Value = "1", Text = "Hiển thị" },
+                                       new SelectListItem { Value = "0", Text = "Không hiển thị" } }, new { @class = "form-select form-select-solid " })
+                                        @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label fw-bold fs-6">Mô tả</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        <!--id = "ckedittor_uploadimage" | path :Scripts/admin_js/custom_ckfinder_ckeditor.js-->
+                                        <textarea name="category_description" class="form-control form-control-solid" >@Model.category_description</textarea>
+                                        @Html.ValidationMessageFor(model => model.category_description, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::Card body-->
+                            <!--begin::Actions-->
+                            <div class="card-footer d-flex justify-content-end py-6 px-9">
+                                <button type="reset" class="btn btn-danger data-bs-toggle=" tooltip" data-bs-placement="top" title="Reset lại form và xóa toàn bộ dữ liệu đã nhập" btn-active-light-info">Reset</button>
+                            </div>
+                            <!--end::Actions-->
+                        </form>
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Content-->
+                </div>
+                <!--end::Basic info-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Post-->
+    </div>
+    <!--end::content-->
+}
+
+
+

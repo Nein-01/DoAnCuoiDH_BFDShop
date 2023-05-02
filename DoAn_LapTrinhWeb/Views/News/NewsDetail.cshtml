@@ -1,0 +1,884 @@
+﻿@using DoAn_LapTrinhWeb.Common.Helpers
+@using PagedList.Mvc;
+
+@model DoAn_LapTrinhWeb.Models.News
+@{
+    ViewBag.Title = Model.news_title;
+    ViewBag.ImageURL = Model.image2;
+    ViewBag.Keyword = Model.meta_title;
+    ViewBag.Decription = Model.meta_title;
+    ViewBag.Tag = Model.meta_title;
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+    //=> bài viết liên quan
+    var relatedpost = (List<DoAn_LapTrinhWeb.Models.News>)ViewBag.relatedpost;
+    //=> bình luận bài viết
+    var comment_post = (PagedList.PagedList<DoAn_LapTrinhWeb.Models.NewsComments>)ViewBag.comment;
+    //=>trả lời comment bài viết
+    var reply_comment_post = (List<DoAn_LapTrinhWeb.Models.Reply_Comments>)ViewBag.reply_comment;
+    //=>like bình luận
+    var reaction = (List<DoAn_LapTrinhWeb.Models.CommentLikes>)ViewBag.reaction;
+    //=>like bình luận trả lời
+    var reply_reaction = (List<DoAn_LapTrinhWeb.Models.ReplyCommentLikes>)ViewBag.replyreaction;
+    //=>đếm comment
+    var count_cmt = (List<DoAn_LapTrinhWeb.Models.NewsComments>)ViewBag.hostpostcomment;
+    //=> đếm rep comment
+    var count_rep_cmt = (List<DoAn_LapTrinhWeb.Models.Reply_Comments>)ViewBag.hostpostrepcomment;
+    //=>get dấu chấm cho giá sản phẩm
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+<link href="~/Content/my_css/summernote-bs4.min.css" rel="stylesheet" />
+<!-- section -->
+@section scripts{
+    <!--chia sẻ ảnh, bài viết, sản phẩm lên fb, instagram,...-->
+    <script src="~/Scripts/my_js/button_share_fb.js"></script>
+    <script>
+        //ghim danh mục bài viết gần đây
+        var sticky = new Sticky('[data-sticky]', {});
+    </script>
+   <!--khung bình luận-->
+    <script src="~/Scripts/my_js/summernote-bs4.min.js"></script>
+    <script src="~/Scripts/my_js/summernote-vi-VN.js"></script>
+    <!--script xử lý code bình luận-->
+    <script src="~/Scripts/my_js/comment_post.js"></script>
+
+}
+<section class="margin_mobile_fixed">
+    <div class="container mt-20px mb-20px">
+        <div class="row">
+            <!--start blog-->
+            <div class="col-xl-8">
+                <div class="boder_sidebar">
+                    <div class="blog_section">
+                        <div>
+                            <p class="blog_head">@Model.news_title</p>
+                            <div class="post_info d-flex mt-20px">
+                                <div class="pe-2"><a href="@Url.Action("Author","News",new { id= Model.account_id})" style="color:#005ec4">@Model.Accounts.Name</a></div>
+                                <div class="pe-2" style="color:#999"><i class="fa fa-comments" aria-hidden="true"></i>&nbsp;@(ViewBag.replycountcomment + ViewBag.countcomment)</div>
+                                <div class="pe-2" style="color:#999"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;@Model.ViewCount</div>
+                                <div class="pe-2" style="color:#999">
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                    @{
+                                        DateTime seconds1 = Model.create_at.AddSeconds(60);
+                                        DateTime minutes = Model.create_at.AddMinutes(60);
+                                        DateTime hours = Model.create_at.AddHours(24);
+                                        DateTime dates = Model.create_at.AddDays(30);
+                                        DateTime months = Model.create_at.AddMonths(12);
+                                    }
+                                    @if (seconds1 > DateTime.Now)
+                                    {
+                                        if (Model.create_at.Minute < DateTime.Now.Minute)
+                                        {
+                                            <span>@((DateTime.Now.Second - Model.create_at.Second)+60) giây trước</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@(DateTime.Now.Second - Model.create_at.Second) giây trước</span>
+                                        }
+                                    }
+                                    else if (minutes > DateTime.Now)
+                                    {
+                                        if ((Model.create_at.Day < DateTime.Now.Day) || (Model.create_at.Hour < DateTime.Now.Hour))
+                                        {
+                                            <span>@((DateTime.Now.Minute - Model.create_at.Minute)+60) phút trước</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@(DateTime.Now.Minute - Model.create_at.Minute) phút trước</span>
+                                        }
+                                    }
+                                    else if (hours > DateTime.Now)
+                                    {
+                                        if (Model.create_at.Day < DateTime.Now.Day)
+                                        {
+                                            <span> @(((DateTime.Now.Hour - Model.create_at.Hour)+24)) giờ trước</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@((DateTime.Now.Hour - Model.create_at.Hour)) giờ trước</span>
+                                        }
+                                    }
+                                    else if (dates > DateTime.Now)
+                                    {
+                                        if ((Model.create_at.Month < DateTime.Now.Month))
+                                        {
+                                            <span> @((DateTime.Now.Day - Model.create_at.Day)+30) ngày trước</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@(DateTime.Now.Day - Model.create_at.Day) ngày trước</span>
+                                        }
+                                    }
+                                    else if (months > DateTime.Now)
+                                    {
+                                        if ((Model.create_at.Year < DateTime.Now.Year))
+                                        {
+                                            <span> @((DateTime.Now.Month - Model.create_at.Month)+12) tháng trước</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@(DateTime.Now.Month - Model.create_at.Month) tháng trước</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span>@(DateTime.Now.Year - Model.create_at.Year) năm trước</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content_raw">
+                            @Html.Raw(Model.news_content)
+                        </div>
+                        <div>
+                            <ul>
+                                @foreach (var item in ViewBag.newsproducts)
+                                {
+                                    <li class="list_productnews">
+                                        <div>
+                                            <div class="pd_image_news">
+                                                <img class="img_productnews" src="@item.Product.image" />
+                                            </div>
+                                            <div class="pd_infor_news">
+                                                <a class="name_productnews" href="/product/@item.Product.slug">@item.Product.product_name</a>
+                                                @if (item.Product.Discount.discount_start < DateTime.Now && item.Product.Discount.discount_end > DateTime.Now && item.Product.Discount.status == "1")
+                                                {
+                                                    <div>
+                                                        <span class="new_price">@((item.Product.price - item.Product.Discount.discount_price).ToString("#,###₫", culture.NumberFormat)) </span>  <span class="old_price ms-1">@((item.Product.price).ToString("#,###₫", culture.NumberFormat)) </span>
+                                                    </div>
+                                                    <div>
+                                                        <a href="/product/@item.Product.slug" class="viewdetail">Xem chi tiết</a>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <span class="price_product_news">@item.Product.price.ToString("#,###₫", culture.NumberFormat)</span>
+                                                    <div>
+                                                        <a href="/product/@item.Product.slug" class="viewdetail">Xem chi tiết</a>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="bottom_info">
+                            <div class="pull-left">
+                                <div class="tag_list">
+                                    <ul id="limitshow_tag">
+                                        @foreach (var newstags in ViewBag.newstags)
+                                        {
+                                            <li>
+                                                <a href="/tags/@newstags.Tags.slug">@newstags.Tags.tag_name</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="pull-right">
+                                <div class="shr">Share: </div>
+                                <div class="social_icon">
+                                    <ul>
+                                        <li class="fb"><a style="cursor:pointer" id="fb-share-button"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                        <li class="twi"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                        <li class="gp"><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                                        <li class="pint"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment_section">
+                            <div class="pull-left text_align_left">
+                                <div class="full">
+                                    <div class="preview_commt">
+                                        <a class="comment_cantrol preview_commat disable_scale_img" href="@Url.Action("NewsDetail","News")"> <img class="img-responsive transition" src="https://cdn.tgdd.vn/Files/2021/07/20/1369437/iphone12series_1280x720-300x200.jpg" alt="#"> <span><i class="fa fa-angle-left"></i> Bài viết trước</span> </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pull-right text_align_right">
+                                <div class="full">
+                                    <div class="next_commt">
+                                        <a class="comment_cantrol preview_commat disable_scale_img" href="@Url.Action("NewsDetail","News")"> <img class="img-responsive transition" src="https://cdn.tgdd.vn/Files/2021/07/20/1369517/redminote-10_1280x720-300x200.jpg" alt="#"> <span>Bài viết kế tiếp <i class="fa fa-angle-right"></i></span> </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="view_commant">
+                            <div class="post_commt_form mb-4">
+                                <div class="font_roboto_medium fs-18px">@(ViewBag.replycountcomment + ViewBag.countcomment) Bình luận </div>
+                                <div class="form_section">
+                                    <form class="form_contant" id="create_comment_post">
+                                        <fieldset class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form_comment mb-2">
+                                                <input type="hidden" name="news_id" placeholder="ID bài viết" value="@Model.news_id" />
+                                                <textarea class="form-control form_comment_post " id="comment__con" name="comment_content"></textarea>
+                                            </div>
+                                            <div class="d-flex justify-content-end">
+                                                @if (User.Identity.IsAuthenticated)
+                                                {
+                                                    <a class="btn bg-button" id="create_submit_comment">Gửi bình luận</a>
+                                                }
+                                                else
+                                                {
+                                                    <button class="btn bg-button" disabled>Gửi bình luận</button>
+                                                }
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                if (User.Identity.GetRole() == 1)
+                                {
+                                    <div hidden class="mb-4 append__cmt_create append__cmt display-none text-center text-danger"></div>
+                                }
+                            }
+                            @foreach (var comment in comment_post)
+                            {
+                                <div class="row mb-2">
+                                    <div class="col-2 col-md-1 pe-0">
+                                        <div class="full text-left text-md-right"><img style="object-fit: cover;width:40px!important;height:40px!important;"  src="@comment.Accounts.Avatar" alt="#"> </div>
+                                    </div>
+                                    <div class="col-12 col-md-11">
+                                        <div class="full command_cont">
+                                            <p class="comm_head">
+                                                @comment.Accounts.Name
+                                            </p>
+                                            <div class="mt-1 mb-1 content_com">
+                                                <p>
+                                                    @Html.Raw(comment.comment_content)
+                                                </p>
+                                            </div>
+                                            <div class="fs-13px user-select-none">
+                                                <span class="fs-14px font_roboto_medium text_comment"><a onclick="Create_Reply_comm(@comment.comment_id,'@comment.Accounts.Name')" class="text_comment" style="cursor:pointer;">Trả lời</a></span>
+                                                <span class="material-icons fs-6px text-secondary"> fiber_manual_record </span>
+                                                <span class="text_comment">
+                                                    <span class="like_margin material-icons fs-16px">thumb_up </span>
+                                                    @{
+                                                        int count_like_cmt = 0;
+                                                        int count_you_like_cmnt = 0;
+                                                    }
+                                                    @{
+                                                        foreach (var like in reaction)
+                                                        {
+                                                            //check tổng số like của cmnt
+                                                            if (comment.comment_id == like.comment_id && like.comment_like == "1")
+                                                            {
+                                                                count_like_cmt++;
+                                                            }
+                                                            //check like cmnt của account nếu đã like thì hiện bỏ thích
+                                                            if (User.Identity.IsAuthenticated)
+                                                            {
+                                                                if (User.Identity.GetUserId() == like.account_id && comment.comment_id == like.comment_id)
+                                                                {
+                                                                    count_you_like_cmnt++;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    <!--ngon-->
+                                                    @if (User.Identity.IsAuthenticated)
+                                                    {
+
+                                                        if (count_you_like_cmnt > 0)
+                                                        {
+                                                            <a class="text_comment request_login " id="BtnReacton_@comment.comment_id" onclick="Remove_Like_Comment(@comment.comment_id,@count_like_cmt)" style="cursor:pointer;">Bỏ thích</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="text_comment request_login " id="BtnReacton_@comment.comment_id" onclick="Like_Comment(@comment.comment_id,@count_like_cmt)" style="cursor:pointer;">Thích</a>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <a class="text_comment request_login" style="cursor:pointer;">Thích</a>
+                                                    }
+                                                    <span id="sumlike_cmt_@comment.comment_id">(@count_like_cmt)</span>
+                                                </span>
+                                                <span class="text-secondary">
+                                                    <span class="material-icons text-secondary fs-6px"> fiber_manual_record </span>
+                                                    @{
+                                                        DateTime seconds_1 = comment.create_at.AddSeconds(60);
+                                                        DateTime minutes_1 = comment.create_at.AddMinutes(60);
+                                                        DateTime hours_1 = comment.create_at.AddHours(24);
+                                                        DateTime dates_1 = comment.create_at.AddDays(30);
+                                                        DateTime months_1 = comment.create_at.AddMonths(12);
+                                                    }
+                                                    @if (seconds_1 > DateTime.Now)
+                                                    {
+                                                        if (comment.create_at.Minute < DateTime.Now.Minute)
+                                                        {
+                                                            <span>@((DateTime.Now.Second - comment.create_at.Second)+60) giây trước</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@(DateTime.Now.Second - comment.create_at.Second) giây trước</span>
+                                                        }
+                                                    }
+                                                    else if (minutes_1 > DateTime.Now)
+                                                    {
+                                                        if ((comment.create_at.Day < DateTime.Now.Day) || (comment.create_at.Hour < DateTime.Now.Hour))
+                                                        {
+                                                            <span>@((DateTime.Now.Minute - comment.create_at.Minute)+60) phút trước</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@(DateTime.Now.Minute - comment.create_at.Minute) phút trước</span>
+                                                        }
+                                                    }
+                                                    else if (hours_1 > DateTime.Now)
+                                                    {
+                                                        if (comment.create_at.Day < DateTime.Now.Day)
+                                                        {
+                                                            <span> @(((DateTime.Now.Hour - comment.create_at.Hour)+24)) giờ trước</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@((DateTime.Now.Hour - comment.create_at.Hour)) giờ trước</span>
+                                                        }
+                                                    }
+                                                    else if (dates_1 > DateTime.Now)
+                                                    {
+                                                        if (comment.create_at.Month < DateTime.Now.Month)
+                                                        {
+                                                            <span> @(((DateTime.Now.Day - comment.create_at.Day) +30)) ngày trước</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@(DateTime.Now.Day - comment.create_at.Day) ngày trước</span>
+                                                        }
+                                                    }
+                                                    else if (months_1 > DateTime.Now)
+                                                    {
+                                                        if (comment.create_at.Year < DateTime.Now.Year)
+                                                        {
+                                                            <span> @(((DateTime.Now.Month - comment.create_at.Month)+12)) tháng trước</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@((DateTime.Now.Month - comment.create_at.Month)) tháng trước</span>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>@((DateTime.Now.Year - comment.create_at.Year)) năm trước</span>
+                                                    }
+                                                </span>
+                                                <!--begin::reply comment-->
+                                                <div hidden class="post_commt_form reply_comment_css" id="areas_reply_comment_@comment.comment_id">
+                                                    <div class="form_section">
+                                                        <form class="form_contant" id="find_rep_parent_content_@comment.comment_id">
+                                                            <fieldset class="row">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form_comment mb-2">
+                                                                    <textarea hidden class="form-control" id="reply_comment_con_@comment.comment_id"></textarea>
+                                                                </div>
+                                                                <div class="d-flex justify-content-end">
+                                                                    @if (User.Identity.IsAuthenticated)
+                                                                    {
+                                                                        <a class="btn bg-button" hidden id="submit_reply_comm_@comment.comment_id">Gửi</a>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <button class="btn bg-button request_login" type="button">Gửi</button>
+                                                                    }
+                                                                </div>
+                                                            </fieldset>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <!--end::reply comment-->
+                                            </div>
+                                            @if (User.Identity.IsAuthenticated)
+                                            {
+                                                if (User.Identity.GetRole() == 1)
+                                                {
+                                                    <div class="mb-2 append__cmt text-center text-danger" id="show_rep_parent_complete_@comment.comment_id"></div>
+                                                }
+                                            }
+                                        </div>
+                                        <div class="full border_reply_cmpost">
+                                            <div class="row">
+                                                @foreach (var reply in reply_comment_post)
+                                                {
+                                                    if (reply.comment_id == comment.comment_id)
+                                                    {
+                                                        <div class="col-lg-12 d-flex">
+                                                            <div> <img class="rounded-circle" style="object-fit: cover; width: 40px !important; height: 40px !important; " src="@reply.Accounts.Avatar"> </div>
+                                                            <div class="full pd_reply_comment margin_bottom_0">
+                                                                <p class="comm_head mb-1" style="margin-bottom:2px;">
+                                                                    @reply.Accounts.Name
+                                                                    @if (reply.Accounts.role_id != 1)
+                                                                    {
+                                                                        <span class="fs-12px fb-role-color ms-1">@reply.Accounts.Roles.role_name</span>
+                                                                    }
+                                                                </p>
+                                                                <div class="content_com">
+                                                                    <p>
+                                                                        @Html.Raw(reply.reply_comment_content)
+                                                                    </p>
+                                                                </div>
+                                                                <div class="fs-13px">
+                                                                    <span class="fs-14px font_roboto_medium"><a onclick="Create_Child_Reply_comm(@comment.comment_id,@reply.reply_comment_id, '@reply.Accounts.Name')" style="cursor:pointer;" class="text_comment">Trả lời</a></span>
+                                                                    <span class="material-icons text-secondary fs-6px"> fiber_manual_record </span>
+                                                                    <span class="text_comment user-select-none">
+                                                                        <span class="like_margin material-icons fs-16px">thumb_up </span>
+                                                                        @{
+                                                                            int count_reply_like = 0;
+                                                                            int count_you_rely_like_cmnt = 0;
+                                                                        }
+                                                                        @{
+                                                                            foreach (var like in reply_reaction)
+                                                                            {
+                                                                                //check tổng số like của cmnt
+                                                                                if (like.reply_comment_id == reply.reply_comment_id && like.reply_like == "1")
+                                                                                {
+                                                                                    count_reply_like++;
+                                                                                }
+                                                                                //check like cmnt của account nếu đã like thì hiện bỏ thích
+                                                                                if (User.Identity.IsAuthenticated)
+                                                                                {
+                                                                                    if (User.Identity.GetUserId() == like.account_id && like.reply_comment_id == reply.reply_comment_id)
+                                                                                    {
+                                                                                        count_you_rely_like_cmnt++;
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        <!--ngon-->
+                                                                        @if (User.Identity.IsAuthenticated)
+                                                                        {
+
+                                                                            if (count_you_rely_like_cmnt > 0)
+                                                                            {
+                                                                                <a class="text_comment request_login " id="BtnReplyReacton_@reply.reply_comment_id" onclick="Remove_Reply_Like_Comment(@reply.reply_comment_id,@count_reply_like)" style="cursor:pointer;">Bỏ thích</a>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <a class="text_comment request_login " id="BtnReplyReacton_@reply.reply_comment_id" onclick="Rely_Like_Comment(@reply.reply_comment_id,@count_reply_like)" style="cursor:pointer;">Thích</a>
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <a class="text_comment request_login" style="cursor:pointer;">Thích</a>
+                                                                        }
+                                                                        <span id="sum_reply_like_cmt_@reply.reply_comment_id">(@count_reply_like)</span>
+                                                                    </span>
+                                                                    <span class="text-secondary">
+                                                                        <span class="material-icons fs-6px"> fiber_manual_record </span>
+                                                                        @{
+                                                                            DateTime seconds_2 = reply.create_at.AddSeconds(60);
+                                                                            DateTime minutes_2 = reply.create_at.AddMinutes(60);
+                                                                            DateTime hours_2 = reply.create_at.AddHours(24);
+                                                                            DateTime dates_2 = reply.create_at.AddDays(30);
+                                                                            DateTime months_2 = reply.create_at.AddMonths(12);
+                                                                        }
+                                                                        @if (seconds_2 > DateTime.Now)
+                                                                        {
+                                                                            if (reply.create_at.Minute < DateTime.Now.Minute)
+                                                                            {
+                                                                                <span>@((DateTime.Now.Second - reply.create_at.Second)+60) giây trước</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>@(DateTime.Now.Second - reply.create_at.Second) giây trước</span>
+                                                                            }
+                                                                        }
+                                                                        else if (minutes_2 > DateTime.Now)
+                                                                        {
+                                                                            if ((reply.create_at.Day < DateTime.Now.Day) || (reply.create_at.Hour < DateTime.Now.Hour))
+                                                                            {
+                                                                                <span>@((DateTime.Now.Minute - reply.create_at.Minute)+60) phút trước</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>@(DateTime.Now.Minute - reply.create_at.Minute) phút trước</span>
+                                                                            }
+                                                                        }
+                                                                        else if (hours_2 > DateTime.Now)
+                                                                        {
+                                                                            if (reply.create_at.Day < DateTime.Now.Day)
+                                                                            {
+                                                                                <span> @(((DateTime.Now.Hour - reply.create_at.Hour)+24)) giờ trước</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>@((DateTime.Now.Hour - reply.create_at.Hour)) giờ trước</span>
+                                                                            }
+                                                                        }
+                                                                        else if (dates_2 > DateTime.Now)
+                                                                        {
+                                                                            if (reply.create_at.Month < DateTime.Now.Month)
+                                                                            {
+                                                                                <span> @(((DateTime.Now.Day - reply.create_at.Day) +30)) ngày trước</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>@(DateTime.Now.Day - reply.create_at.Day) ngày trước</span>
+                                                                            }
+                                                                        }
+                                                                        else if (months_2 > DateTime.Now)
+                                                                        {
+                                                                            if (reply.create_at.Year < DateTime.Now.Year)
+                                                                            {
+                                                                                <span> @(((DateTime.Now.Month - reply.create_at.Month)+12)) tháng trước</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>@(DateTime.Now.Month - reply.create_at.Month) tháng trước</span>
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                           <span>@(DateTime.Now.Year - reply.create_at.Year) năm trước</span>
+                                                                        }
+                                                                    </span>
+                                                                    <!--begin::child reply comment-->
+                                                                    <div hidden class="post_commt_form reply_comment_css" id="areas_child_reply_comment_@reply.reply_comment_id">
+                                                                        <div class="form_section">
+                                                                            <form class="form_contant" id="find_content_@reply.reply_comment_id">
+                                                                                <fieldset class="row">
+                                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form_comment mb-2">
+                                                                                        <textarea class="form-control" id="child_reply_comment_con_@reply.reply_comment_id"></textarea>
+                                                                                    </div>
+                                                                                    <div class="d-flex justify-content-end">
+                                                                                        @if (User.Identity.IsAuthenticated)
+                                                                                        {
+                                                                                            <a class="btn bg-button" id="submit_child_reply_comm_@reply.reply_comment_id">Gửi</a>
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <button class="btn bg-button request_login">Gửi</button>
+                                                                                        }
+                                                                                    </div>
+                                                                                </fieldset>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--end::child reply comment-->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        if (User.Identity.IsAuthenticated)
+                                                        {
+                                                            if (User.Identity.GetRole()!= 1)
+                                                            {
+                                                                <div class="col-lg-12 d-flex">
+                                                                    <div> <img class="rounded-circle" style="max-width: 40px; max-height: 40px; object-fit: cover" id="reply_avatar_@reply.reply_comment_id" hidden src="@User.Identity.GetAvartar()"> </div>
+                                                                    <div hidden id="rep_for_@reply.reply_comment_id" class="full pd_reply_comment margin_bottom_0">
+                                                                        <p class="comm_head mb-1" style="margin-bottom:2px;">
+                                                                            @User.Identity.GetName()
+                                                                            <span class="fs-12px fb-role-color ms-1">Quản trị viên</span>
+                                                                        </p>
+                                                                        <div class="content_com">
+                                                                            <p id="content__rep_@reply.reply_comment_id">
+                                                                                Fake nội dung
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="fs-13px">
+                                                                            <span class="fs-14px font_roboto_medium"><a style="cursor:pointer;" class="text_comment">Trả lời</a></span>
+                                                                            <span class="material-icons text-secondary fs-6px"> fiber_manual_record </span>
+                                                                            <span class="text_comment user-select-none">
+                                                                                <span class="material-icons fs-16px like_margin">thumb_up </span>
+                                                                                <a class="text_comment request_login" style="cursor:pointer;">Thích</a>
+                                                                                <span>(0)</span>
+                                                                            </span>
+                                                                            <span class="text-secondary">
+                                                                                <span class="material-icons fs-6px"> fiber_manual_record </span>
+                                                                                <span>1 giây trước</span>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div hidden class="mt-3 mb-4 append__cmt text-center text-danger" id="show_rep_complete_@reply.reply_comment_id"></div>
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="d-flex justify-content-end mb-5 pagination_comment_post">
+                                @Html.PagedListPager(comment_post, page => Url.Action("NewsDetail", new { @page = page }), new PagedListRenderOptions
+                                {
+                                    LinkToPreviousPageFormat = "‹",
+                                    LinkToNextPageFormat = "›",
+                                    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                                    DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                                    DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+                                    DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+                                    MaximumPageNumbersToDisplay = 5
+                                })
+                            </div>
+                        </div>
+                            <!--begin::related post-->
+                            <div class="related_post">
+                                <h4 class="title_sidebar">
+                                    <span class="title_sidebar_content">Bài viết liên quan</span>
+                                </h4>
+                                <div class="row">
+                                    @foreach (var item in relatedpost)
+                                    {
+                                        <div class="col-lg-4 col-6 mb-3">
+                                            <div class="margin_related_post"><a href="/news/list_post/@item.ChildCategory.slug" class="me-2 category_sidebar_url">@item.ChildCategory.name</a><a href="/post/@item.slug"><img class="img_related_post" src="@item.image2" alt="@item.slug"></a></div>
+                                            <a href="/post/@item.slug" class="post-url-side-bar">
+                                                @item.news_title
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <!--end::related post-->
+                        </div>
+                </div>
+            </div>
+            <!--end blog-->
+            <div class="col-xl-4">
+                <div class="featured-posts w100dt mb-10px boder_sidebar">
+                    <div class="top-post-sidebar">
+                        <h4 class="title_sidebar">
+                            <span class="title_sidebar_content">Bài viết hot</span>
+                        </h4>
+                        <!-- /.sidebar-title -->
+                        <div class="sidebar-posts">
+                            @foreach (var item in ViewBag.hotnews)
+                            {
+                                <div class="card">
+                                    <div class="card-image mb-2">
+                                        <img src="@item.image2" alt="Image">
+                                        <span class="effect"></span>
+                                    </div>
+                                    <!-- /.card-image -->
+                                    <div class="card-content w100dt">
+                                        <p>
+                                            <a href="#" class="tag left w100dt l-blue">@item.ChildCategory.ParentCategory.name</a>
+                                        </p>
+                                        <a href="/post/@item.slug" class="card-title post-url-side-bar limit_line_post">
+                                            @item.news_title
+                                        </a>
+                                        <div class="d-flex justify-content-between">
+                                            <ul class="post-mate-time left">
+                                                <li>
+                                                    <p class="hero left fs-12px">
+                                                        <a href="#" class="l-blue">@item.Accounts.Name</a>
+                                                    </p>
+                                                </li>
+                                            </ul>
+                                            <ul class="post-mate right d-flex">
+                                                <li class="like fs-12px">
+                                                    <a href="#">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i> @item.ViewCount
+                                                    </a>
+                                                </li>
+                                                <li class="comment fs-12px">
+                                                    @{
+                                                        int count_hostpost_cmt = 0;
+                                                        int count_hotpost_rep_cmt = 0;
+                                                    }
+                                                    @foreach (var com in count_cmt)
+                                                    {
+                                                        if (com.news_id == item.news_id)
+                                                        {
+                                                            count_hostpost_cmt++;
+                                                        }
+                                                    }
+                                                    @foreach (var rep_com in count_rep_cmt)
+                                                    {
+                                                        if (rep_com.NewsComments.news_id == item.news_id)
+                                                        {
+                                                            count_hotpost_rep_cmt++;
+                                                        }
+                                                    }
+                                                    <a href="#">
+                                                        <i class="fa fa-comment" aria-hidden="true"></i> @(count_hostpost_cmt + count_hotpost_rep_cmt)
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-content -->
+                                </div>
+                            }
+                        </div>
+                        <!-- /.sidebar-posts -->
+                    </div>
+                </div>
+                <!-- /.featured-posts -->
+                @if (ViewBag.newstags.Count > 0)
+                {
+                    <div class="blog_right_sidebar boder_sidebar">
+                        <aside class="single_sidebar_widget tag_cloud_widget">
+                            <h4 class="title_sidebar">
+                                <span class="title_sidebar_content">Tags</span>
+                            </h4>
+                            <ul class="list">
+                                @foreach (var newstags in ViewBag.newstags)
+                                {
+                                    <li>
+                                        <a href="/tags/@newstags.Tags.slug">@newstags.Tags.tag_name</a>
+                                    </li>
+                                }
+                            </ul>
+                        </aside>
+                    </div>
+                }
+                <!--begin::post recent pc-->
+                <div class="side_bar_blog boder_sidebar recent_post_pc" data-sticky data-sticky-wrap data-margin-top="2" data-margin-bottom="20">
+                    <h4 class="title_sidebar">
+                        <span class="title_sidebar_content">Bài viết gần đây</span>
+                    </h4>
+                    <div class="recent_post">
+                        <ul>
+                            @foreach (var item in ViewBag.recentnews)
+                            {
+                                <li>
+                                    <div class="post_head"><a href="/post/@item.slug">@item.news_title</a></div>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="post_date">
+                                            <a href="/news/list_post/@item.ChildCategory.slug" class="me-2 category_sidebar_url">@item.ChildCategory.name</a><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;
+                                            @{
+                                                DateTime seconds = item.create_at.AddSeconds(60);
+                                                DateTime minutes_2 = item.create_at.AddMinutes(60);
+                                                DateTime hour = item.create_at.AddHours(24);
+                                                DateTime date = item.create_at.AddDays(30);
+                                                DateTime months_2 = item.create_at.AddMonths(12);
+                                            }
+                                            @if (seconds > DateTime.Now)
+                                            {
+                                                if ((item.create_at.Minute < DateTime.Now.Minute))
+                                                {
+                                                    <span class="text-muted"> @((DateTime.Now.Second - item.create_at.Second) +60) giây trước</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted"> @(DateTime.Now.Second - item.create_at.Second) giây trước</span>
+                                                }
+                                            }
+                                            else if (minutes_2 > DateTime.Now)
+                                            {
+                                                if ((item.create_at.Hour < DateTime.Now.Hour) || (item.create_at.Day < DateTime.Now.Day))
+                                                {
+                                                    <span class="text-muted"> @((DateTime.Now.Minute - item.create_at.Minute)+60) phút trước</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted"> @(DateTime.Now.Minute - item.create_at.Minute) phút trước</span>
+                                                }
+                                            }
+                                            else if (hour > DateTime.Now)
+                                            {
+                                                if (item.create_at.Day < DateTime.Now.Day)
+                                                {
+                                                    <span class="text-muted"> @((DateTime.Now.Hour - item.create_at.Hour)+24) giờ trước</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted"> @(DateTime.Now.Hour - item.create_at.Hour) giờ trước</span>
+                                                }
+                                            }
+                                            else if (date > DateTime.Now)
+                                            {
+                                                if ((item.create_at.Month < DateTime.Now.Month))
+                                                {
+                                                    <span class="text-muted"> @((DateTime.Now.Day - item.create_at.Day)+30) ngày trước</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">@(DateTime.Now.Day - item.create_at.Day) ngày trước</span>
+                                                }
+                                            }
+                                            else if (months_2 > DateTime.Now)
+                                            {
+                                                if ((item.create_at.Year < DateTime.Now.Year))
+                                                {
+                                                    <span class="text-muted"> @((DateTime.Now.Month - item.create_at.Month)+12) tháng trước</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">@(DateTime.Now.Month - item.create_at.Month) tháng trước</span>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">@item.create_at.ToString("dd/MM/yyyy")</span>
+                                            }
+                                        </div>
+                                        <div class="post_date text-muted">
+                                            @{
+                                                int count_hostpost_cmt = 0;
+                                                int count_hotpost_rep_cmt = 0;
+                                            }
+                                            @foreach (var com in count_cmt)
+                                            {
+                                                if (com.news_id == item.news_id)
+                                                {
+                                                    count_hostpost_cmt++;
+                                                }
+                                            }
+                                            @foreach (var rep_com in count_rep_cmt)
+                                            {
+                                                if (rep_com.NewsComments.news_id == item.news_id)
+                                                {
+                                                    count_hotpost_rep_cmt++;
+                                                }
+                                            }
+                                            <i class="fa fa-comment" aria-hidden="true"></i> @(count_hostpost_cmt + count_hotpost_rep_cmt)
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <!--end::post recent pc-->
+                <!--begin::post recent monile-->
+                <div class="side_bar_blog boder_sidebar recent_post_mobile">
+                    <h4 class="title_sidebar">
+                        <span class="title_sidebar_content">Bài viết gần đây</span>
+                    </h4>
+                    <div class="recent_post">
+                        <ul>
+                            @foreach (var item in ViewBag.recentnews)
+                            {
+                                <li>
+                                    <div class="post_head"><a href="/post/@item.slug">@item.news_title</a></div>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="post_date"><a href="/news/list_post/@item.ChildCategory.slug" class="me-2 category_sidebar_url">@item.ChildCategory.name</a><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;<span class="text-muted">@item.create_at.ToString("dd/MM/yyy")</span></div>
+                                        <div class="post_date text-muted">
+                                            @{
+                                                int count_hostpost_cmt = 0;
+                                                int count_hotpost_rep_cmt = 0;
+                                            }
+                                            @foreach (var com in count_cmt)
+                                            {
+                                                if (com.news_id == item.news_id)
+                                                {
+                                                    count_hostpost_cmt++;
+                                                }
+                                            }
+                                            @foreach (var rep_com in count_rep_cmt)
+                                            {
+                                                if (rep_com.NewsComments.news_id == item.news_id)
+                                                {
+                                                    count_hotpost_rep_cmt++;
+                                                }
+                                            }
+                                            <i class="fa fa-comment" aria-hidden="true"></i> @(count_hostpost_cmt + count_hotpost_rep_cmt)
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <!--end::post recent mobile-->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end section -->

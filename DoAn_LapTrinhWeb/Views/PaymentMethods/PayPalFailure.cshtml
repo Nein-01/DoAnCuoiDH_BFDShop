@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Kết quả thanh toán đơn hàng #" + ViewBag.OrderID;
+
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+}
+<div class="container margin_mobile_fixed margin_payment_status">
+    <div class="row d-flex justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="border_payment_order pd_error_payment">
+                <div>
+                    <i class="bi bi-x-circle-fill ic_false_verify_payment d-flex justify-content-center"></i>
+                    <div class="d-flex justify-content-center mb-3 mt-3 fs-25px" style="color: #ed2d40;">@ViewBag.Error</div>
+                </div>
+                <div class="d-flex justify-content-center manager_order"><a href="@Url.Action("TrackingOrderDetail", "Account",new { id = @ViewBag.OrderID })" class="btn_manager_order mt-50px" style="">Quản lý đơn hàng</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

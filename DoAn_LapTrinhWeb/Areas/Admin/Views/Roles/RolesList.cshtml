@@ -1,0 +1,398 @@
+﻿@using PagedList.Mvc
+@model DoAn_LapTrinhWeb.DTOs.RolesDTO
+@{
+    ViewBag.Title = "Danh sách quyền";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+    var rolesPermissions = (List<DoAn_LapTrinhWeb.Models.RolesPermissions>)ViewBag.rolePermission;
+    var roles = (PagedList.IPagedList<DoAn_LapTrinhWeb.Models.Roles>)ViewBag.roles;
+}
+@section scripts{
+    <script src="~/Scripts/admin_js/list_roles.js"></script>
+}
+<!--begin::css paging-->
+<link href="~/Content/admin_css/PagedList.css" rel="stylesheet" />
+<!--end::css paging-->
+<!--begin::content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Toolbar-->
+    <div class="toolbar" id="kt_toolbar">
+        <!--begin::Container-->
+        <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+            <!--begin::Page title-->
+            <div data-kt-place="true" data-kt-place-mode="prepend" data-kt-place-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center me-3 flex-wrap mb-5 mb-lg-0 lh-1">
+                <!--begin::Title-->
+                <h1 class="d-flex align-items-center text-dark fw-bolder my-1 fs-3">Danh sách quyền</h1>
+                <!--end::Title-->
+                <!--begin::Separator-->
+                <span class="h-20px border-gray-200 border-start mx-4"></span>
+                <!--end::Separator-->
+                <!--begin::Breadcrumb-->
+                <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">
+                        <a href="@Url.Action("Index", "Dashboard")" class="text-muted text-hover-primary">Bảng điều khiển</a>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">Quản lý tài khoản</li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-dark">Danh sách quyền</li>
+                    <!--end::Item-->
+                </ul>
+                <!--end::Breadcrumb-->
+            </div>
+            <!--end::Page title-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Toolbar-->
+    <!--begin::Post-->
+    <div class="post d-flex flex-column-fluid" id="kt_post">
+        <!--begin::Container-->
+        <div id="kt_content_container" class="container">
+            <!--begin::Row-->
+            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-9">
+                <!--begin::Col-->
+                @foreach (var item in roles)
+                {
+                    <div class="col-md-4">
+                        <!--begin::Card-->
+                        <div class="card card-flush h-md-100">
+                            <!--begin::Card header-->
+                            <div class="card-header">
+                                <!--begin::Card title-->
+                                <div class="card-title">
+                                    <h2>@item.role_name</h2>
+                                </div>
+                                <!--end::Card title-->
+                            </div>
+                            <!--end::Card header-->
+                            <!--begin::Card body-->
+                            <div class="card-body pt-1">
+                                <!--begin::Users-->
+                                <div class="fw-bolder text-gray-600 mb-5">
+                                    Tổng số users với quyền này: @item.Accounts.Where(m=>m.status!="2").Count()
+                                </div>
+                                <!--end::Users-->
+                                <!--begin::Permissions-->
+                                <div class="d-flex flex-column text-gray-600">
+                                    @if (item.RolesPermissions.Count == 0)
+                                    {
+                                        <span class="d-flex justify-content-center mt-5 fs-5">...</span>
+                                    }
+                                    else
+                                    {
+                                        foreach (var rolepermiss in rolesPermissions)
+                                        {
+                                            if (item.role_id == rolepermiss.role_id)
+                                            {
+                                                <div class="d-flex align-items-center py-2">
+                                                    <span class="bullet bg-primary me-3"></span>@rolepermiss.Permissions.permission_name
+                                                </div>
+                                            }
+                                        }
+                                    }
+                                </div>
+                                <!--end::Permissions-->
+                            </div>
+                            <!--end::Card body-->
+                            <!--begin::Card footer-->
+                            <div class="card-footer d-flex flex-wrap pt-0">
+                                <form action="@Url.Action("RolesIndex","Roles")" class="">
+                                    <input type="hidden" name="search" value="@item.role_id" class="form-control form-control-solid w-250px ps-14" />
+                                    <button type="submit" class="btn btn-light btn-active-primary my-1 me-2">Xem danh sách</button>
+                                </form>
+                                @if (item.role_id == 4 || item.role_id == 1)
+                                {
+                                    <button type="button" disabled class="btn btn-white btn-active-light-primary my-1">Sửa quyền</button>
+                                }
+                                else
+                                {
+                                    <button type="button" onclick="editrole(@item.role_id, '@item.role_name',@item.RolesPermissions.Count)" class="btn btn-white btn-active-light-primary my-1">Sửa quyển</button>
+                                }
+                            </div>
+                            <!--end::Card footer-->
+                        </div>
+                        <!--end::Card-->
+                    </div>
+                }
+                <!--end::Col-->
+                <!--begin::Add new card-->
+                <div class="ol-md-4">
+                    <!--begin::Card-->
+                    <div class="card h-md-100">
+                        <!--begin::Card body-->
+                        <div class="card-body d-flex flex-center">
+                            <!--begin::Button-->
+                            <button type="button" class="btn btn-clear d-flex flex-column flex-center" data-bs-toggle="modal" data-bs-target="#kt_modal_add_role">
+                                <!--begin::Illustration-->
+                                <img src="assets/media/illustrations/user-role.png" alt="" class="mw-100 mh-150px mb-7" />
+                                <!--end::Illustration-->
+                                <!--begin::Label-->
+                                <div class="fw-bolder fs-3 text-gray-600 text-hover-primary">Thêm quyền mới</div>
+                                <!--end::Label-->
+                            </button>
+                            <!--begin::Button-->
+                        </div>
+                        <!--begin::Card body-->
+                    </div>
+                    <!--begin::Card-->
+                </div>
+                <!--begin::Add new card-->
+            </div>
+            <!--end::Row-->
+            <!--begin::Modals-->
+            <!--begin::Modal - Add role-->
+            <div class="modal fade" id="kt_modal_add_role" tabindex="-1" aria-hidden="true">
+                <!--begin::Modal dialog-->
+                <div class="modal-dialog modal-dialog-centered mw-700px">
+                    <!--begin::Modal content-->
+                    <div class="modal-content">
+                        <!--begin::Modal header-->
+                        <div class="modal-header">
+                            <!--begin::Modal title-->
+                            <h2 class="fw-bolder">Thêm mới quyền</h2>
+                            <!--end::Modal title-->
+                            <!--begin::Close-->
+                            <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-roles-modal-action="close">
+                                <!--begin::Svg Icon | path: icons/duotone/Navigation/Close.svg-->
+                                <span class="svg-icon svg-icon-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)" fill="#000000">
+                                            <rect fill="#000000" x="0" y="7" width="16" height="2" rx="1" />
+                                            <rect fill="#000000" opacity="0.5" transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000)" x="0" y="7" width="16" height="2" rx="1" />
+                                        </g>
+                                    </svg>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </div>
+                            <!--end::Close-->
+                        </div>
+                        <!--end::Modal header-->
+                        <!--begin::Modal body-->
+                        <div class="modal-body scroll-y mx-lg-5 my-7">
+                            <!--begin::Form-->
+                            <form id="form_add_role" class="form" >
+                                <!--begin::Scroll-->
+                                <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_add_role_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_role_header" data-kt-scroll-wrappers="#kt_modal_add_role_scroll" data-kt-scroll-offset="300px">
+                                    <!--begin::Input group-->
+                                    <div class="fv-row mb-10">
+                                        <!--begin::Label-->
+                                        <label class="fs-5 fw-bolder form-label mb-2">
+                                            <span class="required">Tên quyền</span>
+                                        </label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input class="form-control form-control-solid" placeholder="Nhập tên quyền" name="role_name" />
+                                        <!--end::Input-->
+                                    </div>
+                                    <!--end::Input group-->
+                                    <!--begin::Permissions-->
+                                    <div class="fv-row">
+                                        <!--begin::Label-->
+                                        <label class="fs-5 fw-bolder form-label mb-2">Cho phép</label>
+                                        <!--end::Label-->
+                                        <!--begin::Table wrapper-->
+                                        <div class="table-responsive">
+                                            <!--begin::Table-->
+                                            <table class="table align-middle table-row-dashed fs-6 gy-5">
+                                                <!--begin::Table body-->
+                                                <tbody class="text-gray-600 fw-bold">
+                                                    <!--begin::Table row-->
+                                                    <tr>
+                                                        <!--begin::Options-->
+                                                        <td>
+                                                            <!--begin::Wrapper-->
+                                                            <div class="d-flex">
+                                                                <!--begin::Checkbox-->
+                                                                @for (int j = 0; j < Model.RolePermissions.Count(); j++)
+                                                                {
+                                                                    <label class="form-check form-check-sm form-check-custom form-check-solid me-7">
+                                                                        @Html.EditorFor(m => Model.RolePermissions[j].Checked, new { htmlAttributes = new { @class = "form-check-input", type = "checkbox" } })
+                                                                        <span class="form-check-label">@Model.RolePermissions[j].permiss_name</span>
+                                                                        @Html.HiddenFor(m => Model.RolePermissions[j].permiss_id)
+                                                                        @Html.HiddenFor(m => Model.RolePermissions[j].permiss_name)
+                                                                    </label>
+                                                                }
+                                                                <!--end::Checkbox-->
+                                                            </div>
+                                                            <!--end::Wrapper-->
+                                                        </td>
+                                                        <!--end::Options-->
+                                                    </tr>
+                                                    <!--end::Table row-->                                                                                                                                                             
+                                                </tbody>
+                                                <!--end::Table body-->
+                                            </table>
+                                            <!--end::Table-->
+                                        </div>
+                                        <!--end::Table wrapper-->
+                                    </div>
+                                    <!--end::Permissions-->
+                                </div>
+                                <!--end::Scroll-->
+                                <!--begin::Actions-->
+                                <div class="text-center pt-15">
+                                    <button type="reset" class="btn btn-white me-3" data-kt-roles-modal-action="cancel">Discard</button>
+                                    <button type="button" class="btn btn-primary" id="Submitbtn">
+                                        <span class="indicator-label">Thêm mới</span>
+                                    </button>
+                                </div>
+                                <!--end::Actions-->
+                            </form>
+                            <!--end::Form-->
+                        </div>
+                        <!--end::Modal body-->
+                    </div>
+                    <!--end::Modal content-->
+                </div>
+                <!--end::Modal dialog-->
+            </div>
+            <!--end::Modal - Add role-->
+            <!--begin::Modal - Update role-->
+            <div class="modal fade" id="editformmodal" tabindex="-1" aria-hidden="true">
+                <!--begin::Modal dialog-->
+                <div class="modal-dialog modal-dialog-centered mw-750px">
+                    <!--begin::Modal content-->
+                    <div class="modal-content">
+                        <!--begin::Modal header-->
+                        <div class="modal-header">
+                            <!--begin::Modal title-->
+                            <h2 class="fw-bolder">Cập nhật quyền</h2>
+                            <!--end::Modal title-->
+                            <!--begin::Close-->
+                            <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-roles-modal-action="close">
+                                <!--begin::Svg Icon | path: icons/duotone/Navigation/Close.svg-->
+                                <span class="svg-icon svg-icon-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)" fill="#000000">
+                                            <rect fill="#000000" x="0" y="7" width="16" height="2" rx="1" />
+                                            <rect fill="#000000" opacity="0.5" transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000)" x="0" y="7" width="16" height="2" rx="1" />
+                                        </g>
+                                    </svg>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </div>
+                            <!--end::Close-->
+                        </div>
+                        <!--end::Modal header-->
+                        <!--begin::Modal body-->
+                        <div class="modal-body scroll-y mx-5 my-7">
+                            <!--begin::Form-->
+                            <form id="form_edit_role" class="form" >
+                                <!--begin::Scroll-->
+                                <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_update_role_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_role_header" data-kt-scroll-wrappers="#kt_modal_update_role_scroll" data-kt-scroll-offset="300px">
+                                    <!--begin::Input group-->
+                                    <div class="fv-row mb-10">
+                                        <!--begin::Label-->
+                                        <label class="fs-5 fw-bolder form-label mb-2">
+                                            <span class="required">Tên quyền</span>
+                                        </label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input class="form-control form-control-solid" type="hidden" id="role_id" placeholder="Enter a role name" name="role_id" />
+
+                                        <input class="form-control form-control-solid" id="role_name" placeholder="Enter a role name" name="role_name" />
+                                        <!--end::Input-->
+                                    </div>
+                                    <!--end::Input group-->
+                                    <!--begin::Permissions-->
+                                    <div class="fv-row">
+                                        <!--begin::Label-->
+                                        <label class="fs-5 fw-bolder form-label mb-2">Cho phép</label>
+                                        <!--end::Label-->
+                                        <!--begin::Table wrapper-->
+                                        <div class="table-responsive">
+                                            <!--begin::Table-->
+                                            <table class="table align-middle table-row-dashed fs-6 gy-5">
+                                                <!--begin::Table body-->
+                                                <tbody class="text-gray-600 fw-bold">
+                                                    <!--begin::Table row-->
+                                                    <tr>
+                                                        <!--begin::Input group-->
+                                                        <td>
+                                                            <!--begin::Wrapper-->
+                                                            <div class="d-flex">
+                                                                <!--begin::Checkbox-->
+                                                                @for (int i = 0; i < Model.RolePermissions.Count(); i++)
+                                                                {
+                                                                    <label class="form-check form-check-sm form-check-custom form-check-solid me-7">
+                                                                        <span id="test_@Model.RolePermissions[i].permiss_id"></span>
+                                                                        @Html.EditorFor(m => Model.RolePermissions[i].Checked, new { htmlAttributes = new { @class = "form-check-input", type = "checkbox", id="permiss_"+i+""} })
+                                                                        <span class="form-check-label">@Model.RolePermissions[i].permiss_name</span>
+                                                                        @Html.HiddenFor(m => Model.RolePermissions[i].permiss_id)
+                                                                        @Html.HiddenFor(m => Model.RolePermissions[i].permiss_name)
+                                                                    </label>
+                                                                    @*<input type="checkbox" id="estado_cat" />*@
+                                                                }
+                                                                <!--end::Checkbox-->
+                                                            </div>
+                                                            <!--end::Wrapper-->
+                                                        </td>
+                                                        <!--end::Input group-->
+                                                    </tr>
+                                                    <!--end::Table row-->
+                                                </tbody>
+                                                <!--end::Table body-->
+                                            </table>
+                                            <!--end::Table-->
+                                        </div>
+                                        <!--end::Table wrapper-->
+                                    </div>
+                                    <!--end::Permissions-->
+                                </div>
+                                <!--end::Scroll-->
+                                <!--begin::Actions-->
+                                <div class="text-center pt-15">
+                                    <button type="reset" class="btn btn-white me-3" data-kt-roles-modal-action="cancel">Discard</button>
+                                    <button type="button" id="SubmitEditbtn" class="btn btn-primary" >
+                                        <span class="indicator-label">Lưu</span>
+                                    </button>
+                                </div>
+                                <!--end::Actions-->
+                            </form>
+                            <!--end::Form-->
+                        </div>
+                        <!--end::Modal body-->
+                    </div>
+                    <!--end::Modal content-->
+                </div>
+                <!--end::Modal dialog-->
+            </div>
+            <!--end::Modal - Update role-->
+            <!--end::Modals-->
+            @if (roles.Count != 0)
+            {
+                <div class="paging_custom">
+                    <div class="d-flex justify-content-center mt-10">
+                        @Html.PagedListPager(roles, page => Url.Action("RolesList", new { page }), new PagedListRenderOptions
+                        {
+                            LinkToPreviousPageFormat = "‹",
+                            LinkToNextPageFormat = "›",
+                            DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                            DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                            DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                            MaximumPageNumbersToDisplay = 10
+                        })
+                    </div>
+                </div>
+            }
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Post-->
+
+</div>
+<!--end::content-->

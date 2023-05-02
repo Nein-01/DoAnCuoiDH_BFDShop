@@ -1,0 +1,58 @@
+﻿@model IEnumerable<DoAn_LapTrinhWeb.Models.ParentCategory>
+@{
+    var listtag = (List<DoAn_LapTrinhWeb.Models.Tags>)ViewBag.listtag;
+}
+<div class="blog_right_sidebar">
+    <aside class="single_sidebar_widget search_widget">
+        <form action="@Url.Action("SearchResult", "News")">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="search" class="form-control" name="s" placeholder='Tìm kiếm bài viết'
+                           onfocus="this.placeholder = ''"
+                           onblur="this.placeholder = 'Tìm kiếm bài viết'">
+                    <div class="input-group-append">
+                        <button class="btns" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </aside>
+    <aside class="single_sidebar_widget post_category_widget">
+        <h4 class="title_sidebar">
+            <span class="title_sidebar_content">Danh mục</span>
+        </h4>
+        <ul class="list cat-list">
+            @foreach (var category in Model)
+            {
+                <li>
+                    <a href="/news/genre/@category.slug" class="d-flex">
+                        <p>@category.name</p>
+                        @{int countnewscategory = 0;
+                            foreach (var childcategory in ViewBag.newscategory)
+                            {
+                                if (childcategory.parentcategory_id == category.parentcategory_id)
+                                {
+                                    countnewscategory++;
+                                }
+                            }
+                            <p>(@countnewscategory)</p>
+                        }
+                    </a>
+                </li>
+            }
+        </ul>
+    </aside>
+    <aside class="single_sidebar_widget tag_cloud_widget margin_tag_cloud_widget">
+        <h4 class="title_sidebar">
+            <span class="title_sidebar_content">Tags</span>
+        </h4>
+        <ul class="list">
+            @foreach (var tags in listtag)
+            {
+                <li>
+                    <a href="/tags/@tags.slug">@tags.tag_name</a>
+                </li>
+            }
+        </ul>
+    </aside>
+</div>

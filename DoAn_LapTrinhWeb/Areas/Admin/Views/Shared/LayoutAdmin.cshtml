@@ -35,7 +35,7 @@
                 <!--begin::Brand-->
                 <div class="aside-logo flex-column-auto" id="kt_aside_logo" style="background-color: white;">
                     <!--begin::Logo-->
-                    <a href="@Url.Action("Index","Dashboard")" >
+                    <a href="@Url.Action("Index","Dashboard")">
                         <img alt="Logo" src="~/Images/ImagesCollection/BFD-logo_web.png" class="h-40px logo" />
                     </a>
                     <!--end::Logo-->
@@ -144,11 +144,24 @@
                                             </a>
                                         </div>
                                         <div class="menu-item">
-                                            
+                                            <a class="menu-link
+                                            @(ViewContext.RouteData.Values["Action"].ToString() == "FeedbackIndex" ? "active" : "")
+                                            @(ViewContext.RouteData.Values["Action"].ToString() == "FeedbackTrash" ? "active" : "")
+                                            @(ViewContext.RouteData.Values["Action"].ToString() == "Disable" ? "active" : "")" href="@Url.Action("FeedbackIndex", "Feedbacks")">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                                </span>
+                                                <span class="menu-title">Đánh giá sản phẩm</span>
+                                            </a>
                                         </div>
-                                        <div class="menu-item">
-                                            
-                                        </div>
+                                        <!--<div class="menu-item">
+                                            <a class="menu-link @(ViewContext.RouteData.Values["Action"].ToString() == "TaxesIndex" ? "active" : "")" href="@Url.Action("TaxesIndex", "Taxes")">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                                </span>
+                                                <span class="menu-title">Danh sách VAT</span>
+                                            </a>
+                                        </div>-->
                                     </div>
                                 </div>
                                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion
@@ -245,7 +258,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div data-kt-menu-trigger="click" class="menu-item menu-accordion
+                                <!-- khuyến mãi section -->
+                                <!-- <div data-kt-menu-trigger="click" class="menu-item menu-accordion
                                   @(ViewContext.RouteData.Values["Action"].ToString() == "DiscountIndex" ? "hover show" : "")
                                  @(ViewContext.RouteData.Values["Action"].ToString() == "DiscountTrash" ? "hover show" : "")
                                  @(ViewContext.RouteData.Values["Action"].ToString() == "DiscountCreate" ? "hover show" : "")
@@ -263,7 +277,13 @@
                                  @(ViewContext.RouteData.Values["Action"].ToString() == "BannerDIndex" ? "hover show" : "")
                                  @(ViewContext.RouteData.Values["Action"].ToString() == "BannerDCreate" ? "hover show" : "")
                                  @(ViewContext.RouteData.Values["Action"].ToString() == "BannerDDelete" ? "hover show" : "")">
-                                    
+                                    <span class="menu-link">
+                                        <span class="menu-icon">
+                                            <i class="bi bi-tags fs-3"></i>
+                                        </span>
+                                        <span class="menu-title">Khuyến mãi và giảm giá</span>
+                                        <span class="menu-arrow"></span>
+                                    </span>
                                     <div class="menu-sub menu-sub-accordion menu-active-bg
                                      @(ViewContext.RouteData.Values["Action"].ToString() == "DiscountIndex" ? "show" : "")
                                      @(ViewContext.RouteData.Values["Action"].ToString() == "DiscountTrash" ? "show" : "")
@@ -283,7 +303,13 @@
                                           @(ViewContext.RouteData.Values["Action"].ToString() == "BannerDCreate" ? "hover show" : "")
                                           @(ViewContext.RouteData.Values["Action"].ToString() == "BannerDDelete" ? "hover show" : "")
                                          mb-1">
-                                            
+                                            <span class="menu-link">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                                </span>
+                                                <span class="menu-title">Khuyến mãi</span>
+                                                <span class="menu-arrow"></span>
+                                            </span>
                                             <div class="menu-sub menu-sub-accordion
                                               @(ViewContext.RouteData.Values["Action"].ToString() == "BannerIndex" ? "hover show" : "")
                                              @(ViewContext.RouteData.Values["Action"].ToString() == "BannerCreate" ? "hover show" : "")
@@ -296,33 +322,193 @@
                                              @(ViewContext.RouteData.Values["Action"].ToString() == "BannerDCreate" ? "hover show" : "")
                                              @(ViewContext.RouteData.Values["Action"].ToString() == "BannerDDelete" ? "hover show" : "")">
                                                 <div class="menu-item">
-                                                    
+                                                    <a class="menu-link
+                                                   @(ViewContext.RouteData.Values["Action"].ToString() == "BannerIndex" ? "active" : "")
+                                                   @(ViewContext.RouteData.Values["Action"].ToString() == "BannerCreate" ? "active" : "")
+                                                   @(ViewContext.RouteData.Values["Action"].ToString() == "BannerDelete" ? "active" : "")
+                                                   @(ViewContext.RouteData.Values["Action"].ToString() == "BannerDetails" ? "active" : "")
+                                                   @(ViewContext.RouteData.Values["Action"].ToString() == "BannerEdit" ? "active" : "")
+                                                   @(ViewContext.RouteData.Values["Action"].ToString() == "BannerTrash" ? "active" : "")
+                                                   " href="@Url.Action("BannerIndex", "Banners")">
+                                                        <span class="menu-bullet">
+                                                            <span class="bullet bullet-dot"></span>
+                                                        </span>
+                                                        <span class="menu-title">Khuyến mãi</span>
+                                                    </a>
                                                 </div>
                                                 <div class="menu-item">
-                                                    
+                                                    <a class="menu-link
+                                                   @(ViewContext.RouteData.Values["Action"].ToString() == "BannerDIndex" ? "active" : "")
+                                                   @(ViewContext.RouteData.Values["Action"].ToString() == "BannerDCreate" ? "active" : "")
+                                                   @(ViewContext.RouteData.Values["Action"].ToString() == "BannerDDelete" ? "active" : "")" href="@Url.Action("BannerDIndex", "BannerDetails")">
+                                                        <span class="menu-bullet">
+                                                            <span class="bullet bullet-dot"></span>
+                                                        </span>
+                                                        <span class="menu-title">Sản phẩm khuyến mãi</span>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="menu-item">
-                                           
+                                            <a class="menu-link
+                                           @(ViewContext.RouteData.Values["Action"].ToString() == "DiscountIndex" ? "active" : "")
+                                           @(ViewContext.RouteData.Values["Action"].ToString() == "DiscountTrash" ? "active" : "")
+                                           @(ViewContext.RouteData.Values["Action"].ToString() == "DiscountCreate" ? "active" : "")
+                                           @(ViewContext.RouteData.Values["Action"].ToString() == "DiscountDetails" ? "active" : "")
+                                           @(ViewContext.RouteData.Values["Action"].ToString() == "DiscountEdit" ? "active" : "")
+                                           @(ViewContext.RouteData.Values["Action"].ToString() == "DiscountDelete" ? "active" : "")" href="@Url.Action("DiscountIndex", "Discounts")">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                                </span>
+                                                <span class="menu-title">Chương trình giảm giá</span>
+                                            </a>
                                         </div>
 
                                     </div>
-                                </div>
+                                </div> -->
                                 @*end::products manager*@
                                 <!--begin::posts manager-->
                                 <div class="menu-item">
-                                   
+                                    <div class="menu-content pt-8 pb-2">
+                                        <span class="menu-section text-muted text-uppercase fs-8 ls-1">Quản lý bài viết</span>
+                                    </div>
                                 </div>
+                                <div class="menu-item">
+                                    <a class="menu-link @(ViewContext.RouteData.Values["Action"].ToString() == "NewsDetails" ? "active" : "")
+                                     @(ViewContext.RouteData.Values["Action"].ToString() == "NewsIndex" ? "active" : "")
+                                     @(ViewContext.RouteData.Values["Action"].ToString() == "NewsTrash" ? "active" : "")
+                                     @(ViewContext.RouteData.Values["Action"].ToString() == "NewsEdit" ? "active" : "")
+                                     @(ViewContext.RouteData.Values["Action"].ToString() == "NewsDelete" ? "active" : "")" href="@Url.Action("NewsIndex", "NewsAdmin")">
+                                        <span class="menu-icon">
+                                            <i class="bi bi-file-richtext fs-3"></i>
+                                        </span>
+                                        <span class="menu-title">Danh sách bài viết</span>
+                                    </a>
+                                </div>
+                                <!--begin::comment and reply post-->
+                                <!--<div data-kt-menu-trigger="click" class="menu-item menu-accordion
+                                  @(ViewContext.RouteData.Values["Action"].ToString() == "ReplyIndex" ? "hover show" : "")
+                                  @(ViewContext.RouteData.Values["Action"].ToString() == "CmtIndex" ? "hover show" : "")">
+                                    <span class="menu-link">
+                                        <span class="menu-icon">
+                                            <i class="bi bi-chat-left-text-fill"></i>
+                                        </span>
+                                        <span class="menu-title">Bình luận và phản hồi</span>
+                                        <span class="menu-arrow"></span>
+                                    </span>
+                                    <div class="menu-sub menu-sub-accordion menu-active-bg
+                                      @(ViewContext.RouteData.Values["Action"].ToString() == "CmtIndex" ? "show" : "")
+
+                                      @(ViewContext.RouteData.Values["Action"].ToString() == "ReplyIndex" ? "show" : "")" kt-hidden-height="262">
+                                        <div class="menu-item">
+                                            <a class="menu-link
+                                         @(ViewContext.RouteData.Values["Action"].ToString() == "CmtIndex" ? "active" : "")" href="@Url.Action("CmtIndex", "CommentReply")">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                                </span>
+                                                <span class="menu-title">Bình luận: cha</span>
+                                            </a>
+                                        </div>
+                                        <div class="menu-item">
+                                            <a class="menu-link
+                                         @(ViewContext.RouteData.Values["Action"].ToString() == "ReplyIndex" ? "active" : "")" href="@Url.Action("ReplyIndex", "CommentReply")">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                                </span>
+                                                <span class="menu-title">Bình luận: con</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div> -->
                                 <!--end::comment and reply post-->
                                 <!--begin::news category-->
-                                
+                                <!--<div data-kt-menu-trigger="click" class="menu-item menu-accordion
+                                  @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesIndex" ? "hover show" : "")
+                                  @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesCreate" ? "hover show" : "")
+                                  @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesEdit" ? "hover show" : "")
+                                  @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesDetails" ? "hover show" : "")
+                                  @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesTrash" ? "hover show" : "")
+                                  @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesDelete" ? "hover show" : "")
+
+                                  @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateIndex" ? "hover show" : "")
+                                  @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateTrash" ? "hover show" : "")
+                                  @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateCreate" ? "hover show" : "")
+                                  @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateDetails" ? "hover show" : "")
+                                  @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateEdit" ? "hover show" : "")
+                                  @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateDelete" ? "hover show" : "")">
+                                    <span class="menu-link">
+                                        <span class="menu-icon">
+                                            <i class="bi bi-bookmarks-fill"></i>
+                                        </span>
+                                        <span class="menu-title">Danh mục bài viết</span>
+                                        <span class="menu-arrow"></span>
+                                    </span>
+                                    <div class="menu-sub menu-sub-accordion menu-active-bg
+                                      @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesIndex" ? "show" : "")
+                                      @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesCreate" ? "show" : "")
+                                      @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesEdit" ? "show" : "")
+                                      @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesDetails" ? "show" : "")
+                                      @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesTrash" ? "show" : "")
+                                      @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesDelete" ? "show" : "")
+
+                                      @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateIndex" ? "show" : "")
+                                      @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateTrash" ? "show" : "")
+                                      @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateCreate" ? "show" : "")
+                                      @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateDetails" ? "show" : "")
+                                      @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateEdit" ? "show" : "")
+                                      @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateDelete" ? "show" : "")" kt-hidden-height="262">
+                                        <div class="menu-item">
+                                            <a class="menu-link
+                                         @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesIndex" ? "active" : "")
+                                         @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesCreate" ? "active" : "")
+                                         @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesEdit" ? "active" : "")
+                                         @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesDetails" ? "active" : "")
+                                         @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesTrash" ? "active" : "")
+                                         @(ViewContext.RouteData.Values["Action"].ToString() == "CategoriesDelete" ? "active" : "")" href="@Url.Action("CategoriesIndex", "Categories")">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                                </span>
+                                                <span class="menu-title">Danh mục</span>
+                                            </a>
+                                        </div>
+                                        <div class="menu-item">
+                                            <a class="menu-link
+                                         @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateIndex" ? "active" : "")
+                                         @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateTrash" ? "active" : "")
+                                         @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateCreate" ? "active" : "")
+                                         @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateDetails" ? "active" : "")
+                                         @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateEdit" ? "active" : "")
+                                         @(ViewContext.RouteData.Values["Action"].ToString() == "ChildCateDelete" ? "active" : "")" href="@Url.Action("ChildCateIndex", "ChildCategories")">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                                </span>
+                                                <span class="menu-title">Danh mục con</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div> -->
                                 <!--end::news category-->
                                 <!--begin::sticky post-->
-                               
+                                <!--<div class="menu-item">
+                                    <a class="menu-link @(ViewContext.RouteData.Values["Action"].ToString() == "StickyPost" ? "active" : "")" href="@Url.Action("StickyPost", "NewsAdmin")">
+                                        <span class="menu-icon">
+                                            <i class="bi bi-pin-angle fs-3"></i>
+                                        </span>
+                                        <span class="menu-title">Danh sách bài ghim</span>
+                                    </a>
+                                </div> -->
                                 <!--end::sticky post-->
                                 <!--begin::tags-->
-                                
+                                <!--<div class="menu-item">
+                                    <a class="menu-link @(ViewContext.RouteData.Values["Action"].ToString() == "TagEdit" ? "active" : "")
+                                     @(ViewContext.RouteData.Values["Action"].ToString() == "TagsIndex" ? "active" : "")
+                                     @(ViewContext.RouteData.Values["Action"].ToString() == "TagCreate" ? "active" : "")" href="@Url.Action("TagsIndex", "TagsAdmin")">
+                                        <span class="menu-icon">
+                                            <i class="bi bi-tags-fill fs-3"></i>
+                                        </span>
+                                        <span class="menu-title">Tags</span>
+                                    </a>
+                                </div> -->
                                 <!--end::tags-->
                                 <!--begin:: menu orders manager-->
                                 <div class="menu-item">
@@ -436,10 +622,49 @@
                                 </div>
                                 <!--end::account manager-->
                                 <!--begin::contacts manager-->
-                                
+                                <div class="menu-item">
+                                    <div class="menu-content pt-8 pb-2">
+                                        <span class="menu-section text-muted text-uppercase fs-8 ls-1">Quản lý liên hệ</span>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <a class="menu-link
+                                    @(ViewContext.RouteData.Values["Action"].ToString() == "ContactIndex" ? "active" : "")
+                                    @(ViewContext.RouteData.Values["Action"].ToString() == "ContactDelete" ? "active" : "")
+                                    @(ViewContext.RouteData.Values["Action"].ToString() == "ContactTrash" ? "active" : "")
+                                    @(ViewContext.RouteData.Values["Action"].ToString() == "Reply" ? "active" : "")" href="@Url.Action("ContactIndex", "Contacts")">
+                                        <span class="menu-icon">
+                                            <i class="bi bi-chat-left fs-3"></i>
+                                        </span>
+                                        <span class="menu-title">Danh sách liên hệ</span>
+                                    </a>
+                                </div>
                                 <!--end::contacts manager-->
                                 <!--begin::tools manager-->
-                               
+                                <!-- <div class="menu-item">
+                                    <div class="menu-content pt-8 pb-2">
+                                        <span class="menu-section text-muted text-uppercase fs-8 ls-1">Công cụ</span>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <a class="menu-link
+                                   @(ViewContext.RouteData.Values["Action"].ToString() == "APIIndex" ? "active" : "")" href="@Url.Action("APIIndex", "API")">
+                                        <span class="menu-icon">
+                                            <i class="bi bi-key fs-2"></i>
+                                        </span>
+                                        <span class="menu-title">Quản lý API</span>
+                                    </a>
+                                </div>
+                                <div class="menu-item">
+                                    <a class="menu-link ">
+                                        <span class="menu-icon">
+                                            <i class="bi bi-image fs-3"></i>
+                                        </span>
+                                        <button type="button" id="uploadimage" class="menu-title btn bg-transparent" style="padding:0;">
+                                            Upload ảnh
+                                        </button>
+                                    </a>
+                                </div> -->
                                 <!--end::tools manager-->
                                 <div class="menu-item">
                                     <div class="menu-content">
@@ -470,7 +695,7 @@
                         <!--begin::Mobile logo-->
                         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
                             <a href="@Url.Action("Index","Dashboard")" class="d-lg-none" style="background-color: white;">
-                                <img alt="Logo" src="~/Images/ImagesCollection/BFD-logo_web.png" class="h-30px"/>
+                                <img alt="Logo" src="~/Images/ImagesCollection/BFD-logo_web.png" class="h-30px" />
                             </a>
                         </div>
                         <!--end::Mobile logo-->
@@ -541,7 +766,7 @@
                                                                 <span class="menu-title">Thể loại</span>
                                                             </a>
                                                         </div>
-                                                        <div class="menu-item">
+                                                        <!--<div class="menu-item">
                                                             <a class="menu-link py-3" href="@Url.Action("BannerIndex", "Banners")">
                                                                 <span class="menu-bullet">
                                                                     <span class="bullet bullet-dot"></span>
@@ -556,7 +781,7 @@
                                                                 </span>
                                                                 <span class="menu-title">Chương trình giảm giá</span>
                                                             </a>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                     <!--end::sub menu product manager-->
                                                 </div>
@@ -694,7 +919,7 @@
                                                 </div>
                                                 <!--end::post manager-->
                                                 <!--begin::tools manager-->
-                                                <div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
+                                                <!--<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
                                                     <span class="menu-link py-3">
                                                         <span class="menu-icon">
                                                             <i class="bi bi-image fs-2"></i>
@@ -714,7 +939,7 @@
                                                             </a>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <!--end::tools manager-->
                                             </div>
                                             <!--begin::Menu top sub Menu-->

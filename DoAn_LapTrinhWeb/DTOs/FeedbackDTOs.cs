@@ -29,6 +29,8 @@ namespace DoAn_LapTrinhWeb.DTOs
         public string description { get; set; }
         //=>
         public int rating_star { get; set; }
+        //=>        
+        public string AI_rated { get; set; }
         //=>
         public string Image { get; set; }
         //=>

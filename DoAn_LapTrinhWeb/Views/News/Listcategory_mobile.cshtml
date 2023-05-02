@@ -1,0 +1,7 @@
+﻿@model IEnumerable<DoAn_LapTrinhWeb.Models.ParentCategory>
+@foreach (var item in Model) 
+{
+<li class="dropdown-item">
+    <a href="/tin-tuc/danh-muc/@item.slug">@item.name</a>
+</li>
+}

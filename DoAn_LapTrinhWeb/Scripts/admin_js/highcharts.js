@@ -158,7 +158,7 @@
                     second: "%A, %b %e, %H:%M:%S", minute: "%A, %b %e, %H:%M", hour: "%A, %b %e, %H:%M", day: "%A, %b %e, %Y", week: "Week from %A, %b %e, %Y", month: "%B %Y", year: "%Y"
                 }, footerFormat: "", headerShape: "callout", hideDelay: 500, padding: 8, shape: "callout", shared: !1, snap: C.isTouchDevice ? 25 : 10, headerFormat: '<span style="font-size: 10px">{point.key}</span><br/>', pointFormat: '<span style="color:{point.color}">\u25cf</span> {series.name}: <b>{point.y}</b><br/>', backgroundColor: w(E.neutralColor3).setOpacity(.85).get(), borderWidth: 1,
                 shadow: !0, stickOnContact: !1, style: { color: E.neutralColor80, cursor: "default", fontSize: "12px", whiteSpace: "nowrap" }, useHTML: !1
-            }, credits: { enabled: !0, href: "https://bfd.vn", position: { align: "right", x: -10, verticalAlign: "bottom", y: -5 }, style: { cursor: "pointer", color: E.neutralColor40, fontSize: "9px" }, text: "BFD" }
+            }, credits: { enabled: !0, href: "https://bfd.vn/", target: "_blank", position: { align: "right", x: -10, verticalAlign: "bottom", y: -5 }, style: { cursor: "pointer", color: E.neutralColor40, fontSize: "9px" }, text: "BFD" }
         }; u.chart.styledMode = !1; ""; var n = new z(r(u.global, u.time)); a = {
             defaultOptions: u, defaultTime: n, getOptions: function () { return u }, setOptions: function (a) {
                 r(!0, u, a); if (a.time || a.global) C.time ?

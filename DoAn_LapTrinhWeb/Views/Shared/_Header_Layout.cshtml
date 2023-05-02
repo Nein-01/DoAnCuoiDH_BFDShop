@@ -41,35 +41,7 @@
     </script>
 }
 <div class="header_top">
-    @if (ViewBag.BannerTopHorizontal.Count > 0)
-    {
-        <div id="carouselexamplecontrols" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                @{
-                    var first = true;
-                }
-                @foreach (var item in ViewBag.BannerTopHorizontal)
-                {
-                    <div class="carousel-item @(first?Html.Raw("active"):Html.Raw(""))">
-                        <a href="/promo/@item.slug">
-                            <img class="d-block w-100" style="object-fit:cover; width:100%!important; height:100%!important" src="@item.image_thumbnail" alt="@item.banner_name">
-                        </a>
-                    </div>
-                    first = false;
-                }
-            </div>
-            <a class="carousel-control-prev" href="#carouselexamplecontrols" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselexamplecontrols" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">next</span>
-            </a>
-        </div>
-    }
-    else
-    {
+    @{
         <div class="container">
             <!--begin::Row-->
             <div class="row">
@@ -131,7 +103,7 @@
                     </div>
                     <div class="float-right">
                         <div class="make_appo">
-                            <a class="btn white_btn text-uppercase" href="@Url.Action("SentRequest", "Home")">Hẹn tư vấn</a>
+                            <a class="btn white_btn text-uppercase" href="@Url.Action("SentRequest", "Home")">Yêu cầu tư vấn</a>
                         </div>
                     </div>
                 </div>
@@ -301,7 +273,19 @@
                             <ul class="first-ul font_family_ChakraPetch-semibold">
                                 @Html.Action("Listgenres", "Products")
                                 <!-- start module: tin tức -->
-                                
+                                <li>
+                                    <a class="d-flex" href="@Url.Action("Listbanner", "Campaign")">
+                                        <span class="material-icons">local_offer</span><div id="elementID">Khuyến Mãi</div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="d-flex" href="@Url.Action("NewsIndex", "News")">
+                                        <span class="material-icons">feed</span><div id="elementID">Tin tức</div><span class="material-icons dropdown--menu-arrow">arrow_drop_down</span>
+                                    </a>
+                                    <ul>
+                                        @Html.Action("Listcategory", "News")
+                                    </ul>
+                                </li>
                                 <!--end::Li-->
                             </ul>
                             <!--end::Ul-->
@@ -329,7 +313,32 @@
                                             @Html.Action("Listgenres_mobile", "Products")
                                         </ul>
                                     </li>
-                                   @* add discount and news later*@
+                                    <li class="nav__item">
+                                        <a href="@Url.Action("Listbanner", "Campaign")" class="nav__link @(ViewContext.RouteData.Values["Action"].ToString() == "Listbanner" ? "active-link" : "")">
+                                            <i class="bi bi-tags nav__icon"></i>
+                                            <span class="nav__name">Khuyến mãi</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav__item">
+                                        <a href="@Url.Action("NewsIndex", "News")" class="nav__link dropdown-toggle
+                                           @(ViewContext.RouteData.Values["Action"].ToString() == "ListNewsTags" ? "active-link" : "")
+                                           @(ViewContext.RouteData.Values["Action"].ToString() == "AllListNews" ? "active-link" : "")
+                                           @(ViewContext.RouteData.Values["Action"].ToString() == "News" ? "active-link" : "")
+                                           @(ViewContext.RouteData.Values["Action"].ToString() == "ListNewsCategory" ? "active-link" : "")
+                                           @(ViewContext.RouteData.Values["Action"].ToString() == "NewsDetail" ? "active-link" : "")
+                                           @(ViewContext.RouteData.Values["Action"].ToString() == "Author" ? "active-link" : "")
+                                           @(ViewContext.RouteData.Values["Action"].ToString() == "PostProductRecent" ? "active-link" : "")
+                                           @(ViewContext.RouteData.Values["Action"].ToString() == "NewsIndex" ? "active-link" : "")" data-bs-toggle="dropdown">
+                                            <i class="bi bi-newspaper nav__icon"></i>
+                                            <span class="nav__name">Tin tức</span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="dropdown-item"><a href="@Url.Action("NewsIndex", "News")">Tất cả danh mục</a></li>
+                                            <li class="dropdown-item"><a href="@Url.Action("AllListNews", "News")">Mới nhất</a></li>
+                                            <li class="dropdown-item"><a href="@Url.Action("PostProductRecent", "News")">Sản phẩm mới</a></li>
+                                            @Html.Action("Listcategory_mobile", "News")
+                                        </ul>
+                                    </li>
                                     <li class="nav__item">
                                         @if (User.Identity.IsAuthenticated == false)
                                         {

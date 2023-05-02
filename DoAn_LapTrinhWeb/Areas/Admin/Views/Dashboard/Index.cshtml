@@ -4,7 +4,332 @@
     Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
     var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
 }
-
+@section scripts{
+    <!--biểu đồ chart-->
+    <script src="~/Scripts/admin_js/highcharts.js"></script>
+    <script src="~/Scripts/admin_js/custom_highcharts.js"></script>
+    <script src="~/Scripts/admin_js/canvasjs.min.js"></script>
+    <script src="~/Scripts/my_js/count_visited.js"></script>
+    <script src="~/Scripts/admin_js/datetimepicker_custom.js"></script>
+}
 <link href="~/Content/admin_css/morris.css" rel="stylesheet" />
 <!--begin::Content-->
-
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Toolbar-->
+    <div class="toolbar" id="kt_toolbar">
+        <!--begin::Container-->
+        <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+            <!--begin::Page title-->
+            <div data-kt-place="true" data-kt-place-mode="prepend" data-kt-place-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center me-3 flex-wrap mb-5 mb-lg-0 lh-1">
+                <!--begin::Title-->
+                <h1 class="d-flex align-items-center text-dark fw-bolder my-1 fs-3">Thống kê</h1>
+                <!--end::Title-->
+                <!--begin::Separator-->
+                <span class="h-20px border-gray-200 border-start mx-4"></span>
+                <!--end::Separator-->
+                <!--begin::Breadcrumb-->
+                <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">
+                        <a href="@Url.Action("Index", "Dashboard")" class="text-muted text-hover-primary">Bảng điều khiển</a>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-dark">Thống kê</li>
+                    <!--end::Item-->
+                </ul>
+                <!--end::Breadcrumb-->
+            </div>
+            <!--end::Page title-->
+            <!--begin::Actions-->
+            <div class="d-flex align-items-center py-1">
+                <!--end::Input group-->
+                <!--begin::Filer-->
+                <div>
+                    <a href="#" class="btn btn-sm btn-flex btn-light btn-active-primary fw-bolder" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                        <!--begin::Svg Icon | path: icons/duotone/Text/Filter.svg-->
+                        <span class="svg-icon svg-icon-5 svg-icon-gray-500 me-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect x="0" y="0" width="24" height="24" />
+                                    <path d="M5,4 L19,4 C19.2761424,4 19.5,4.22385763 19.5,4.5 C19.5,4.60818511 19.4649111,4.71345191 19.4,4.8 L14,12 L14,20.190983 C14,20.4671254 13.7761424,20.690983 13.5,20.690983 C13.4223775,20.690983 13.3458209,20.6729105 13.2763932,20.6381966 L10,19 L10,12 L4.6,4.8 C4.43431458,4.5790861 4.4790861,4.26568542 4.7,4.1 C4.78654809,4.03508894 4.89181489,4 5,4 Z" fill="#000000" />
+                                </g>
+                            </svg>
+                        </span>
+                        <!--end::Svg Icon-->
+                        @if (ViewBag.SortBy == null)
+                        {
+                            <span>Bộ lọc</span>
+                        }
+                        else
+                        {
+                            @ViewBag.SortBy
+                        }
+                    </a>
+                    <!--begin::Menu-->
+                    <div class="menu menu-sub menu-sub-dropdown w-250px w-md-300px" data-kt-menu="true">
+                        <!--begin::Menu separator-->
+                        <div class="separator border-gray-200"></div>
+                        <!--end::Menu separator-->
+                        <!--begin::Form-->
+                        <div class="px-7 py-5">
+                            <!--begin::Input group-->
+                            <div class="mb-2 border-bottom-3">
+                                <!--begin::Label-->
+                                <a class="text-gray-700 text-hover-primary fw-bold " href="@Url.Action("Index", "DashBoard", new { sortOrder = ViewBag.TodaySortParm})">Hôm Nay</a>
+                                <!--end::Label-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="mb-2 border-bottom-3">
+                                <!--begin::Label-->
+                                <a class="text-gray-700 text-hover-primary fw-bold " href="@Url.Action("Index", "DashBoard", new { sortOrder = ViewBag.DaysAgoSortParm})">7 ngày qua</a>
+                                <!--end::Label-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="mb-2 ">
+                                <!--begin::Label-->
+                                <a class="text-gray-700 text-hover-primary fw-bold" href="@Url.Action("Index", "DashBoard", new { sortOrder = ViewBag.MonthSortParm})">Tháng này</a>
+                                <!--end::Label-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="mb-2 ">
+                                <!--begin::Label-->
+                                <a class="text-gray-700 text-hover-primary fw-bold" href="@Url.Action("Index", "DashBoard", new { sortOrder = ViewBag.YearSortParm})">Năm nay</a>
+                                <!--end::Label-->
+                            </div>
+                            <!--end::Input group-->
+                        </div>
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Menu-->
+                </div>
+                <!--end::Filter-->
+            </div>
+            <!--end::Actions-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Toolbar-->
+    <!--begin::Post-->
+    <div class="post d-flex flex-column-fluid" id="kt_post">
+        <!--begin::Container-->
+        <div id="kt_content_container" class="container">
+            <!--begin::Card-->
+            <div class="card">
+                <!--begin::Row-->
+                <!--Toàn bộ ViewBag... đều nằm ở Action"Index" Controller "Dashboard"-->
+                <div class="row gy-5 gx-xl-8 mt-1 pb-2 ps-5 pe-5">
+                    <!--begin::Col-->
+                    <div class="col-lg-3">
+                        <!-- small box -->
+                        <a href="@Url.Action("OrderIndex", "Orders")" style="font-size:unset; color:unset;">
+                            <div class="small-box">
+                                <div class="inner" style="background-color: #FFEDD5;">
+                                    <div>
+                                        <div class="icon">
+                                            <i class="bi bi-cart-check" style="color: #F97316;"></i>
+                                        </div>
+                                    </div>
+                                    <div class="text_count">
+                                        <p class="report_type">Tổng số đơn hàng</p>
+                                        <p class="count_total">@ViewBag.CountTotalOrder</p>
+                                    </div>
+                                    @*@if ((ViewBag.CountTotalOrder - ViewBag.CountTotalOrderbefore) > 0)
+                    {
+                        <p class="percent_range text-success">-@(ViewBag.CountTotalOrder-ViewBag.CountTotalOrderbefore)</p>
+                    }
+                    else
+                    {
+                        <p class="percent_range text-danger">@(ViewBag.CountTotalOrder-ViewBag.CountTotalOrderbefore)</p>
+                    }*@
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-lg-3">
+                        <!-- small box -->
+                        <div class="small-box">
+                            <div class="inner" style="background-color: #CCFBF1; ">
+                                <div>
+                                    <div class="icon">
+                                        <i class="bi bi-cash-coin" style="color: #14B8A6;"></i>
+                                    </div>
+                                </div>
+                                <div class="text_count">
+                                    <p class="report_type">Tổng doanh thu</p>
+                                    <p class="count_total">@ViewBag.CountRevenue.ToString("#,0", culture.NumberFormat)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-lg-3">
+                        <!-- small box -->
+                        <div class="small-box">
+                            <div class="inner" style="background-color: #FEF9C3;">
+                                <div>
+                                    <div class="icon">
+                                        <i class="bi bi-box-seam" style="color: #EAB308;"></i>
+                                    </div>
+                                </div>
+                                <div class="text_count">
+                                    <p class="report_type">Số sản phẩm bán ra</p>
+                                    <p class="count_total">@ViewBag.CountquantitySales</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-lg-3">
+                        <!-- small box -->
+                        <a href="@Url.Action("FeedbackIndex", "Feedbacks")" style="font-size:unset; color:unset;">
+                            <div class="small-box">
+                                <div class="inner" style="background-color: #DBEAFE;">
+                                    <div>
+                                        <div class="icon">
+                                            <i class="bi bi-chat-right-text" style="color: #3B82F6;"></i>
+                                        </div>
+                                    </div>
+                                    <div class="text_count">
+                                        <p class="report_type">Tổng đánh giá sản phẩm</p>
+                                        <p class="count_total">@ViewBag.CountFeedback</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <div class="row mt-2 ps-5 pe-5 pb-2">
+                    <!--begin:: Số lượng sản phẩm bán ra-->
+                    <div class="col-12">
+                        <div class="border_charts">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="d-flex justify-content-end gap-2 hight_chartjs_type">
+                                        <div class="get_time_hightchart d-flex">
+                                            <div id="btntime_pie_product_1" class="color-active-chart">
+                                                <span onclick="pie_count_product(1)" class="get_type_chart_btn_left fs-8">Hôm nay</span>
+                                            </div>
+                                            <div id="btntime_pie_product_2">
+                                                <span onclick="pie_count_product(2)" class="get_type_chart_btn_left fs-8">7 Ngày</span>
+                                            </div>
+                                            <div id="btntime_pie_product_3">
+                                                <span onclick="pie_count_product(3)" class="get_type_chart_btn_left fs-8">Tháng</span>
+                                            </div>
+                                            <div id="btntime_pie_product_4">
+                                                <span onclick="pie_count_product(4)" class="get_type_chart_btn_right fs-8">Năm</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="quantity_productorder_charts" class="high_charts"></div>
+                                </div>
+                                <!--end:: Số lượng sản phẩm bán ra-->
+                                <!--begin:: Khu vực đặt hàng-->
+                                <div class="col-6">
+                                    <div class="d-flex justify-content-end gap-2 hight_chartjs_type">
+                                        <div class="get_time_hightchart d-flex">
+                                            <div id="btntime_pie_address_1" class="color-active-chart">
+                                                <span onclick="pie_count_address(1)" class="get_type_chart_btn_left fs-8">Hôm nay</span>
+                                            </div>
+                                            <div id="btntime_pie_address_2">
+                                                <span onclick="pie_count_address(2)" class="get_type_chart_btn_left fs-8">7 Ngày</span>
+                                            </div>
+                                            <div id="btntime_pie_address_3">
+                                                <span onclick="pie_count_address(3)" class="get_type_chart_btn_left fs-8">Tháng</span>
+                                            </div>
+                                            <div id="btntime_pie_address_4">
+                                                <span onclick="pie_count_address(4)" class="get_type_chart_btn_right fs-8">Năm</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="addresstorder_charts" class="high_charts"></div>
+                                </div>
+                                <!--end:: Khu vực đặt hàng-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--begin:: Tổng doanh thu-->
+                <div class="row mt-2 ps-5 pe-5 pb-2">
+                    <div class="col-12">
+                        <div class="border_charts">
+                            <!--high_charts | path :Scripts/admin_js/custom_highcharts.js-->
+                            <div class="d-flex justify-content-end gap-2 hight_chartjs_type">
+                                <div class="get_time_hightchart d-flex">
+                                    <div id="btntime_1" class="color-active-chart">
+                                        <span class="get_type_chart_btn_left fs-8" onclick="columnchart(1)">Ngày</span>
+                                    </div>
+                                    <div id="btntime_2">
+                                        <span onclick="columnchart(2)" class="get_type_chart_btn_left fs-8">Tháng</span>
+                                    </div>
+                                    <div id="btntime_3">
+                                        <span onclick="columnchart(3)" class="get_type_chart_btn_right fs-8">Năm</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex get_type_chart">
+                                    <div id="btntype_1" class="color-active-chart">
+                                        <span onclick="columnchart(1)" class="type_sort_columnchart get_type_chart_btn_left"><i class="bi bi-bar-chart-fill"></i></span>
+                                    </div>
+                                    <div id="btntype_2">
+                                        <span onclick="linechart(1)" class="type_sort_linechart get_type_chart_btn_right"><i class="bi bi-graph-up"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="sales_charts" class="high_charts"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--end:: Tổng doanh thu-->
+                <!--begin:: Tổng đơn hàng-->
+                <div class="row mt-2 ps-5 pe-5 pb-2">
+                    <div class="col-12">
+                        <div class="border_charts">
+                            <!--high_charts | path :Scripts/admin_js/custom_highcharts.js-->
+                            <div class="d-flex justify-content-end gap-2 hight_chartjs_type">
+                                <div class="get_time_hightchart d-flex">
+                                    <div id="btntime_countorder_1" class="color-active-chart">
+                                        <span class="get_type_chart_btn_left fs-8" onclick="columnchart_count_order(1)">Ngày</span>
+                                    </div>
+                                    <div id="btntime_countorder_2">
+                                        <span onclick="columnchart_count_order(2)" class="get_type_chart_btn_left fs-8">Tháng</span>
+                                    </div>
+                                    <div id="btntime_countorder_3">
+                                        <span onclick="columnchart_count_order(3)" class="get_type_chart_btn_right fs-8">Năm</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex get_type_chart">
+                                    <div id="btntype_countorder_1" class="color-active-chart">
+                                        <span onclick="columnchart_count_order(1)" class="type_sort_columnchart_count_order get_type_chart_btn_left"><i class="bi bi-bar-chart-fill"></i></span>
+                                    </div>
+                                    <div id="btntype_countorder_2">
+                                        <span onclick="linechart_count_order(1)" class="type_sort_linechart_count_order get_type_chart_btn_right"><i class="bi bi-graph-up"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="total_order_charts" class="high_charts"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--end:: Tổng đơn hàng-->
+            </div>
+            <!--end::Card-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Post-->
+</div>
+<!--end::content-->

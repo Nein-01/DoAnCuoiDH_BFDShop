@@ -56,6 +56,9 @@ namespace DoAn_LapTrinhWeb.Model
         //Update At
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime update_at { get; set; }
+        //AI Rated
+        [StringLength(200)]
+        public string AI_rated { get; set; }
         public virtual Account Account { get; set; }
         public virtual Product Product { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

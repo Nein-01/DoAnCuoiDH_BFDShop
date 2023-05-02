@@ -1,0 +1,344 @@
+﻿@model DoAn_LapTrinhWeb.Model.Discount
+@{
+    ViewBag.Title = "Chỉnh sửa thông tin mã giảm giá - " + Model.discount_name;
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+@section scripts{
+    <!--script tùy chỉnh ngày tháng sử dụng kèm /Scripts/admin_js/flatpickr.min.js-->
+    <script src="~/Scripts/admin_js/datetimepicker_custom.js"></script>
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Toolbar-->
+        <div class="toolbar" id="kt_toolbar">
+            <!--begin::Container-->
+            <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+                <!--begin::Page title-->
+                <div data-kt-place="true" data-kt-place-mode="prepend" data-kt-place-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center me-3 flex-wrap mb-5 mb-lg-0 lh-1">
+                    <!--begin::Title-->
+                    <h1 class="d-flex align-items-center text-dark fw-bolder my-1 fs-3">Chỉnh sửa giảm giá</h1>
+                    <!--end::Title-->
+                    <!--begin::Separator-->
+                    <span class="h-20px border-gray-200 border-start mx-4"></span>
+                    <!--end::Separator-->
+                    <!--begin::Breadcrumb-->
+                    <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">
+                            <a href="index.html" class="text-muted text-hover-primary">Trang chủ</a>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">Quản lý sản phẩm</li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">Khuyến mãi và giảm giá</li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">
+                            <a href="@Url.Action("DiscountIndex", "Discounts")" class="text-muted text-hover-primary">Danh sách giảm giá</a>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-dark">Chỉnh sửa giảm giá</li>
+                        <!--end::Item-->
+                    </ul>
+                    <!--end::Breadcrumb-->
+                </div>
+                <!--end::Page title-->
+                <!--begin::Actions-->
+                <div class="d-flex align-items-center py-1">
+                    <!--begin::Button-->
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <g id="Stockholm-icons-/-Files-/-Upload" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+                                <path d="M2,13 C2,12.5 2.5,12 3,12 C3.5,12 4,12.5 4,13 C4,13.3333333 4,15 4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 C2,15 2,13.3333333 2,13 Z" id="Path-57" fill="#fff" fill-rule="nonzero" opacity="0.3"></path>
+                                <rect id="Rectangle" fill="#fff" opacity="0.3" x="11" y="2" width="2" height="14" rx="1"></rect>
+                                <path d="M12.0362375,3.37797611 L7.70710678,7.70710678 C7.31658249,8.09763107 6.68341751,8.09763107 6.29289322,7.70710678 C5.90236893,7.31658249 5.90236893,6.68341751 6.29289322,6.29289322 L11.2928932,1.29289322 C11.6689749,0.916811528 12.2736364,0.900910387 12.6689647,1.25670585 L17.6689647,5.75670585 C18.0794748,6.12616487 18.1127532,6.75845471 17.7432941,7.16896473 C17.3738351,7.57947475 16.7415453,7.61275317 16.3310353,7.24329415 L12.0362375,3.37797611 Z" id="Path-102" fill="#fff" fill-rule="nonzero"></path>
+                            </g>
+                        </svg>
+                        Lưu
+                    </button>
+                    <!--end::Button-->
+                    <!--begin::Button-->
+                    <a onclick="window.history.go(-1)" class="btn btn-sm btn-secondary ms-2">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21.4451171,17.7910156 C21.4451171,16.9707031 21.6208984,13.7333984 19.0671874,11.1650391 C17.3484374,9.43652344 14.7761718,9.13671875 11.6999999,9 L11.6999999,4.69307548 C11.6999999,4.27886191 11.3642135,3.94307548 10.9499999,3.94307548 C10.7636897,3.94307548 10.584049,4.01242035 10.4460626,4.13760526 L3.30599678,10.6152626 C2.99921905,10.8935795 2.976147,11.3678924 3.2544639,11.6746702 C3.26907199,11.6907721 3.28437331,11.7062312 3.30032452,11.7210037 L10.4403903,18.333467 C10.7442966,18.6149166 11.2188212,18.596712 11.5002708,18.2928057 C11.628669,18.1541628 11.6999999,17.9721616 11.6999999,17.7831961 L11.6999999,13.5 C13.6531249,13.5537109 15.0443703,13.6779456 16.3083984,14.0800781 C18.1284272,14.6590944 19.5349747,16.3018455 20.5280411,19.0083314 L20.5280247,19.0083374 C20.6363903,19.3036749 20.9175496,19.5 21.2321404,19.5 L21.4499999,19.5 C21.4499999,19.0068359 21.4451171,18.2255859 21.4451171,17.7910156 Z" id="Shape" fill="#7e8299" fill-rule="nonzero"></path>
+                            </svg>
+                        </span>
+                        Quay về
+                    </a>
+                    <!--end::Button-->
+                </div>
+                <!--end::Actions-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Toolbar-->
+        <!--begin::Post-->
+        <div class="post d-flex flex-column-fluid" id="kt_post">
+            <!--begin::Container-->
+            <div id="kt_content_container" class="container">
+                <!--begin::Basic info-->
+                <div class="card ">
+                    <!--begin::Card header-->
+                    <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
+                        <!--begin::Card title-->
+                        <div class="card-title m-0">
+                            <h3 class="fw-bolder m-0">Chỉnh sửa chương trình giảm giá</h3>
+                        </div>
+                        <!--end::Card title-->
+                    </div>
+                    <!--begin::Card header-->
+                    <!--begin::Content-->
+                    <div id="kt_account_profile_details" class="collapse show">
+                        <!--begin::Form-->
+                        <form id="kt_account_profile_details_form" class="form">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(m => m.disscount_id)
+                            @Html.HiddenFor(m => m.discount_max)
+                            @Html.HiddenFor(m => m.create_at)
+                            @Html.HiddenFor(m => m.create_by)
+                            @Html.HiddenFor(m => m.discount_start)
+                            @Html.HiddenFor(m => m.discounts_type)
+                            @Html.HiddenFor(m => m.discount_price)
+                            @Html.HiddenFor(m => m.discounts_code)
+                            <!--begin::Card body-->
+                            <div class="card-body border-top p-9">
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label required fw-bold fs-6">Tên chương trình giảm giá</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        @Html.EditorFor(model => model.discount_name, new { htmlAttributes = new { @class = "form-control form-control-solid", placeholder = "Nhập tên chương trình" } })
+                                        @Html.ValidationMessageFor(model => model.discount_name, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label fw-bold fs-6">Mức giảm</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        @if (Model.discounts_type == 3)
+                                        {
+                                            <input value="@Model.discount_price%" class="form-control form-control-solid text-muted" disabled />
+                                        }
+                                        else
+                                        {
+                                            if (Model.discount_price == 0)
+                                            {
+                                                <input value="0₫" class="form-control form-control-solid text-muted" disabled />
+                                            }
+                                            else
+                                            {
+                                                <input value="@Model.discount_price.ToString("#,###₫")" class="form-control form-control-solid text-muted" disabled />
+                                            }
+                                        }
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label fw-bold fs-6">Mức giảm tối đa</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        <input value="@Model.discount_max.ToString("#,###₫")" class="form-control form-control-solid text-muted" disabled />
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                @if (Model.discounts_type == 2 || Model.discounts_type == 3)
+                                {
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Label-->
+                                        <label class="col-lg-4 col-form-label fw-bold fs-6">Mã voucher</label>
+                                        <!--end::Label-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            @Html.EditorFor(model => model.discounts_code, new { htmlAttributes = new { @class = "form-control form-control-solid text-muted", placeholder = "Nhập mã voucher", disabled = "disabled" } })
+                                            @Html.ValidationMessageFor(model => model.discounts_code, "", new { @class = "text-danger" })
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Label-->
+                                        <label class="col-lg-4 col-form-label fw-bold fs-6">Số lượng mã</label>
+                                        <!--end::Label-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class = "form-control form-control-solid", placeholder = "Nhập số lượng", type = "number", value = "0", oninput = "validity.valid || (value = '');" } })
+                                            @Html.ValidationMessageFor(model => model.quantity, "", new { @class = "text-danger" })
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+                                }
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label fw-bold fs-6">Ngày bắt đầu</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        <div class="position-relative d-flex align-items-center">
+                                            <!--begin::Icon-->
+                                            <div class="symbol symbol-20px me-4 position-absolute ms-4">
+                                                <span class="symbol-label bg-secondary">
+                                                    <!--begin::Svg Icon | path: icons/duotone/Layout/Layout-grid.svg-->
+                                                    <span class="svg-icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <rect x="0" y="0" width="24" height="24" />
+                                                                <rect fill="#000000" opacity="0.3" x="4" y="4" width="4" height="4" rx="1" />
+                                                                <path d="M5,10 L7,10 C7.55228475,10 8,10.4477153 8,11 L8,13 C8,13.5522847 7.55228475,14 7,14 L5,14 C4.44771525,14 4,13.5522847 4,13 L4,11 C4,10.4477153 4.44771525,10 5,10 Z M11,4 L13,4 C13.5522847,4 14,4.44771525 14,5 L14,7 C14,7.55228475 13.5522847,8 13,8 L11,8 C10.4477153,8 10,7.55228475 10,7 L10,5 C10,4.44771525 10.4477153,4 11,4 Z M11,10 L13,10 C13.5522847,10 14,10.4477153 14,11 L14,13 C14,13.5522847 13.5522847,14 13,14 L11,14 C10.4477153,14 10,13.5522847 10,13 L10,11 C10,10.4477153 10.4477153,10 11,10 Z M17,4 L19,4 C19.5522847,4 20,4.44771525 20,5 L20,7 C20,7.55228475 19.5522847,8 19,8 L17,8 C16.4477153,8 16,7.55228475 16,7 L16,5 C16,4.44771525 16.4477153,4 17,4 Z M17,10 L19,10 C19.5522847,10 20,10.4477153 20,11 L20,13 C20,13.5522847 19.5522847,14 19,14 L17,14 C16.4477153,14 16,13.5522847 16,13 L16,11 C16,10.4477153 16.4477153,10 17,10 Z M5,16 L7,16 C7.55228475,16 8,16.4477153 8,17 L8,19 C8,19.5522847 7.55228475,20 7,20 L5,20 C4.44771525,20 4,19.5522847 4,19 L4,17 C4,16.4477153 4.44771525,16 5,16 Z M11,16 L13,16 C13.5522847,16 14,16.4477153 14,17 L14,19 C14,19.5522847 13.5522847,20 13,20 L11,20 C10.4477153,20 10,19.5522847 10,19 L10,17 C10,16.4477153 10.4477153,16 11,16 Z M17,16 L19,16 C19.5522847,16 20,16.4477153 20,17 L20,19 C20,19.5522847 19.5522847,20 19,20 L17,20 C16.4477153,20 16,19.5522847 16,19 L16,17 C16,16.4477153 16.4477153,16 17,16 Z" fill="#000000" />
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <!--end::Svg Icon-->
+                                                </span>
+                                            </div>
+                                            <!--end::Icon-->
+                                            <div class="form-control form-control-solid ps-12 disabled text-muted">@Model.discount_start</div>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.discount_start, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label required fw-bold fs-6">Ngày kết thúc</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        <div class="position-relative d-flex align-items-center">
+                                            <!--begin::Icon-->
+                                            <div class="symbol symbol-20px me-4 position-absolute ms-4">
+                                                <span class="symbol-label bg-secondary">
+                                                    <!--begin::Svg Icon | path: icons/duotone/Layout/Layout-grid.svg-->
+                                                    <span class="svg-icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <rect x="0" y="0" width="24" height="24" />
+                                                                <rect fill="#000000" opacity="0.3" x="4" y="4" width="4" height="4" rx="1" />
+                                                                <path d="M5,10 L7,10 C7.55228475,10 8,10.4477153 8,11 L8,13 C8,13.5522847 7.55228475,14 7,14 L5,14 C4.44771525,14 4,13.5522847 4,13 L4,11 C4,10.4477153 4.44771525,10 5,10 Z M11,4 L13,4 C13.5522847,4 14,4.44771525 14,5 L14,7 C14,7.55228475 13.5522847,8 13,8 L11,8 C10.4477153,8 10,7.55228475 10,7 L10,5 C10,4.44771525 10.4477153,4 11,4 Z M11,10 L13,10 C13.5522847,10 14,10.4477153 14,11 L14,13 C14,13.5522847 13.5522847,14 13,14 L11,14 C10.4477153,14 10,13.5522847 10,13 L10,11 C10,10.4477153 10.4477153,10 11,10 Z M17,4 L19,4 C19.5522847,4 20,4.44771525 20,5 L20,7 C20,7.55228475 19.5522847,8 19,8 L17,8 C16.4477153,8 16,7.55228475 16,7 L16,5 C16,4.44771525 16.4477153,4 17,4 Z M17,10 L19,10 C19.5522847,10 20,10.4477153 20,11 L20,13 C20,13.5522847 19.5522847,14 19,14 L17,14 C16.4477153,14 16,13.5522847 16,13 L16,11 C16,10.4477153 16.4477153,10 17,10 Z M5,16 L7,16 C7.55228475,16 8,16.4477153 8,17 L8,19 C8,19.5522847 7.55228475,20 7,20 L5,20 C4.44771525,20 4,19.5522847 4,19 L4,17 C4,16.4477153 4.44771525,16 5,16 Z M11,16 L13,16 C13.5522847,16 14,16.4477153 14,17 L14,19 C14,19.5522847 13.5522847,20 13,20 L11,20 C10.4477153,20 10,19.5522847 10,19 L10,17 C10,16.4477153 10.4477153,16 11,16 Z M17,16 L19,16 C19.5522847,16 20,16.4477153 20,17 L20,19 C20,19.5522847 19.5522847,20 19,20 L17,20 C16.4477153,20 16,19.5522847 16,19 L16,17 C16,16.4477153 16.4477153,16 17,16 Z" fill="#000000" />
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <!--end::Svg Icon-->
+                                                </span>
+                                            </div>
+                                            <!--end::Icon-->
+                                            <!--id="dt_disount_end" | path :Scripts/admin_js/datetimepicker_custom.js-->
+                                            <input class="form-select form-select-solid ps-12" name="discount_end" value="@Model.discount_end" placeholder="Chọn ngày kết thúc" id="dt_disount_end" />
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.discount_end, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label fw-bold fs-6"><span>Loại giảm giá</span></label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        <!--value "2" giảm giá theo code và "1" giảm giá cho sản phẩm-->
+                                        @Html.DropDownListFor(model => model.discounts_type, new[] { new SelectListItem { Value = "2", Text = "Code giảm giá theo giá tiền" },new SelectListItem { Value = "3", Text = "Code giảm giá theo phần trăm" },
+                                       new SelectListItem { Value = "1", Text = "Giảm giá trực tiếp sản phẩm" } }, new { @class = "form-control form-control-solid text-muted", disabled = "disabled" })
+                                        @Html.ValidationMessageFor(model => model.discounts_type, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label fw-bold fs-6"><span class="required">Trạng thái</span></label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        @Html.DropDownListFor(model => model.status, new[] { new SelectListItem { Value = "1", Text = "Hoạt động" },
+                                       new SelectListItem { Value = "0", Text = "Không hoạt động" } }, new { @class = "form-select form-select-solid " })
+                                        @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+                                @if (Model.discounts_type == 2 || Model.discounts_type == 3)
+                                {
+                                    <!--begin::Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Label-->
+                                        <label class="col-lg-4 col-form-label fw-bold fs-6"><span>Hiện thị toàn sàn</span></label>
+                                        <!--end::Label-->
+                                        <!--begin::Col-->
+
+                                        <div class="col-lg-8 fv-row">
+                                            @Html.DropDownListFor(model => model.discount_global, new[] { new SelectListItem { Value = "0", Text = "Không" },
+                                           new SelectListItem { Value = "1", Text = "Hiển thị" } }, new { @class = "form-select form-select-solid " })
+                                            @Html.ValidationMessageFor(model => model.discount_global, "", new { @class = "text-danger" })
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+                                }
+                            </div>
+                            <!--end::Card body-->
+                            <!--begin::Actions-->
+                            <div class="card-footer d-flex justify-content-end py-6 px-9">
+                                <button type="reset" class="btn btn-danger data-bs-toggle=" tooltip" data-bs-placement="top" title="Reset lại form và xóa toàn bộ dữ liệu đã nhập" btn-active-light-info">Reset</button>
+                            </div>
+                            <!--end::Actions-->
+                        </form>
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Content-->
+                </div>
+                <!--end::Basic info-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Post-->
+    </div>
+    <!--end::content-->
+}

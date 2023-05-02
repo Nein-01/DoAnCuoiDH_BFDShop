@@ -224,8 +224,29 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BannerDetailsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BannersController.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BrandsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CategoriesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CommentReplyController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ContactsController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DeliveriesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DiscountsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FeedbacksController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ParentGenresController.cs" />
+    <Compile Include="Areas\Admin\Controllers\GenresController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ChildCategoriesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NewsAdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\OrdersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PaymentsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductsAdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\Product_ImageController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RolesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\APIController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TaxesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TagsAdminController.cs" />
     <Compile Include="Common\AccountEmail.cs" />
     <Compile Include="Common\Library\ModelNotification.cs" />
     <Compile Include="Common\Library\Notification.cs" />
@@ -236,7 +257,10 @@
     <Compile Include="Common\Pagination.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\CampaignController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Controllers\PaymentMethodsController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="DbContext.cs" />
     <Compile Include="DTOs\AddressManagerDTO.cs" />
@@ -254,6 +278,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\Hubs.cs" />
+    <Compile Include="Migrations\202303241359316_DoAn_LapTrinhWeb.cs" />
+    <Compile Include="Migrations\202303241359316_DoAn_LapTrinhWeb.Designer.cs">
+      <DependentUpon>202303241359316_DoAn_LapTrinhWeb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\RolesPermissions.cs" />
     <Compile Include="Models\Roles.cs" />
@@ -6053,6 +6081,7 @@
     <Content Include="Content\my_css\owl.carousel.css" />
     <Content Include="Content\my_css\owl.carousel.min.css" />
     <Content Include="Content\my_css\owl.theme.default.css" />
+    <Content Include="EmailTemplate\MailConfirm.cshtml" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -6135,9 +6164,98 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\admin_js\ckfinder\plugins\fileeditor\codemirror\LICENSE" />
     <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\BannerDetails\BannerDIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\Banners\BannerCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\Banners\BannerDelete.cshtml" />
+    <Content Include="Areas\Admin\Views\Banners\BannerDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Banners\BannerEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Banners\BannerIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\Banners\BannerTrash.cshtml" />
+    <Content Include="Areas\Admin\Views\Brands\BrandCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\Brands\BrandDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Brands\BrandEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Brands\BrandIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\Brands\BrandTrash.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\ContactDelete.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\ContactIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\ContactTrash.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Reply.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\LayoutAdmin.cshtml" />
+    <Content Include="Areas\Admin\Views\Deliveries\DeliveryCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\Deliveries\DeliveryDelete.cshtml" />
+    <Content Include="Areas\Admin\Views\Deliveries\DeliveryDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Deliveries\DeliveryEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Deliveries\DeliveryIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\Deliveries\DeliveryTrash.cshtml" />
+    <Content Include="Areas\Admin\Views\Discounts\DiscountCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\Discounts\DiscountDelete.cshtml" />
+    <Content Include="Areas\Admin\Views\Discounts\DiscountDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Discounts\DiscountEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Discounts\DiscountIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\Discounts\DiscountTrash.cshtml" />
+    <Content Include="Areas\Admin\Views\Feedbacks\Disable.cshtml" />
+    <Content Include="Areas\Admin\Views\Feedbacks\FeedbackIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\Feedbacks\FeedbackTrash.cshtml" />
+    <Content Include="Areas\Admin\Views\Genres\GenreCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\Genres\GenreDelete.cshtml" />
+    <Content Include="Areas\Admin\Views\Genres\GenreDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Genres\GenreEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Genres\GenreIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\Genres\GenreTrash.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\OrderDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\OrderIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\OrderTrash.cshtml" />
+    <Content Include="Areas\Admin\Views\Payments\PaymentCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\Payments\PaymentDelete.cshtml" />
+    <Content Include="Areas\Admin\Views\Payments\PaymentDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Payments\PaymentEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Payments\PaymentIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\Payments\PaymentTrash.cshtml" />
+    <Content Include="Areas\Admin\Views\Product_Image\ProductImgEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Product_Image\ProductImgIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductsAdmin\ProductCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductsAdmin\ProductDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductsAdmin\ProductEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductsAdmin\ProductIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductsAdmin\ProductTrash.cshtml" />
+    <Content Include="Areas\Admin\Views\Roles\OrderHistory.cshtml" />
+    <Content Include="Areas\Admin\Views\Roles\RolesDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Roles\RolesEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Roles\RolesList.cshtml" />
+    <Content Include="Areas\Admin\Views\Roles\RolesIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\Roles\RolesTrash.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_MessageAlert.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\LayoutAdmin.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\OrderDelTrash.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\CategoriesCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\CategoriesDelete.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\CategoriesDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\CategoriesEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\CategoriesIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\Categories\CategoriesTrash.cshtml" />
+    <Content Include="Areas\Admin\Views\ChildCategories\ChildCateDelete.cshtml" />
+    <Content Include="Areas\Admin\Views\ChildCategories\ChildCateDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\ChildCategories\ChildCateEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\ChildCategories\ChildCateIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\ChildCategories\ChildCateTrash.cshtml" />
+    <Content Include="Areas\Admin\Views\ChildCategories\ChildCateCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsAdmin\NewsCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsAdmin\NewsDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsAdmin\NewsEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsAdmin\NewsIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsAdmin\NewsTrash.cshtml" />
+    <Content Include="Areas\Admin\Views\ParentGenres\ParentGCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\ParentGenres\ParentGEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\ParentGenres\ParentGDelete.cshtml" />
+    <Content Include="Areas\Admin\Views\ParentGenres\ParentGDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\ParentGenres\ParentGTrash.cshtml" />
+    <Content Include="Areas\Admin\Views\ParentGenres\ParentGIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\TagsAdmin\TagsIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsAdmin\StickyPost.cshtml" />
+    <Content Include="Areas\Admin\Views\CommentReply\CmtIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\CommentReply\ReplyIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\Taxes\TaxesIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\API\APIIndex.cshtml" />
     <None Include="bin\DoAn_LapTrinhWeb.dll.config" />
     <Content Include="bin\roslyn\csc.exe.config" />
     <Content Include="bin\roslyn\csc.rsp" />
@@ -6242,12 +6360,16 @@
     <Content Include="obj\Debug\DoAn_LapTrinhWeb.csproj.CopyComplete" />
     <Content Include="obj\Debug\DoAn_LapTrinhWeb.csproj.CoreCompileInputs.cache" />
     <Content Include="Scripts\admin_js\highcharts.js.map" />
+    <Content Include="EmailTemplate\MailContact.cshtml" />
     <Content Include="Scripts\index.js.flow" />
     <Content Include="Scripts\admin_js\popper.min.js.map" />
     <Content Include="fonts\material-icons.woff2" />
     <Content Include="fonts\slick\slick.eot" />
     <Content Include="fonts\slick\slick.ttf" />
     <Content Include="fonts\slick\slick.woff" />
+    <Content Include="EmailTemplate\MailFeedback.cshtml" />
+    <Content Include="EmailTemplate\MailBirthDayCode.cshtml" />
+    <Content Include="EmailTemplate\MailOrders.cshtml" />
     <Content Include="log4net.config" />
     <Content Include="fonts\sumernote\summernote.eot" />
     <Content Include="fonts\sumernote\summernote.ttf" />
@@ -6336,6 +6458,7 @@
     <Content Include="Views\Account\Editprofile.cshtml" />
     <Content Include="Views\Account\TrackingOrder.cshtml" />
     <Content Include="Views\Home\PageNotFound.cshtml" />
+    <Content Include="Views\News\News.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -6346,6 +6469,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Campaign\Listbanner.cshtml" />
     <Content Include="Views\Products\ProductDetail.cshtml" />
     <Content Include="Views\Home\SentRequest.cshtml" />
     <Content Include="Views\Products\Product.cshtml" />
@@ -6358,6 +6482,8 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Cart\Checkout.cshtml" />
+    <Content Include="Views\Campaign\Bannerdetail.cshtml" />
+    <Content Include="Views\News\NewsDetail.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\SignIn.cshtml" />
@@ -6373,12 +6499,24 @@
     <Content Include="Scripts\my_js\popper.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\my_js\bootstrap.bundle.js.map" />
+    <Content Include="Views\News\NewsIndex.cshtml" />
+    <Content Include="Views\News\Listcategory.cshtml" />
+    <Content Include="Views\News\ChildCategory.cshtml" />
     <Content Include="Views\Products\Listgenres.cshtml" />
+    <Content Include="Views\News\ListNewsTags.cshtml" />
     <Content Include="Views\Products\Listgenres_mobile.cshtml" />
+    <Content Include="Views\News\Listcategory_mobile.cshtml" />
+    <Content Include="Views\PaymentMethods\VnPayReturn.cshtml" />
     <Content Include="Views\Account\_NavbarProfile.cshtml" />
     <Content Include="Views\Account\AddressManager.cshtml" />
     <Content Include="Views\Account\TrackingOrderDetail.cshtml" />
     <Content Include="Views\Account\EmailverificationRequired.cshtml" />
+    <Content Include="Views\PaymentMethods\PayPalSuccess.cshtml" />
+    <Content Include="Views\PaymentMethods\PayPalFailure.cshtml" />
+    <Content Include="Views\News\_MenuCategory.cshtml" />
+    <Content Include="Views\News\Author.cshtml" />
+    <Content Include="Views\News\PostProduct.cshtml" />
+    <Content Include="Views\News\PostProductRecent.cshtml" />
     <Content Include="Scripts\my_js\summernote-bs4.min.js.map" />
     <Content Include="Views\Account\CommentHistory.cshtml" />
     <Content Include="Views\Account\ReplyHistory.cshtml" />
@@ -6386,6 +6524,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Images\FeedbackImages\" />
     <Folder Include="Images\flash\" />
     <Folder Include="Images\ImagesAccessory\" />
@@ -6417,6 +6556,11 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202303241359316_DoAn_LapTrinhWeb.resx">
+      <DependentUpon>202303241359316_DoAn_LapTrinhWeb.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

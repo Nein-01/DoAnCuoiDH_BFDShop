@@ -1,0 +1,595 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<DoAn_LapTrinhWeb.Models.Taxes>
+@{
+    ViewBag.Title = "Danh sách VAT";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+@section scripts{
+    <script src="~/Scripts/admin_js/list_vat.js"></script>
+}
+<!--css paging-->
+<link href="~/Content/admin_css/PagedList.css" rel="stylesheet" />
+<!--css paging-->
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Toolbar-->
+    <div class="toolbar" id="kt_toolbar">
+        <!--begin::Container-->
+        <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+            <!--begin::Page title-->
+            <div data-kt-place="true" data-kt-place-mode="prepend" data-kt-place-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center me-3 flex-wrap mb-5 mb-lg-0 lh-1">
+                <!--begin::Title-->
+                <h1 class="d-flex align-items-center text-dark fw-bolder my-1 fs-3">Danh sách VAT</h1>
+                <!--end::Title-->
+                <!--begin::Separator-->
+                <span class="h-20px border-gray-200 border-start mx-4"></span>
+                <!--end::Separator-->
+                <!--begin::Breadcrumb-->
+                <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">
+                        <a href="@Url.Action("Index", "Dashboard")" class="text-muted text-hover-primary">Bảng điều khiển</a>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">Quản lý sản phẩm</li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">Sản phẩm</li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-dark">Danh sách VAT</li>
+                    <!--end::Item-->
+                </ul>
+                <!--end::Breadcrumb-->
+            </div>
+            <!--end::Page title-->
+            <!--begin::Actions-->
+            <div class="d-flex align-items-center py-1">
+                <!--begin::Wrapper-->
+                <div>
+
+                    <!--begin::Menu-->
+                    <a href="#" class="btn btn-sm btn-flex btn-light btn-active-primary fw-bolder" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                        <!--begin::Svg Icon | path: icons/duotone/Text/Filter.svg-->
+                        <span class="svg-icon svg-icon-5 svg-icon-gray-500 me-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect x="0" y="0" width="24" height="24" />
+                                    <path d="M5,4 L19,4 C19.2761424,4 19.5,4.22385763 19.5,4.5 C19.5,4.60818511 19.4649111,4.71345191 19.4,4.8 L14,12 L14,20.190983 C14,20.4671254 13.7761424,20.690983 13.5,20.690983 C13.4223775,20.690983 13.3458209,20.6729105 13.2763932,20.6381966 L10,19 L10,12 L4.6,4.8 C4.43431458,4.5790861 4.4790861,4.26568542 4.7,4.1 C4.78654809,4.03508894 4.89181489,4 5,4 Z" fill="#000000" />
+                                </g>
+                            </svg>
+                        </span>
+                        <!--end::Svg Icon-->Bộ lọc
+                    </a>
+                    <!--begin::Menu 1-->
+                    <div class="menu menu-sub menu-sub-dropdown w-250px w-md-300px" data-kt-menu="true">
+                        <!--begin::Header-->
+                        <div class="px-7 py-5">
+                            <div class="fs-5 text-dark fw-bolder">Filter Options</div>
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Menu separator-->
+                        <div class="separator border-gray-200"></div>
+                        <!--end::Menu separator-->
+                        <!--begin::Form-->
+                        <div class="px-7 py-5">
+                            <!--begin::Input group-->
+                            <div class="mb-10">
+                                <!--begin::Label-->
+                                <label class="form-label fw-bold">Status:</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <div>
+                                    <select class="form-select form-select-solid" data-kt-select2="true" data-placeholder="Select option" data-allow-clear="true">
+                                        <option></option>
+                                        <option value="1">Approved</option>
+                                        <option value="2">Pending</option>
+                                        <option value="2">In Process</option>
+                                        <option value="2">Rejected</option>
+                                    </select>
+                                </div>
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="mb-10">
+                                <!--begin::Label-->
+                                <label class="form-label fw-bold">Member Type:</label>
+                                <!--end::Label-->
+                                <!--begin::Options-->
+                                <div class="d-flex">
+                                    <!--begin::Options-->
+                                    <label class="form-check form-check-sm form-check-custom form-check-solid me-5">
+                                        <input class="form-check-input" type="checkbox" value="1" />
+                                        <span class="form-check-label">Author</span>
+                                    </label>
+                                    <!--end::Options-->
+                                    <!--begin::Options-->
+                                    <label class="form-check form-check-sm form-check-custom form-check-solid">
+                                        <input class="form-check-input" type="checkbox" value="2" checked="checked" />
+                                        <span class="form-check-label">Customer</span>
+                                    </label>
+                                    <!--end::Options-->
+                                </div>
+                                <!--end::Options-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="mb-10">
+                                <!--begin::Label-->
+                                <label class="form-label fw-bold">Notifications:</label>
+                                <!--end::Label-->
+                                <!--begin::Switch-->
+                                <div class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
+                                    <input class="form-check-input" type="checkbox" value="" name="notifications" checked="checked" />
+                                    <label class="form-check-label">Enabled</label>
+                                </div>
+                                <!--end::Switch-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Actions-->
+                            <div class="d-flex justify-content-end">
+                                <button type="reset" class="btn btn-sm btn-white btn-active-light-primary me-2" data-kt-menu-dismiss="true">Reset</button>
+                                <button type="submit" class="btn btn-sm btn-primary" data-kt-menu-dismiss="true">Apply</button>
+                            </div>
+                            <!--end::Actions-->
+                        </div>
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Menu 1-->
+                    <!--end::Menu-->
+                </div>
+                <!--end::Wrapper-->
+            </div>
+            <!--end::Actions-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Toolbar-->
+    <!--begin::Post-->
+    <div class="post d-flex flex-column-fluid" id="kt_post">
+        <!--begin::Container-->
+        <div id="kt_content_container" class="container">
+            <!--begin::Card-->
+            <div class="row d-flex justify-content-center">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <!--begin::Card header-->
+                        <div class="card-header border-0 pt-6">
+                            <!--begin::Card title-->
+                            <div class="card-title">
+                                <!--begin::Search-->
+                                <div class="d-flex align-items-center position-relative my-1">
+                                    <!--begin::Svg Icon | path: icons/duotone/General/Search.svg-->
+                                    <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24" />
+                                                <path d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                                <path d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z" fill="#000000" fill-rule="nonzero" />
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    <form class="d-flex">
+                                        <!--end::Svg Icon-->
+                                        <input type="text" data-kt-customer-table-filter="search" name="search" class="form-control form-control-solid w-250px ps-14" placeholder="Tìm kiếm VAT" />
+                                        <!--begin::Search Filter-->
+                                        <button type="button" class="btn btn-light-primary ms-2" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                                            <!--begin::Svg Icon | path: icons/duotone/Text/Filter.svg-->
+                                            <span class="svg-icon svg-icon-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <rect x="0" y="0" width="24" height="24" />
+                                                        <path d="M5,4 L19,4 C19.2761424,4 19.5,4.22385763 19.5,4.5 C19.5,4.60818511 19.4649111,4.71345191 19.4,4.8 L14,12 L14,20.190983 C14,20.4671254 13.7761424,20.690983 13.5,20.690983 C13.4223775,20.690983 13.3458209,20.6729105 13.2763932,20.6381966 L10,19 L10,12 L4.6,4.8 C4.43431458,4.5790861 4.4790861,4.26568542 4.7,4.1 C4.78654809,4.03508894 4.89181489,4 5,4 Z" fill="#000000" />
+                                                    </g>
+                                                </svg>
+                                            </span>
+                                            <!--end::Svg Icon-->Tất cả
+                                        </button>
+                                        <!--begin::Menu 1-->
+                                        <div class="menu menu-sub menu-sub-dropdown w-300px w-md-325px" data-kt-menu="true">
+                                            <!--begin::Header-->
+                                            <div class="px-7 py-5">
+                                                <div class="fs-5 text-dark fw-bolder">Bộ lọc tìm kiếm</div>
+                                            </div>
+                                            <!--end::Header-->
+                                            <!--begin::Separator-->
+                                            <div class="separator border-gray-200"></div>
+                                            <!--end::Separator-->
+                                            <!--begin::Content-->
+                                            <div class="px-7 py-5" data-kt-user-table-filter="form">
+                                                <!--begin::Input group-->
+                                                <div class="mb-10">
+                                                    <label class="form-label fs-6 fw-bold">Tìm kiếm theo:</label>
+                                                    <select id="show" name="show" class="form-select form-select-solid fw-bolder" data-kt-select2="true" data-placeholder="Select option" data-allow-clear="true" data-kt-user-table-filter="role" data-hide-search="true">
+                                                        <option value="1">Tìm kiếm tất cả</option>
+                                                        <option value="2">Theo ID</option>
+                                                        <option value="3">Theo tên</option>
+                                                    </select>
+                                                </div>
+                                                <!--end::Input group-->
+                                                <!--begin::Actions-->
+                                                <div class="d-flex justify-content-end">
+                                                    <button type="reset" class="btn btn-white btn-active-light-primary fw-bold me-2 px-6" data-kt-menu-dismiss="true" data-kt-user-table-filter="reset">Reset</button>
+                                                    <button type="button" class="btn btn-primary fw-bold px-6" data-kt-menu-dismiss="true" data-kt-user-table-filter="filter">Apply</button>
+                                                </div>
+                                                <!--end::Actions-->
+                                            </div>
+                                            <!--end::Content-->
+                                        </div>
+                                        <!--end::Menu 1-->
+                                        <!--end::Search Filter-->
+                                    </form>
+                                </div>
+                                <!--end::Search-->
+                            </div>
+                            <!--begin::Card title-->
+                            <!--begin::Card toolbar-->
+                            <div class="card-toolbar">
+                                <!--begin::Toolbar-->
+                                <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
+                                    <!--begin::Add-->
+                                    <button type="button" class="btn btn-primary" id="addVAT">
+                                        <!--begin::Svg Icon | path: icons/duotone/Navigation/Plus.svg-->
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                <rect fill="#000000" x="4" y="11" width="16" height="2" rx="1" />
+                                                <rect fill="#000000" opacity="0.5" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000)" x="4" y="11" width="16" height="2" rx="1" />
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->Thêm mới
+                                    </button>
+                                    <!--end::Add-->
+                                </div>
+                                <!--end::Toolbar-->
+                                <!--begin::Group actions-->
+                                <div class="d-flex justify-content-end align-items-center d-none" data-kt-customer-table-toolbar="selected">
+                                    <div class="fw-bolder me-5">
+                                        <span class="me-2" data-kt-customer-table-select="selected_count"></span>Đã chọn
+                                    </div>
+                                    <button type="button" class="btn btn-danger" data-kt-customer-table-select="delete_selected">Xóa mục đã chọn</button>
+                                </div>
+                                <!--end::Group actions-->
+                            </div>
+                            <!--end::Card toolbar-->
+                        </div>
+                        <!--end::Card header-->
+                        <!--begin::Body-->
+                        <div class="card-body py-3">
+                            <!--begin::Table container-->
+                            <!--begin::Table-->
+                            <table class="table table-sortable table-row-dashed table-row-gray-300 gy-7 center_th_table">
+                                <!--begin::Table head-->
+                                <thead>
+                                    <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
+                                        <th class="center_th_table">
+                                            <div class="form-check form-check-sm form-check-custom form-check-solid ">
+                                                <input class="form-check-input" type="checkbox" data-kt-check="true" value="1" />
+                                            </div>
+                                        </th>
+                                        <th class="text-center">ID</th>
+                                        <th class="text-center">Tên loại VAT</th>
+                                        <th class="text-center">%VAT</th>
+                                        <th class="text-center">Ngày tạo</th>
+                                        <th class="text-center">Ngày cập nhật</th>
+                                        <th class="text-center">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <!--end::Table head-->
+                                <!--begin::Table body-->
+                                <tbody class="fw-normal text-gray-600">
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td class="text-center">
+                                                <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                    <input class="form-check-input" type="checkbox" value="1" />
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="text-gray-700 fw-bold">@item.taxes_id</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="text-gray-700 fw-bold">@item.taxes_name</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="text-gray-700 fw-bold">@item.taxes_value%</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="text-gray-700 fw-bold">@item.create_at.ToString("dd-MM-yyyy HH:mm")</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="text-gray-700 fw-bold">@item.update_at.ToString("dd-MM-yyyy HH:mm")</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <a onclick="EditTag(@item.taxes_id, '@item.taxes_name', @item.taxes_value)" href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1">
+                                                    <!--begin::Svg Icon | path: fonts/duotone/Communication/Write.svg-->
+                                                    <span class="svg-icon svg-icon-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Chỉnh sửa">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953)" />
+                                                            <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                                        </svg>
+                                                    </span>
+                                                    <!--end::Svg Icon-->
+                                                </a>
+                                                <a onclick="deleteConfirm(@item.taxes_id, '@item.taxes_name',@item.Products.Count)" id="disable_confirm" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm">
+                                                    <!--begin::Svg Icon | path: fonts/duotone/General/Trash.svg-->
+                                                    <span class="svg-icon svg-icon-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Vô hiệu hóa">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <rect x="0" y="0" width="24" height="24" />
+                                                                <path d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z" fill="#000000" fill-rule="nonzero" />
+                                                                <path d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3" />
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <!--end::Svg Icon-->
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <!--end::Table body-->
+                            </table>
+                            <!--end::Table-->
+                            <!--end::Table container-->
+                            <!--begin::Pagination-->
+                            <div class="paging_custom row">
+                                <div class="col-lg-5">
+                                    <span> Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+                                </div>
+                                <div class="col-lg-7 d-flex  flex-row-reverse">
+                                    @Html.PagedListPager(Model, page => Url.Action("TaxesIndex", new { page }), new PagedListRenderOptions
+                                    {
+                                       LinkToPreviousPageFormat = "‹",
+                                       LinkToNextPageFormat = "›",
+                                       DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                                       DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                                       DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                                       DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                                       MaximumPageNumbersToDisplay = 10
+                                    })
+                                </div>
+                            </div>
+                            <!--begin::Pagination-->
+                        </div>
+                        <!--begin::Body-->
+                    </div>
+                    <!--begin::Card-->
+                </div>
+            </div>
+        </div>
+        <!--end::Container-->
+    </div>.
+    <!--end::Post-->
+</div>
+<!--end::Content-->
+<!--begin::Modal - Create Taxes-->
+<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
+    <!--begin::Modal dialog-->
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+        <!--begin::Modal content-->
+        <div class="modal-content rounded">
+            <!--begin::Modal header-->
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: fonts/duotone/Navigation/Close.svg-->
+                    <span class="svg-icon svg-icon-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)" fill="#000000">
+                                <rect fill="#000000" x="0" y="7" width="16" height="2" rx="1" />
+                                <rect fill="#000000" opacity="0.5" transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000)" x="0" y="7" width="16" height="2" rx="1" />
+                            </g>
+                        </svg>
+                    </span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <!--begin::Modal header-->
+            <!--begin::Modal body-->
+            <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                <!--begin:Form-->
+                <form class="form">
+                    <!--begin::Heading-->
+                    <div class="mb-13 text-center">
+                        <!--begin::Title-->
+                        <h1 class="mb-3 modal-title">Thêm VAT</h1>
+                        <!--end::Title-->
+                    </div>
+                    <!--end::Heading-->
+                    <!--begin::Input group-->
+                    <div class="d-flex flex-column mb-8 fv-row">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+                            <span class="required">Tên VAT</span>
+                        </label>
+                        <!--end::Label-->
+                        <input type="text" id="TaxesName" class="form-control form-control-solid" placeholder="Nhập tên VAT" />
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="d-flex flex-column mb-8 fv-row">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+                            <span class="required">Phần trăm VAT</span>
+                        </label>
+                        <!--end::Label-->
+                        <input type="number" id="TaxesValue" class="form-control form-control-solid" placeholder="Phần trăm VAT" />
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Actions-->
+                    <div class="text-center">
+                        <button type="reset" class="btn btn-white me-3">Reset</button>
+                        <button type="button" id="ConfirmAdd" class="btn btn-primary">
+                            <span class="indicator-label">Lưu</span>
+                        </button>
+                    </div>
+                    <!--end::Actions-->
+                </form>
+                <!--end:Form-->
+            </div>
+            <!--end::Modal body-->
+        </div>
+        <!--end::Modal content-->
+    </div>
+    <!--end::Modal dialog-->
+</div>
+<!--end::Modal - Create Taxes-->
+<!--begin::Modal - Edit Taxes-->
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+    <!--begin::Modal dialog-->
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+        <!--begin::Modal content-->
+        <div class="modal-content rounded">
+            <!--begin::Modal header-->
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: fonts/duotone/Navigation/Close.svg-->
+                    <span class="svg-icon svg-icon-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)" fill="#000000">
+                                <rect fill="#000000" x="0" y="7" width="16" height="2" rx="1" />
+                                <rect fill="#000000" opacity="0.5" transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000)" x="0" y="7" width="16" height="2" rx="1" />
+                            </g>
+                        </svg>
+                    </span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <!--begin::Modal header-->
+            <!--begin::Modal body-->
+            <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                <!--begin:Form-->
+                <form class="form">
+                    <!--begin::Heading-->
+                    <div class="mb-13 text-center">
+                        <!--begin::Title-->
+                        <h1 class="mb-3 modal-title">Sửa VAT</h1>
+                        <!--end::Title-->
+                    </div>
+                    <!--end::Heading-->
+                    <!--begin::Input group-->
+                    <div class="d-flex flex-column mb-8 fv-row">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+                            <span class="required">Tên VAT</span>
+                        </label>
+                        <!--end::Label-->
+                        <input type="text" id="TaxesNameEdit" class="form-control form-control-solid" placeholder="Nhập tên VAT" />
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="d-flex flex-column mb-8 fv-row">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+                            <span class="required">Phần trăm VAT</span>
+                        </label>
+                        <!--end::Label-->
+                        <input type="number" id="TaxesValueEdit" class="form-control form-control-solid" placeholder="Nhập phần trăm VAT" />
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Actions-->
+                    <div class="text-center">
+                        <button type="reset" class="btn btn-white me-3">Reset</button>
+                        <button type="button" id="confirmeditBtn" class="btn btn-primary">
+                            <span class="indicator-label">Lưu</span>
+                        </button>
+                    </div>
+                    <!--end::Actions-->
+                </form>
+                <!--end:Form-->
+            </div>
+            <!--end::Modal body-->
+        </div>
+        <!--end::Modal content-->
+    </div>
+    <!--end::Modal dialog-->
+</div>
+<!--end::Modal - Edit Taxes-->
+<!--begin::Modal - Delete Taxes-->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <!--begin::Modal dialog-->
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+        <!--begin::Modal content-->
+        <div class="modal-content rounded">
+            <!--begin::Modal header-->
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: fonts/duotone/Navigation/Close.svg-->
+                    <span class="svg-icon svg-icon-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)" fill="#000000">
+                                <rect fill="#000000" x="0" y="7" width="16" height="2" rx="1" />
+                                <rect fill="#000000" opacity="0.5" transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000)" x="0" y="7" width="16" height="2" rx="1" />
+                            </g>
+                        </svg>
+                    </span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <!--begin::Modal header-->
+            <!--begin::Modal body-->
+            <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                <!--begin:Form-->
+                <form class="form">
+                    <!--begin::Heading-->
+                    <div class="mb-4 text-center">
+                        <!--begin::Title-->
+                        <h1 class="modal-title"><i class="bi bi-x-circle text-danger" style="font-size:70px;"></i></h1>
+                        <!--end::Title-->
+                    </div>
+                    <!--end::Heading-->
+                    <!--begin::Input group-->
+                    <div class="d-flex justify-content-center">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-1 fw-bold lable_vat">Hiện title tại đây</label>
+                        <!--end::Label-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="d-flex justify-content-center mb-8">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center">Số sản phẩm:<span class="count_product_vat ms-1"></span></label>
+                        <!--end::Label-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Actions-->
+                    <div class="text-center">
+                        <button data-bs-dismiss="modal" class="btn btn-white me-3">Huỷ</button>
+                        <button type="button" id="deleteBtn" class="btn btn-danger">
+                            <span class="indicator-label">Xoá</span>
+                        </button>
+                    </div>
+                    <!--end::Actions-->
+                </form>
+                <!--end:Form-->
+            </div>
+            <!--end::Modal body-->
+        </div>
+        <!--end::Modal content-->
+    </div>
+    <!--end::Modal dialog-->
+</div>
+<!--end::Modal - Delete Taxes -->

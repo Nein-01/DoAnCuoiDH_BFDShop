@@ -1,0 +1,111 @@
+﻿@using PagedList.Mvc;
+@model PagedList.PagedList<DoAn_LapTrinhWeb.Model.Banner>
+@{
+    ViewBag.Title = "Khuyến mãi";
+    ViewBag.ImageURL = "/Images/ImagesCollection/khuyen-mai-hot.jpg";
+    ViewBag.Decription = "";
+    ViewBag.Tag = "Khuyến mãi hot";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+    var bannerDetail = (List<DoAn_LapTrinhWeb.Model.Banner_Detail>)ViewBag.BannerDetail;
+}
+<section class="margin_mobile_fixed">
+    <!--begin::Container-->
+    <div class="container">
+        <!--begin::breadcrumb-->
+        <div class="breadcrumb1 ">
+            <ul class="breadcrumb__list">
+                <li><a href="/"><i aria-hidden="true" class="fa fa-home"></i></a> <i aria-hidden="true" class="far fa-angle-right"></i></li>
+                <li><a href="@Url.Action("Index","Home")">Trang chủ</a> <i aria-hidden="true" class="far fa-angle-right"></i></li>
+                <li><a href="#">Khuyến mãi</a></li>
+            </ul>
+        </div>
+        <!--end::breadcrumb-->
+        <!--begin::Row-->
+        <div class="boderproductdetail padding_listbanner">
+            <div class="row">
+                <!--begin::Title-->
+                <div class=" text-uppercase mt-20px center h1">Khuyến mãi hot</div>
+                <!--end::Title-->
+                @foreach (var item in Model)
+                {
+                    if (item.Banner_Detail.Count < 2)
+                    {
+                        foreach (var item2 in bannerDetail)
+                        {
+                            if (item2.banner_id == item.banner_id)
+                            {
+                                <!--begin::Banner Item-->
+                                <div class="col-12 col-md-6 mt-20px pe-2 ps-2">
+                                    <div class="shadow--banner-item rounded-3">
+                                        <!--begin::Button-->
+                                        <a href="/product/@item2.Product.slug">
+                                            <!--begin::Pic-->
+                                            <div>
+                                                <img class="img_banner_list" src="@item.image_thumbnail" alt="" style="width:100%; height:auto">
+                                            </div>
+                                            <!--end::Pic-->
+                                            <!--begin::Name and Banner Date-->
+                                            <div class="ps-3 pe-3 pt-1 pb-1">
+                                                <!--begin::Banner Name-->
+                                                <span class="h6 limit_line_banner">@item.banner_name</span>
+                                                <!--end::Banner Name-->
+                                                <!--begin::Date Start - End-->
+                                                <span class="color-green text-muted">@item.banner_start.ToString("dd-MM-yyyy") đến @item.banner_end.ToString("dd-MM-yyyy")</span>
+                                                <!--end::Date Start - End-->
+                                            </div>
+                                            <!--end::Name and Banner Date-->
+                                        </a>
+                                        <!--end::Button-->
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <!--begin::Banner Item-->
+                        <div class="col-12 col-md-6 mt-20px pe-2 ps-2">
+                            <div class="shadow--banner-item rounded-3">
+                                <!--begin::Button-->
+                                <a href="/promo/@item.slug">
+                                    <!--begin::Pic-->
+                                    <div>
+                                        <img class="img_banner_list" src="@item.image_thumbnail" alt="" style="width:100%; height:auto">
+                                    </div>
+                                    <!--end::Pic-->
+                                    <!--begin::Name and Banner Date-->
+                                    <div class="ps-3 pe-3 pt-1 pb-1">
+                                        <!--begin::Banner Name-->
+                                        <span class="h6 limit_line_banner">@item.banner_name</span>
+                                        <!--end::Banner Name-->
+                                        <!--begin::Date Start - End-->
+                                        <span class="color-green text-muted">@item.banner_start.ToString("dd-MM-yyyy") đến @item.banner_end.ToString("dd-MM-yyyy")</span>
+                                        <!--end::Date Start - End-->
+                                    </div>
+                                    <!--end::Name and Banner Date-->
+                                </a>
+                                <!--end::Button-->
+                            </div>
+                        </div>
+                    }
+                }
+                <!--begin::Pagination-->
+                <div class="center mt-20px">
+                    @Html.PagedListPager(Model, page => Url.Action("Listbanner", new { @page = page }), new PagedListRenderOptions
+                    {
+                        LinkToPreviousPageFormat = "‹",
+                        LinkToNextPageFormat = "›",
+                        DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                        DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                        MaximumPageNumbersToDisplay = 3
+                    })
+                </div>
+                <!--end::Pagination-->
+            </div>
+            <!--emd::Row-->
+        </div>
+    </div>
+    <!--end::Container-->
+</section>

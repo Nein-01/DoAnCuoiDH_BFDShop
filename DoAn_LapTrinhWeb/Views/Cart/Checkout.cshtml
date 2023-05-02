@@ -3,7 +3,20 @@
 @{
     ViewBag.Title = "Thanh toán đơn hàng";
     Layout = "~/Views/Shared/Main_Layout.cshtml";
-    
+    var discountPrice = Convert.ToDouble(ViewBag.Discount);//giảm giá
+    var total = Convert.ToDouble(ViewBag.Total);//Giá sau khi áp dụng mã giảm giá, được tính ở controller
+    var price = total;//giá gốc trước khi dùng mã giảm giá
+    var shippingFee = 30000d;// Phí vận chuyển 30k
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+    if (discountPrice >= price)//nếu giảm giá lớn trị giá đơn hàng thì total = 30k(30k là phí ship thôi, giảm giá chỉ giảm giá sản phẩm chứ không giảm giá ship)
+    {
+        total = 30000;
+    }
+    else
+    {
+        total = price - discountPrice +30000 ;
+    }
+    TempData["Total"] = total;//tổng tiền phải thanh toán, truyền xống controller
 }
 @section scripts{
     <script src="~/Scripts/my_js/loader_email.js"></script>
@@ -163,7 +176,76 @@
                 <!--end::Payment and Delivery-->
                 <!--begin::Row-->
                 <div class="row mb-20px infor-user-checkout">
-                    <div class="col-lg-7 col-md-6 col-12 info_total">                                               
+                    <div class="col-lg-7 col-md-6 col-12 info_total">
+                        @if (ViewBag.CountAddress > 0)//view này hiển thị khi bạn đã thêm địa chỉ trước đó trong trang cá nhân
+                        {
+                            <div class="user-page">
+                                <div class="page-title">Thông tin Người nhận</div>
+                                <!--begin::Form-->
+                                <div class="user-form">
+                                    <div class="form-wrap">
+                                        <div>
+                                            <!--begin::Input Form Group-->
+                                            <div class="settingrow form-group mb-3">
+                                                <label class="settinglabel control-label col-sm-5">Họ tên</label>
+                                                <!--end::Label-->
+                                                <div class="col-sm-7">
+                                                    <input name="checkout_username" readonly id="checkout_username" value="@Model.checkout_username" class="form-control ck_username">
+                                                </div>
+                                            </div>
+                                            <!--end::Input Form Group-->
+                                            <!--begin::Input Form Group-->
+                                            <div class="settingrow form-group mb-3">
+                                                <!--begin::Label-->
+                                                <label class="settinglabel control-label col-sm-5">Số điện thoại</label>
+                                                <!--end::Label-->
+                                                <div class="col-sm-7">
+                                                    <input  readonly type="number" name="checkout_phone_number" id="checkout_phone_number" value="@Model.checkout_phone_number" class="form-control ck_phone_num" />
+                                                </div>
+                                            </div>
+                                            <!--end::Input Form Group-->
+                                            <!--begin::Input Form Group-->
+                                            <div class="settingrow form-group mb-3">
+                                                <!--begin::Label-->
+                                                <label class="settinglabel control-label col-sm-5">Địa chỉ</label>
+                                                <!--end::Label-->
+                                                <div class="col-sm-7">
+                                                    <textarea name="checkout_address" readonly id="checkout_address" class="form-control ck_address">@Model.checkout_address</textarea>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <input type="hidden" class="ck_address_province" value="@Model.checkout_address_province" name="checkout_address_province"/>
+                                                <input type="hidden" class="ck_address_district" value="@Model.checkout_address_district" name="checkout_address_district"/>
+                                                <input type="hidden" class="ck_address_ward" value="@Model.checkout_address_ward" name="checkout_address_ward"/>
+                                                <input type="hidden" class="ck_address_content" value="@Model.checkout_address_content" name="checkout_address_content"/>
+                                            </div>
+                                            <!--end::Input Form Group-->
+                                            <!--begin::Input Form Group-->
+                                            <div class="settingrow form-group mb-3">
+                                                <!--begin::Label-->
+                                                <label class="settinglabel control-label col-sm-5">Lời nhắn</label>
+                                                <!--end::Label-->
+                                                <div class="col-sm-7">
+                                                    <textarea name="OrderNote" tabindex="4" cols="40" maxlength="200" class="w-100 form-control" rows="2" placeholder="Ví dụ: Giao hàng ngoài giờ hành chính"></textarea>
+                                                    <div class="form-des fs-14px">(Không bắt buộc)</div>
+                                                </div>
+                                            </div>
+                                            <!--end::Input Form Group-->
+                                            <!--Begin::Action-->
+                                            <div>
+                                                <!--Begin::Button-->
+                                                <a href="#" id="op_ckchangeaddress" class="ck_update_info">Đổi địa chỉ nhận hàng</a>
+                                                <!--end::Button-->
+                                            </div>
+                                            <!--end::Action-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end::Form-->
+                            </div>
+                        }
+                        else //nếu chưa thêm địa chỉ thì sẽ dùng form này, nhưng khi bạn thêm địa chỉ mới ở trang thanh toán xong thì view form này sẽ tự hiện lên
+                        {
                             <div class="user-page ck_notexist_address">
                                 <div class="page-title">Thông tin Người nhận</div>
                                 <!--begin::Form-->
@@ -183,8 +265,40 @@
                                 <div class="user-form">
                                     <div class="form-wrap">
                                         <div>
-                                           
-                                            
+                                            <!--begin::Input Form Group-->
+                                            <div class="settingrow form-group mb-3">
+                                                <label class="settinglabel control-label col-sm-5">Họ tên</label>
+                                                <!--end::Label-->
+                                                <div class="col-sm-7">
+                                                    <input name="checkout_username" readonly id="checkout_username" value="@Model.checkout_username" class="form-control order_address_name">
+                                                </div>
+                                            </div>
+                                            <!--end::Input Form Group-->
+                                            <!--begin::Input Form Group-->
+                                            <div class="settingrow form-group mb-3">
+                                                <!--begin::Label-->
+                                                <label class="settinglabel control-label col-sm-5">Số điện thoại</label>
+                                                <!--end::Label-->
+                                                <div class="col-sm-7">
+                                                    <input type="number" readonly name="checkout_phone_number" id="checkout_phone_number" value="@Model.checkout_phone_number" class="form-control order_address_phone" />
+                                                </div>
+                                            </div>
+                                            <!--end::Input Form Group-->
+                                            <!--begin::Input Form Group-->
+                                            <div class="settingrow form-group mb-3">
+                                                <!--begin::Label-->
+                                                <label class="settinglabel control-label col-sm-5">Địa chỉ</label>
+                                                <!--end::Label-->
+                                                <div class="col-sm-7">
+                                                    <textarea readonly id="checkout_address" class="form-control order_address">@Model.checkout_address</textarea>
+                                                </div>
+                                                <div>
+                                                    <input type="hidden" class="ck_address_province" value="@Model.checkout_address_province" name="checkout_address_province" />
+                                                    <input type="hidden" class="ck_address_district" value="@Model.checkout_address_district" name="checkout_address_district" />
+                                                    <input type="hidden" class="ck_address_ward" value="@Model.checkout_address_ward" name="checkout_address_ward" />
+                                                    <input type="hidden" class="ck_address_content" value="@Model.checkout_address_content" name="checkout_address_content" />
+                                                </div>
+                                            </div>
                                             <!--end::Input Form Group-->
                                             <!--begin::Input Form Group-->
                                             <div class="settingrow form-group mb-3">
@@ -202,7 +316,7 @@
                                 </div>
                                 <!--end::Form-->
                             </div>
-                        
+                        }
                     </div>
                     <!--end thông tin nhận hàng-->
                     <!--begin::Col-->
@@ -220,7 +334,7 @@
                                             <div class="label">Tạm tính:</div>
                                         </td>
                                         <td class="text-right">
-                                            <div class="value"></div>
+                                            <div class="value">@price.ToString("#,###₫", culture.NumberFormat)</div>
                                         </td>
                                     </tr>
                                     <tr>
@@ -229,7 +343,14 @@
                                         </td>
                                         <td class="text-right">
                                             <div class="value">
-                                                
+                                                @if (discountPrice == 0)
+                                                {
+                                                    <span >0₫</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-success">@discountPrice.ToString("-#,0₫", culture.NumberFormat)</span>  
+                                                }
                                             </div>
                                         </td>
                                     </tr>
@@ -238,7 +359,7 @@
                                             <div class="label">Phí vận chuyển:</div>
                                         </td>
                                         <td class="text-right">
-                                            <div class="value"></div>
+                                            <div class="value">@shippingFee.ToString("#,###₫", culture.NumberFormat)</div>
                                         </td>
                                     </tr>
                                     <tr>
@@ -246,7 +367,7 @@
                                             <div class="label">Thành tiền:</div>
                                         </td>
                                         <td class="text-right">
-                                            <div class="value order-total h5 fw-bold text-danger text-si"></div>
+                                            <div class="value order-total h5 fw-bold text-danger text-si">@total.ToString("#,0₫", culture.NumberFormat)</div>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -257,10 +378,16 @@
                             <div class="ps-3 pe-3">
                                 <!--begin::Button-->
                                 <!--Đật hàng-->
-                                
+                                @if (ViewBag.CountAddress > 0)
+                                {
+                                    <button type="submit" class="btn bg-button w-100 mt-2 mb-1 order_now" id="submit_order">ĐẶT HÀNG NGAY</button>
+                                    <div class="text-danger center">(Đặt hàng để xác nhận thanh toán)</div>
+                                }
+                                else
+                                {
                                     <button type="button" disabled class="btn bg-button w-100 mt-2 mb-1 btn_submit_order">Đặt hàng ngay</button>
                                     <div class="text-danger center message_order">(Vui lòng thêm địa chỉ nhận hàng)</div>
-                                
+                                }
                                 <!--end::Button-->
                             </div>
                             <!--end::Action-->
@@ -300,7 +427,33 @@
                     </div>
                     <div class="d-flex flex-column mb-3 fv-row fv-plugins-icon-container">
                         <!--begin::Label-->
-                        
+                        @{ int input = 9000; int label = 9000;
+                            foreach (var item in ViewBag.ListAdress)
+                            {
+                                if (item.account_address_default == true)
+                                {
+                                    <div class="mb-3 d-flex">
+                                        <input name="account_address_id" class="mt-1 check_change_address" checked="checked" id="8999" type="radio" value="@item.account_address_id" />
+                                        <label for="8999" class="ps-2 user-select-none select_address" style="cursor:pointer">
+                                            <span class="font_roboto_bold get_acc_username">@item.account_address_username</span>
+                                            <span class="font_roboto_bold get_acc_phone_num">@item.account_address_phonenumber</span>
+                                            <span class="get_address"><span class="get_address_content">@item.account_address_content</span>, <span class="get_address_ward">@item.Wards.type @item.Wards.ward_name</span>, <span class="get_address_district">@item.Districts.type @item.Districts.district_name</span>, <span class="get_address_province">@item.Provinces.province_name</span></span>
+                                        </label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="mb-3 d-flex">
+                                        <input name="account_address_id" class="mt-1 check_change_address" type="radio" id="@(input+=1)" value="@item.account_address_id" />
+                                        <label for="@(label+=1)" class="ps-2 user-select-none select_address" style="cursor:pointer">
+                                            <span class="font_roboto_bold get_acc_username">@item.account_address_username</span>
+                                            <span class="font_roboto_bold get_acc_phone_num">@item.account_address_phonenumber</span>
+                                            <span class="get_address"><span class="get_address_content">@item.account_address_content</span>, <span class="get_address_ward">@item.Wards.type @item.Wards.ward_name</span>, <span class="get_address_district">@item.Districts.type @item.Districts.district_name</span>, <span class="get_address_province">@item.Provinces.province_name</span></span>
+                                        </label>
+                                    </div>
+                                }
+                            }
+                        }
                         <!--end::Label-->
                     </div>
                     <div class="text-center">
@@ -346,7 +499,7 @@
                             <span class="required">Họ tên<span class="ms-1 text-danger">*</span></span>
                         </label>
                         <!--end::Label-->
-                        <input type="text" maxlength="20" class="form-control form-control-solid" id="address_name" value="" placeholder="Nhập họ tên" name="account_address_username">
+                        <input type="text" maxlength="20" class="form-control form-control-solid" id="address_name" value="@User.Identity.GetName()" placeholder="Nhập họ tên" name="account_address_username">
                     </div>
                     <div class="d-flex flex-column mb-3 fv-row fv-plugins-icon-container">
                         <!--begin::Label-->
@@ -354,7 +507,7 @@
                             <span class="required">Số điện thoại<span class="ms-1 text-danger">*</span></span>
                         </label>
                         <!--end::Label-->
-                        <input type="number" maxlength="10" class="form-control form-control-solid" id="address_phone" placeholder="Số điện thoại" value="@" name="account_address_phonenumber">
+                        <input type="number" maxlength="10" class="form-control form-control-solid" id="address_phone" placeholder="Số điện thoại" value="@User.Identity.GetPhoneNumber()" name="account_address_phonenumber">
                     </div>
                     <div class="d-flex flex-column mb-3 fv-row fv-plugins-icon-container">
                         <!--begin::Label-->
@@ -364,7 +517,10 @@
                         <!--end::Label-->
                         <select name="province_id" id="province" class="form-select form-select-solid select2-hidden-accessible">
                             <option value="">Tỉnh/Thành Phố</option>
-                            
+                            @foreach (var provice in ViewBag.ProvincesList)
+                            {
+                                <option value="@provice.province_id">@provice.province_name</option>
+                            }
                         </select>
                     </div>
                     <div class="d-flex flex-column mb-3 fv-row fv-plugins-icon-container">

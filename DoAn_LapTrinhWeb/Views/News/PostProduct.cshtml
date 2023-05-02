@@ -1,0 +1,155 @@
+﻿@using PagedList.Mvc
+@model PagedList.PagedList<DoAn_LapTrinhWeb.DTOs.NewsDTO>
+@{
+    ViewBag.Title = "Thông tin mới nhất về "+ ViewBag.ProductName;
+    ViewBag.ImageURL = "/Images/ImagesCollection/tin-tuc.jpg";
+    ViewBag.Decription = "";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+    var countcomment = (List<DoAn_LapTrinhWeb.Models.NewsComments>)ViewBag.countcomment;
+    var replycountcomment = (List<DoAn_LapTrinhWeb.Models.Reply_Comments>)ViewBag.replycountcomment;
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+<section class="blog_area margin_mobile_fixed">
+    <div class="container mb-20px mt-20px">
+        <div class="row">
+            <div class="col-lg-8 mb-5 mb-lg-0">
+                <div class="mb-20px author_profi">
+                    <div class="p-3">
+                        <a href="/product/@ViewBag.ProductSlug" class="d-flex">
+                            <div class="img_list_pro"><img src="@ViewBag.ProductImg" class="rounded-circle" /></div>
+                            <div class="ms-1">
+                                <div class="limit_lenght_product_news">@ViewBag.ProductName</div>
+                                <div >
+                                    <span class="new_price fs-17px">@ViewBag.Product_Price.ToString("#,###₫", culture.NumberFormat)</span><span class="old_price ms-2 fs-15px">@ViewBag.Product_DCPrice.ToString("#,###₫", culture.NumberFormat)</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="blog_left_sidebar">
+                    <div class="row">
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-md-6 col-lg-6">
+                                <a href="/post/@item.news_slug" class="blog_item_date">
+                                    <article class="blog_item">
+                                        <div class="blog_item_img">
+                                            <img class="card-img rounded-0" src="@item.image2">
+                                        </div>
+                                        <div class="blog_details">
+                                            <h2>@item.news_title</h2>
+                                            <ul class="blog-info-link text-muted">
+                                                <li>
+                                                    @{
+                                                        DateTime seconds = item.create_at.AddSeconds(60);
+                                                        DateTime minutes = item.create_at.AddMinutes(60);
+                                                        DateTime hour = item.create_at.AddHours(24);
+                                                        DateTime date = item.create_at.AddDays(30);
+                                                        DateTime months = item.create_at.AddMonths(12);
+                                                    }
+                                                    @if (seconds > DateTime.Now)
+                                                    {
+                                                        if ((item.create_at.Minute < DateTime.Now.Minute))
+                                                        {
+                                                            <span href="#"><i class="fa fa-clock-o"></i> @((DateTime.Now.Second - item.create_at.Second) +60) giây trước</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span href="#"><i class="fa fa-clock-o"></i> @(DateTime.Now.Second - item.create_at.Second) giây trước</span>
+                                                        }
+                                                    }
+                                                    else if (minutes > DateTime.Now)
+                                                    {
+                                                        if ((item.create_at.Hour < DateTime.Now.Hour) || (item.create_at.Day < DateTime.Now.Day))
+                                                        {
+                                                            <span href="#"><i class="fa fa-clock-o"></i> @((DateTime.Now.Minute - item.create_at.Minute)+60) phút trước</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span href="#"><i class="fa fa-clock-o"></i> @(DateTime.Now.Minute - item.create_at.Minute) phút trước</span>
+                                                        }
+                                                    }
+                                                    else if (hour > DateTime.Now)
+                                                    {
+                                                        if (item.create_at.Day < DateTime.Now.Day)
+                                                        {
+                                                            <span href="#"><i class="fa fa-clock-o"></i> @((DateTime.Now.Hour - item.create_at.Hour)+24) giờ trước</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span href="#"><i class="fa fa-clock-o"></i> @(DateTime.Now.Hour - item.create_at.Hour) giờ trước</span>
+                                                        }
+                                                    }
+                                                    else if (date > DateTime.Now)
+                                                    {
+                                                        if ((item.create_at.Month < DateTime.Now.Month))
+                                                        {
+                                                            <span><i class="fa fa-clock-o"></i> @((DateTime.Now.Day - item.create_at.Day)+30) ngày trước</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span><i class="fa fa-clock-o"></i> @(DateTime.Now.Day - item.create_at.Day) ngày trước</span>
+                                                        }
+                                                    }
+                                                    else if (months > DateTime.Now)
+                                                    {
+                                                        if ((item.create_at.Year < DateTime.Now.Year))
+                                                        {
+                                                            <span><i class="fa fa-clock-o"></i> @((DateTime.Now.Month - item.create_at.Month)+12) tháng trước</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span><i class="fa fa-clock-o"></i> @(DateTime.Now.Month - item.create_at.Month) tháng trước</span>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <span href="#"><i class="fa fa-clock-o"></i> @item.create_at.ToString("dd/MM/yyyy")</span>
+                                                    }
+                                                </li>
+                                                <li>
+                                                    <span href="#">
+                                                        <i class="fa fa-comments"></i>
+                                                        @{
+                                                            int count_cmt = 0;
+                                                            int count_rep_cmt = 0;
+                                                        }
+                                                        @foreach (var com in countcomment)
+                                                        {
+                                                            if (com.news_id == item.news_id)
+                                                            {
+                                                                count_cmt++;
+                                                            }
+                                                        }
+                                                        @foreach (var rep_com in replycountcomment)
+                                                        {
+                                                            if (rep_com.NewsComments.news_id == item.news_id)
+                                                            {
+                                                                count_rep_cmt++;
+                                                            }
+                                                        }
+                                                        <span>@(count_cmt+ count_rep_cmt)</span>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </article>
+                                </a>
+                            </div>
+                        }
+                        <nav class="blog-pagination justify-content-center d-flex">
+                        @if(ViewBag.CountPost > 12)
+                        {
+                            @Html.Partial("Pager", Model)
+                        }
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                @Html.Action("MenuCategory", "News")
+            </div>
+        </div>
+    </div>
+</section>
+<!--================Blog Area =================-->

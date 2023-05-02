@@ -1,0 +1,149 @@
+﻿@using PagedList.Mvc
+@model PagedList.PagedList<DoAn_LapTrinhWeb.DTOs.NewsDTO>
+@{
+    ViewBag.Title = ViewBag.ListName;
+    ViewBag.ImageURL = "/Images/ImagesCollection/tin-tuc.jpg";
+    ViewBag.Decription = "";
+    ViewBag.Tag = "Tin tức";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+}
+@section scripts{
+    <script src="~/Scripts/my_js/search_post.js"></script>
+}
+<section class="blog_area margin_mobile_fixed">
+    <div class="container mb-20px">
+        <div class="d-flex justify-content-between breadcumb_news">
+            <div class="">
+                <h4>Tag: @ViewBag.ListName</h4>
+            </div>
+            <div class="dropdown_product_list">
+                <a href="#" class="dropdown-toggle dropdown_sort" data-bs-toggle="dropdown" aria-expanded="false">
+                    Bộ lọc:
+                </a>
+                <!--begin::Dropdown Menu-->
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <!--begin::Dropdown Item-->
+                    <li><a class="dropdown-item" href="@Url.Action(@ViewBag.Urltype, "Products", new { sortOrder = ViewBag.DateSortParm })">Mới - Cũ</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action(@ViewBag.Urltype, "Products", new { sortOrder = ViewBag.DateSortParm })">Mới - Cũ</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <!--begin::Dropdown Item Expand-->
+                    <li class="dropdown1">
+                        <a class="dropdown-item" href="#">Mức giá</a>
+                        <!--begin::Dropdown Menu Expand-->
+                        <ul class="dropdown-content">
+                            <!--begin::Dropdown content-->
+                            <li><a href="@Url.Action(@ViewBag.Urltype, "Products", new { sortOrder = ViewBag.UnderthreeMillionSortParm })">Dưới 3 triệu</a></li>
+                            <li><a href="@Url.Action(@ViewBag.Urltype, "Products", new { sortOrder = ViewBag.FromthreeToeightMillionSortParm })">Từ 3 - 8 triệu</a></li>
+                            <!--end::Dropdown content-->
+                        </ul>
+                        <!--end::Dropdown Menu Expand-->
+                    </li>
+                    <!--end::Dropdown Item Expand-->
+                    <!--end::Dropdown Item-->
+                </ul>
+                <!--end::Dropdown Menu-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 mb-5 mb-lg-0">
+                <div class="blog_left_sidebar">
+                    <div class="row">
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-md-6 col-lg-6">
+                                <a href="/post/@item.news_slug" class="blog_item_date">
+                                    <article class="blog_item">
+                                        <div class="blog_item_img">
+                                            <img class="card-img rounded-0" src="@item.image2">
+                                        </div>
+                                        <div class="blog_details">
+                                            <h2>@item.news_title</h2>
+                                            <ul class="blog-info-link text-muted">
+                                                <li>
+                                                    @{
+                                                        DateTime seconds = item.create_at.AddSeconds(60);
+                                                        DateTime minutes = item.create_at.AddMinutes(60);
+                                                        DateTime hour = item.create_at.AddHours(24);
+                                                        DateTime date = item.create_at.AddDays(30);
+                                                        DateTime months = item.create_at.AddMonths(12);
+                                                    }
+                                                    @if (seconds > DateTime.Now)
+                                                    {
+                                                        if ((item.create_at.Minute < DateTime.Now.Minute))
+                                                        {
+                                                            <span href="#"><i class="fa fa-clock-o"></i> @((DateTime.Now.Second - item.create_at.Second) +60) giây trước</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span href="#"><i class="fa fa-clock-o"></i> @(DateTime.Now.Second - item.create_at.Second) giây trước</span>
+                                                        }
+                                                    }
+                                                    else if (minutes > DateTime.Now)
+                                                    {
+                                                        if ((item.create_at.Hour < DateTime.Now.Hour) || (item.create_at.Day < DateTime.Now.Day))
+                                                        {
+                                                            <span href="#"><i class="fa fa-clock-o"></i> @((DateTime.Now.Minute - item.create_at.Minute)+60) phút trước</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span href="#"><i class="fa fa-clock-o"></i> @(DateTime.Now.Minute - item.create_at.Minute) phút trước</span>
+                                                        }
+                                                    }
+                                                    else if (hour > DateTime.Now)
+                                                    {
+                                                        if (item.create_at.Day < DateTime.Now.Day)
+                                                        {
+                                                            <span href="#"><i class="fa fa-clock-o"></i> @((DateTime.Now.Hour - item.create_at.Hour)+24) giờ trước</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span href="#"><i class="fa fa-clock-o"></i> @(DateTime.Now.Hour - item.create_at.Hour) giờ trước</span>
+                                                        }
+                                                    }
+                                                    else if (date > DateTime.Now)
+                                                    {
+                                                        if ((item.create_at.Month < DateTime.Now.Month))
+                                                        {
+                                                            <span><i class="fa fa-clock-o"></i> @((DateTime.Now.Day - item.create_at.Day)+30) ngày trước</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span><i class="fa fa-clock-o"></i> @(DateTime.Now.Day - item.create_at.Day) ngày trước</span>
+                                                        }
+                                                    }
+                                                    else if (months > DateTime.Now)
+                                                    {
+                                                        if ((item.create_at.Year < DateTime.Now.Year))
+                                                        {
+                                                            <span><i class="fa fa-clock-o"></i> @((DateTime.Now.Month - item.create_at.Month)+12) tháng trước</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span><i class="fa fa-clock-o"></i> @(DateTime.Now.Month - item.create_at.Month) tháng trước</span>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <span href="#"><i class="fa fa-clock-o"></i> @item.create_at.ToString("dd/MM/yyyy")</span>
+                                                    }
+                                                </li>
+                                                <li><span href="#"><i class="fa fa-comments"></i> @item.news_comment</span></li>
+                                            </ul>
+                                        </div>
+                                    </article>
+                                </a>
+                            </div>
+                        }
+                        <nav class="blog-pagination justify-content-center d-flex">
+                            @Html.Partial("Pager", Model)
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                @Html.Action("MenuCategory", "News")
+            </div>
+        </div>
+    </div>
+</section>
+<!--================Blog Area =================-->

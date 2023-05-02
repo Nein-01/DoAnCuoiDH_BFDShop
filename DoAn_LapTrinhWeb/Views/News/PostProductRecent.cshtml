@@ -1,0 +1,78 @@
+﻿@using PagedList.Mvc
+@model PagedList.PagedList<DoAn_LapTrinhWeb.DTOs.NewsDTO>
+@{
+    ViewBag.Title = "Sản phẩm mới";
+    ViewBag.ImageURL = "/Images/ImagesCollection/tin-tuc.jpg";
+    ViewBag.Decription = "";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+}
+<section class="blog_area margin_mobile_fixed">
+    <div class="container mb-20px">
+        <div class="d-flex justify-content-between breadcumb_news">
+            <div class="">
+                <h4>Sản phẩm mới</h4>
+            </div>
+            <div class="dropdown_product_list">
+                <a href="#" class="dropdown-toggle dropdown_sort" data-bs-toggle="dropdown" aria-expanded="false">
+                    Bộ lọc:
+                </a>
+                <!--begin::Dropdown Menu-->
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <!--begin::Dropdown Item-->
+                    <li><a class="dropdown-item" href="">Mới - Cũ</a></li>
+                    <li><a class="dropdown-item" href="">Mới - Cũ</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <!--begin::Dropdown Item Expand-->
+                    <li class="dropdown1">
+                        <a class="dropdown-item" href="#">Mức giá</a>
+                        <!--begin::Dropdown Menu Expand-->
+                        <ul class="dropdown-content">
+                            <!--begin::Dropdown content-->
+                            <li><a href="">Dưới 3 triệu</a></li>
+                            <li><a href="">Từ 3 - 8 triệu</a></li>
+                            <!--end::Dropdown content-->
+                        </ul>
+                        <!--end::Dropdown Menu Expand-->
+                    </li>
+                    <!--end::Dropdown Item Expand-->
+                    <!--end::Dropdown Item-->
+                </ul>
+                <!--end::Dropdown Menu-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 mb-5 mb-lg-0">
+                <div class="blog_left_sidebar">
+                    <div class="row">
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-md-4 col-lg-4">
+                                <a href="/news/product/@item.product_slug" class="blog_item_date">
+                                    <article class="blog_item product_pd_news">
+                                        <div class="blog_item_img">
+                                            <img class="card-img rounded-0" src="@item.product_image">
+                                        </div>
+                                        <div class="blog_details">
+                                            <h4 class="limit_news_product_list">@item.product_name</h4>
+                                            <span>(@item.count_product_post bài viết)</span>
+                                        </div>
+                                    </article>
+                                </a>
+                            </div>
+                        }
+                    <nav class="blog-pagination justify-content-center d-flex">
+                        @if (ViewBag.CountProduct > 12)
+                        {
+                            @Html.Partial("Pager", Model)
+                        }
+                    </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                @Html.Action("MenuCategory", "News")
+            </div>
+        </div>
+    </div>
+</section>
+<!--================Blog Area =================-->
