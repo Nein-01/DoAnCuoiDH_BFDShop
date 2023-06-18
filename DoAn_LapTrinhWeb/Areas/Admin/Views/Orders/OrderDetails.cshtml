@@ -124,7 +124,8 @@
                                             <thead>
                                                 <tr class="border-bottom fs-8 fw-bolder text-gray-400 text-uppercase">
                                                     <th class="min-w-75px pb-9 text-center">ID</th>
-                                                    <th class="min-w-200px pb-9">Tên sản phẩm</th>
+                                                    <th class="min-w-150px pb-9">Tên sản phẩm</th>
+                                                    <th class="min-w-60px pb-9 text-center">Bảo hành</th>
                                                     <th class="min-w-100px pb-9 text-center">Giá bán</th>
                                                     <th class="min-w-70px pb-9 text-center">Số lượng</th>
                                                     <th class="min-w-100px pb-9 text-end">Thành tiền</th>
@@ -136,10 +137,10 @@
                                                     {
                                                         tamtinh += c.price * c.quantity;
                                                         <tr class="fw-bolder text-gray-700 fs-8">
-                                                            <td class=" align-items-center pt-5 text-center">
+                                                            <td class=" align-items-center pt-4 text-center">
                                                                 @(countstt += 1)
                                                             </td>
-                                                            <td class=" align-items-center pt-5 text-start limit_leng_product_order">
+                                                            <td class=" align-items-center pt-2 text-start limit_leng_product_order">
                                                                 @foreach (var y in ViewBag.orderProduct)
                                                                 {
                                                                     if (y.product_id == c.product_id)
@@ -148,9 +149,18 @@
                                                                     }
                                                                 }
                                                             </td>
-                                                            <td class="pt-5 text-center">@c.price.ToString("#,###₫", culture.NumberFormat)</td>
-                                                            <td class="pt-5 text-center">@c.quantity</td>
-                                                            <td class="pt-5 text-dark text-end">@((c.price * c.quantity).ToString("#,###₫", culture.NumberFormat))</td>
+                                                            <td class="pt-4 text-center">
+                                                                @foreach (var y in ViewBag.orderProduct)
+                                                                {
+                                                                    if (y.product_id == c.product_id)
+                                                                    {
+                                                                        @y.warranty_time
+                                                                    }
+                                                                }
+                                                            </td>
+                                                            <td class="pt-4 text-center">@c.price.ToString("#,###₫", culture.NumberFormat)</td>
+                                                            <td class="pt-4 text-center">@c.quantity</td>
+                                                            <td class="pt-4 text-dark text-end">@((c.price * c.quantity).ToString("#,###₫", culture.NumberFormat))</td>
                                                         </tr>
                                                     }
                                                 }

@@ -30,7 +30,7 @@ namespace DoAn_LapTrinhWeb.Controllers
             var cart = this.GetCart();
             ViewBag.Quans = cart.Item2;
             var listProduct = cart.Item1.ToList();
-            double discount =0d;
+            double discount = 0d;
             if (Session["Discount"] != null && Session["Discountcode"] != null)
             {
                 var code = Session["Discountcode"].ToString();
@@ -420,7 +420,6 @@ namespace DoAn_LapTrinhWeb.Controllers
         public void SendVerificationLinkEmail(string SubjectMail, string ButtonConfirmlink, string ButtonConfirm,string OrderPayment, string OrderDelivery, string DeliveryId, string SubOrderTotal, string Discount_Price, string UserEmail,string UserName,string UserPhoneNumber, string UserAddress,string OrderId,string OrderStatus, string OrderTotal,string ProductOrder)
         {
             // đường dẫn mail gồm có controller "Account"  +"emailfor" +  "code reset đã được mã hóa(mội lần gửi email quên mật khẩu sẽ random 1 code reset mới"
-            ///để dùng google email gửi email reset cho người khác bạn cần phải vô đây "https://www.google.com/settings/security/lesssecureapps" Cho phép ứng dụng kém an toàn: Bật
             var fromEmail = new MailAddress(AccountEmail.UserEmailSupport, AccountEmail.Name); // "username email-vd: vn123@gmail.com" ,"tên hiển thị mail khi gửi"
             var toEmail = new MailAddress(UserEmail);
             //nhập password của bạn
@@ -447,7 +446,7 @@ namespace DoAn_LapTrinhWeb.Controllers
 
             var smtp = new SmtpClient
             {
-                Host = AccountEmail.Host, //tên mấy chủ nếu bạn dùng gmail thì đổi  "Host = "smtp.gmail.com"
+                Host = AccountEmail.Host,
                 Port = 587,
                 EnableSsl = true, //bật ssl
                 DeliveryMethod = SmtpDeliveryMethod.Network,

@@ -379,7 +379,8 @@ namespace DoAn_LapTrinhWeb.Controllers
                 feedback.update_by = User.Identity.GetEmail();
                 feedback.status = "1";
                 //AI predict here
-                string url = "http://192.168.1.11:5000/api/sender";
+                string port = "201.0.220.224";
+                string url = "http://"+port+":5000/api/sender";
                 try {
 
                     feedback.AI_rated = sendPOST(url, feedback.description);

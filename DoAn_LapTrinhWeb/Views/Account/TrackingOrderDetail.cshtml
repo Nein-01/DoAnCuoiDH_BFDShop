@@ -5,6 +5,7 @@
     var product_order = (List<DoAn_LapTrinhWeb.Model.Order_Detail>)ViewBag.product_orderdetail;
     var CheckExistFb = (List<DoAn_LapTrinhWeb.Model.Feedback>)ViewBag.CheckExistFb;
     var CheckEditOrder = (List<DoAn_LapTrinhWeb.Model.Order_Detail>)ViewBag.CheckEditOrder;
+    var CheckWarranty = (List<DoAn_LapTrinhWeb.Models.Warranty>)ViewBag.CheckWarranty;
     var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
     TempData["OrderID"] = Model.order_id;
 }
@@ -202,19 +203,29 @@
                                                                                     <div class="amount">
                                                                                         Số lượng: @item.quantity
                                                                                     </div>
+                                                                                    <div class="amount">
+                                                                                        Bảo hành: @item.Product.warranty_time
+                                                                                    </div>
                                                                                     <div class="price">
                                                                                         Giá tiền:
                                                                                         <div class="new">@item.price.ToString("#,0₫", culture.NumberFormat)</div>
                                                                                     </div>
-                                                                                    @{
-                                                                                        int check_oder = 0;
+                                                                                    @{ int check_oder = 0;
                                                                                         int check_fb = 0;
-                                                                                    }
+                                                                                        int check_warranty = 0; }
                                                                                     @foreach (var orderdetail in CheckEditOrder)
                                                                                     {
                                                                                         if (orderdetail.product_id == item.product_id)
                                                                                         {
                                                                                             check_oder++;
+                                                                                            foreach (var wr in CheckWarranty)
+                                                                                            {
+                                                                                                if (wr.product_id == item.product_id)
+                                                                                                {
+                                                                                                    check_warranty++;
+                                                                                                }
+                                                                                            }
+
                                                                                             foreach (var fb in CheckExistFb)
                                                                                             {
                                                                                                 if (fb.product_id == item.product_id)
@@ -229,9 +240,15 @@
                                                                                     {
                                                                                         if (check_fb == 0)
                                                                                         {
-                                                                                            <div class="ms-2 d-inline-block text-info" style="cursor: pointer; font-size: 0.875rem;" onclick="OdRating(@Model.order_id,@item.product_id, @item.genre_id)">đánh giá</div>
-                                                                                        }
+                                                                                            <div class="ms-2 d-inline-block text-info" style="cursor: pointer; font-size: 0.875rem;" onclick="OdRating(@Model.order_id,@item.product_id, @item.genre_id)">Đánh giá</div>}
+                                                                                        if (check_warranty==0)
+                                                                                        {
+                                                                                            <div class="ms-2 d-inline-block text-info" style="cursor: pointer; font-size: 0.875rem;">
+                                                                                                <a href="@Url.Action("Create", "Warranty", new { orderId = Model.order_id, productId = item.Product.product_id})">Bảo hành</a>
+                                                                                            </div>}
                                                                                     }
+
+
                                                                                 </div>
                                                                             </div>
                                                                         }

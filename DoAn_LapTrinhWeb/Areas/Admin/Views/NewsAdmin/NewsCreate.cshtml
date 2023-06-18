@@ -140,17 +140,7 @@
                                 </div>
                                 <!--end::Input group-->
                                 <!--begin::Input group-->
-                                <div class="row mb-6">
-                                    <!--begin::Label-->
-                                    <label class="col-lg-4 col-form-label required fw-bold fs-6">Tiêu đề SEO</label>
-                                    <!--end::Label-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-8 fv-row">
-                                        @Html.EditorFor(model => model.meta_title, new { htmlAttributes = new { @class = "form-control form-control-solid", placeholder = "Nhập tiêu đề SEO" } })
-                                        @Html.ValidationMessageFor(model => model.meta_title, "", new { @class = "text-danger" })
-                                    </div>
-                                    <!--end::Col-->
-                                </div>
+                                <input type="hidden" name="meta_title" value="0"/>
                                 <!--end::Input group-->
                                 <!--begin::Input group-->
                                 <div class="row mb-6">

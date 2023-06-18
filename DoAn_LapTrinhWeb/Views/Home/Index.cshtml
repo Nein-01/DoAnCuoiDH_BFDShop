@@ -184,7 +184,7 @@
                             @*href bạn có thể thay bằng href="@Url.Action("Productdetail", "Products", new { id = @item.product_id })"*@
                             <div class="product_img">
                                 <img class="img-responsive" src="@(item.image != null ? item.image : defaultImg)" alt="@item.product_name">
-                                @if (item.Discount != null)
+                               @* @if (item.Discount != null)
                                 {
                                     if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
                                     {
@@ -199,7 +199,7 @@
                                             </div>
                                         </div>
                                     }
-                                }
+                                }*@
                             </div>
                             <div class="product_detail_btm">
                                 <div class="center">
@@ -337,7 +337,7 @@
                             }
                             <div class="product_price">
                                 <p>
-                                    @if (item.Discount != null)
+                                    @if (item.Discount != null && item.disscount_id != 15)
                                     {
                                         if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
                                         {
@@ -388,7 +388,7 @@
                             @*href bạn có thể thay bằng href="@Url.Action("Productdetail", "Products", new { id = @item.product_id })"*@
                             <div class="product_img">
                                 <img class="img-responsive" src="@(item.image != null ? item.image : defaultImg)" alt="@item.product_name">
-                                @if (item.Discount != null)
+                               @* @if (item.Discount != null)
                                 {
                                     if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
                                     {
@@ -403,7 +403,7 @@
                                             </div>
                                         </div>
                                     }
-                                }
+                                }*@
                             </div>
                             <div class="product_detail_btm">
                                 <div class="center">
@@ -543,7 +543,7 @@
                             </div>
                             <div class="product_price">
                                 <p>
-                                    @if (item.Discount != null)
+                                    @if (item.Discount != null && item.disscount_id != 15)
                                     {
                                         if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
                                         {
@@ -589,27 +589,30 @@
                     <div class="product_slider">
                         <a href="/product/@item.slug" tabindex="-1" style="position:relative;">
                             <img src="@item.image" />
-                            <div class="weekly-caption">
-                                <h4>
-                                    <span class="description_news_carowsel mb-1 text-center">@item.product_name</span>
-                                    @if (item.Discount != null)
+                            <div class="center">
+                                    <p class="limitlinetext color_text_primary">
+                                        @item.product_name
+                                    </p>
+                                </div>
+                            <div class="product_price">
+                                    <p>
+                                    @if (item.Discount != null && item.disscount_id != 15)
                                     {
                                         if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
                                         {
-                                            <div style="text-align:center">
-                                                <span class="old_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span> <span class="new_price">@((item.price - item.Discount.discount_price).ToString("#,###₫", culture.NumberFormat))</span>
-                                            </div>
+                                            <span class="old_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span> <span class="new_price">@((item.price - item.Discount.discount_price).ToString("#,###₫", culture.NumberFormat))</span>
                                         }
                                         else
                                         {
-                                            <div class="new_price text-center">@item.price.ToString("#,###₫", culture.NumberFormat)</div>
+                                            <span class="new_price">@item.price.ToString("#,###₫", culture.NumberFormat)</span>
                                         }
                                     }
                                     else
                                     {
-                                        <div class="new_price text-center">@item.price.ToString("#,###₫", culture.NumberFormat)</div>
+                                        <span class="new_price">@item.price.ToString("#,###₫")</span>
                                     }
-                                </h4>
+                                </p>
+
                             </div>
                         </a>
                     </div>
@@ -642,7 +645,7 @@
                         <a href="/product/@item.slug">
                             <div class="product_img">
                                 <img class="img-responsive" src="@(item.image != null ? item.image : defaultImg)" alt="@item.product_name">
-                                @if (item.Discount != null)
+                                @*@if (item.Discount != null)
                                 {
                                     if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
                                     {
@@ -657,7 +660,7 @@
                                             </div>
                                         </div>
                                     }
-                                }
+                                }*@
                             </div>
                             <div class="product_detail_btm">
                                 <div class="center">
@@ -795,7 +798,7 @@
                             }
                             <div class="product_price">
                                 <p>
-                                    @if (item.Discount != null)
+                                    @if (item.Discount != null && item.disscount_id != 15)
                                     {
                                         if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
                                         {
@@ -845,7 +848,7 @@
                         <a href="/product/@item.slug">
                             <div class="product_img">
                                 <img class="img-responsive" src="@(item.image != null ? item.image : defaultImg)" alt="@item.product_name">
-                                @if (item.Discount != null)
+                                @*@if (item.Discount != null)
                                 {
                                     if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
                                     {
@@ -860,7 +863,7 @@
                                             </div>
                                         </div>
                                     }
-                                }
+                                }*@
                             </div>
                             <div class="product_detail_btm">
                                 <div class="center">
@@ -998,7 +1001,7 @@
                             }
                             <div class="product_price">
                                 <p>
-                                    @if (item.Discount != null)
+                                    @if (item.Discount != null && item.disscount_id != 15)
                                     {
                                         if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
                                         {
@@ -1048,7 +1051,7 @@
                         <a href="/product/@item.slug">
                             <div class="product_img">
                                 <img class="img-responsive" src="@(item.image != null ? item.image : defaultImg)" alt="@item.product_name">
-                                @if (item.Discount != null)
+                                @*@if (item.Discount != null)
                                 {
                                     if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
                                     {
@@ -1063,7 +1066,7 @@
                                             </div>
                                         </div>
                                     }
-                                }
+                                }*@
                             </div>
                             <div class="product_detail_btm">
                                 <div class="center">
@@ -1201,7 +1204,7 @@
                             }
                             <div class="product_price">
                                 <p>
-                                    @if (item.Discount != null)
+                                    @if (item.Discount != null && item.disscount_id != 15)
                                     {
                                         if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
                                         {
@@ -1251,7 +1254,7 @@
                         <a href="/product/@item.slug">
                             <div class="product_img">
                                 <img class="img-responsive" src="@(item.image != null ? item.image : defaultImg)" alt="@item.product_name">
-                                @if (item.Discount != null)
+                               @* @if (item.Discount != null)
                                 {
                                     if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
                                     {
@@ -1266,7 +1269,7 @@
                                             </div>
                                         </div>
                                     }
-                                }
+                                }*@
                             </div>
                             <div class="product_detail_btm">
                                 <div class="center">
@@ -1418,7 +1421,7 @@
                             }
                             <div class="product_price">
                                 <p>
-                                    @if (item.Discount != null)
+                                    @if (item.Discount != null && item.disscount_id != 15)
                                     {
                                         if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
                                         {
@@ -1468,7 +1471,7 @@
                         <a href="/product/@item.slug">
                             <div class="product_img">
                                 <img class="img-responsive" src="@(item.image != null ? item.image : defaultImg)" alt="@item.product_name">
-                                @if (item.Discount != null)
+                                @*@if (item.Discount != null)
                                 {
                                     if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
                                     {
@@ -1483,7 +1486,7 @@
                                             </div>
                                         </div>
                                     }
-                                }
+                                }*@
                             </div>
                             <div class="product_detail_btm">
                                 <div class="center">
@@ -1635,7 +1638,7 @@
                             }
                             <div class="product_price">
                                 <p>
-                                    @if (item.Discount != null)
+                                    @if (item.Discount != null && item.disscount_id != 15)
                                     {
                                         if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
                                         {

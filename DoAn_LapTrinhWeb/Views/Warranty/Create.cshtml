@@ -1,0 +1,274 @@
+﻿@model DoAn_LapTrinhWeb.Models.Warranty
+
+@{
+    ViewBag.Title = "Tạo yêu cầu bảo hành";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+
+    var productWaran = (DoAn_LapTrinhWeb.Models.Product)ViewBag.pdShow;
+}
+
+@using DoAn_LapTrinhWeb.Common.Helpers
+@section scripts{
+    <!--check đăng nhập, đăng ký, quên mật khẩu, đổi thông tin cá nhân,...-->
+    <!--script custom ngày tháng-->
+    <script src="~/Scripts/my_js/custom_dt_picker.js"></script>
+    <script src="~/Scripts/my_js/jquery.datetimepicker.js"></script>
+    <!--script preview image-->
+    <script src="~/Scripts/my_js/upload_image_profile.js"></script>
+}
+@if (User.Identity.IsAuthenticated)
+{
+    using (Html.BeginForm("Create", "Warranty", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <!--begin::section-->
+        <section class="section padding_layout_1">
+            <!--begin::container-->
+            <div class="container mt-30px">
+                <div class="center-noleftright">
+                    <!--begin::Row-->
+                    <div class="row no-gutters">
+                        <!--begin::Col-->
+                        <div class="col-1 col-lg-2 ">
+                            @*@Html.Partial("_NavbarProfile",,)*@
+                        </div>
+                        <!--end::Col-->
+                        <!--begin:Edit profile-->
+                        <div class="col-12 col-lg-10 col-xl-8 mb-10px">
+                            <!--begin::User Page-->
+                            <div class="user-page">
+                                <div class="wrap_edit_profile">
+                                    <div class="page-title text-uppercase">Đăng ký bảo hành</div>
+                                    <!--begin::Upload Pic-->
+                                    <div class="areas_upload_image_profile" style="float:right;">
+                                        <div>
+                                            <div class="center">
+                                                <!--onchange="readURL(this);",id="blah" | path:Scripts/my_js/upload_image_profile.js-->
+                                                <img width="100" id="blah" src="@productWaran.image" />
+                                            </div>
+                                            <div class="center">
+                                                <sp>@productWaran.product_name</sp>
+                                                <input type="hidden" name="product_id" value="@ViewBag.pdId" />
+                                            </div>
+                                            <div class="left">
+                                                <p>Bảo hành: @productWaran.warranty_time tháng</p>
+                                            </div>
+                                            <div class="left">
+                                                <p>Đơn hàng: #@ViewBag.odId</p>
+                                                <input type="hidden" name="order_id" value="@ViewBag.odId" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end::Upload Pic-->
+                                <div class="user-form">
+                                    <div class="form-wrap">
+                                        <!--begin::form-->
+                                        <form method="post" class="form-wrap form_edit">
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            <div>
+                                                <!--begin::Input form group-->
+                                                <div class="settingrow form-group mb-3">
+                                                    <!--begin::label-->
+                                                    <label class="settinglabel control-label fw-normal">Trạng thái hỏng<small style="color:red;">(*)</small></label>
+                                                    <!--end::label-->
+                                                    <div class="col-sm-8">
+                                                        <textarea name="broken_state" placeholder="Nhập nội dung" required oninvalid="this.setCustomValidity('Nhập nội dung')" oninput="this.setCustomValidity('')" class="field_custom"></textarea>
+                                                        @Html.ValidationMessageFor(model => model.broken_state, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <!--end::Input form group-->
+                                                <!--begin::Input form group-->
+                                                <div class="settingrow form-group mb-3">
+                                                    <!--begin::label-->
+                                                    <label class="settinglabel control-label col-sm-4">Ngày đến bảo hành<small style="color:red;">(*)</small></label>
+                                                    <!--end::label-->
+                                                    <div class="col-sm-8">
+                                                        <!--id="dtpicker_edit_profile" | path:Scripts/my_js/custom_dt_picker.js-->
+                                                        <input readonly value="" name="warranty_date" tabindex="4" class="form-control" id="dtpicker_edit_profile" autofocus />
+                                                        @Html.ValidationMessageFor(model => model.warranty_date, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <!--end::Input form group-->
+                                                <!--begin::Input form group-->
+                                                <div class="settingrow form-group mb-3">
+                                                    <!--begin::label-->
+                                                    @*<label class="settinglabel control-label col-sm-4">Giới tính</label>*@
+                                                    <div class="col-sm-8">
+                                                        <!--begin::Choose Gender-->
+                                                        @*<div class="d-flex mt-1">
+                                                            <div style="margin-right:18px">
+                                                                @Html.RadioButtonFor(model => model.Gender, "1") <label style="width: unset; padding: unset; font-family: Roboto-Regular;" for="gen_1">Nam</label>
+                                                            </div>
+                                                            <div style="margin-right:18px">
+                                                                @Html.RadioButtonFor(model => model.Gender, "2") <label style="width: unset; padding: unset; font-family: Roboto-Regular;" for="gen_2">Nữ</label>
+                                                            </div>
+                                                            <div>
+                                                                @Html.RadioButtonFor(model => model.Gender, "3") <label style="width: unset; padding: unset; font-family: Roboto-Regular;" for="gen_3">Khác</label>
+                                                            </div>
+                                                        </div>*@
+                                                        <!--end::Choose Gender-->
+                                                    </div>
+                                                </div>
+                                                <!--end::Input form group-->
+                                            </div>
+                                            <!-- end form group -->
+                                            <!--begin::Action-->
+                                            <div class="form-group clearfix ml-5">
+                                                <div class="col-sm-9 col-sm-offset-3  ">
+                                                    <!--begin::Button-->
+                                                    <button type="submit" tabindex="5" class="btn bg-button ms-120px rounded-100px">Bảo hành</button>
+                                                    <!--end::Button-->
+                                                </div>
+                                            </div>
+                                            <!--end::Action-->
+                                        </form>
+                                    </div>
+                                    <!--end::form-->
+                                </div>
+                                </div>
+                            <!--begin::User Page-->
+                        </div>
+                        <!--end:Edit profile-->
+                    </div>
+                    <!--begin::Row-->
+                </div>
+            </div>
+            <!--end::container-->
+        </section>
+        <!--end::section-->
+    }
+}
+
+
+
+
+@*<h2>Create</h2>
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4>Warranty</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.order_id, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.order_id, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.order_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.product_id, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.product_id, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.product_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.broken_state, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.broken_state, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.broken_state, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.fixed_state, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.fixed_state, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.fixed_state, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.warranty_date, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.warranty_date, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.warranty_date, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.receive_date, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.receive_date, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.receive_date, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.addition_parts, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.addition_parts, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.addition_parts, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.note, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.note, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.note, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.create_by, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.create_by, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.create_by, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.create_at, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.create_at, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.create_at, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.update_by, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.update_by, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.update_by, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.update_at, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.update_at, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.update_at, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.status, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.status, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+*@

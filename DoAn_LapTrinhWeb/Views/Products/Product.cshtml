@@ -110,7 +110,7 @@
                                         <a href="/product/@item.slug">
                                             <div class="product_img">
                                                 <img class="img-responsive" src="@(item.image != null ? item.image : defaultImg)" alt="@item.product_name">
-                                                @if (item.Discount != null)
+                                               @* @if (item.Discount != null)
                                                 {
                                                     if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
                                                     {
@@ -125,7 +125,7 @@
                                                             </div>
                                                         </div>
                                                     }
-                                                }
+                                                }*@
                                             </div>
                                             <div class="product_detail_btm">
                                                 <div class="center">
@@ -269,7 +269,7 @@
                                             <!--begin:Product Price-->
                                             <div class="product_price">
                                                 <p>
-                                                    @if (item.Discount != null)
+                                                    @if (item.Discount != null && item.disscount_id != 15)
                                                     {
                                                         if (item.Discount.discount_start < DateTime.Now && item.Discount.discount_end > DateTime.Now && item.Discount.status.Trim() == "1")
                                                         {

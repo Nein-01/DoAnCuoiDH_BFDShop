@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
-// using DoAn_LapTrinhWeb.Models;
+
 namespace DoAn_LapTrinhWeb.Controllers
 {
     [HandleError]
@@ -60,7 +60,6 @@ namespace DoAn_LapTrinhWeb.Controllers
             //trung bình sao
             ViewBag.AvgFeedback = db.Feedbacks.ToList();
             ViewBag.OrderFeedback = db.Order_Detail.ToList();
-            BannerGlobal();
             return View();
         }
         //Error 404 hiện khi sai URL

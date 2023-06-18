@@ -41,6 +41,8 @@ namespace DoAn_LapTrinhWeb.DTOs
         //=>
         public string product_name { get; set; }
         //=>
+        public int warranty_time { get; set; }
+        //=>
         public string discount_status { get; set; }
         //=>
         public int discount_type { get; set; }

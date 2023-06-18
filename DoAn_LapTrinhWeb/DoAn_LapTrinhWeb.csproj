@@ -247,6 +247,7 @@
     <Compile Include="Areas\Admin\Controllers\APIController.cs" />
     <Compile Include="Areas\Admin\Controllers\TaxesController.cs" />
     <Compile Include="Areas\Admin\Controllers\TagsAdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\WarrantyAdminController.cs" />
     <Compile Include="Common\AccountEmail.cs" />
     <Compile Include="Common\Library\ModelNotification.cs" />
     <Compile Include="Common\Library\Notification.cs" />
@@ -262,6 +263,7 @@
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\PaymentMethodsController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\WarrantyController.cs" />
     <Compile Include="DbContext.cs" />
     <Compile Include="DTOs\AddressManagerDTO.cs" />
     <Compile Include="DTOs\BannerDTOs.cs" />
@@ -274,6 +276,7 @@
     <Compile Include="DTOs\OrderHistoryDTOs .cs" />
     <Compile Include="DTOs\OrderDTOs.cs" />
     <Compile Include="DTOs\ProductDTOs.cs" />
+    <Compile Include="DTOs\WarrantyDTOs.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -281,6 +284,14 @@
     <Compile Include="Migrations\202303241359316_DoAn_LapTrinhWeb.cs" />
     <Compile Include="Migrations\202303241359316_DoAn_LapTrinhWeb.Designer.cs">
       <DependentUpon>202303241359316_DoAn_LapTrinhWeb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305131548145_Initial.cs" />
+    <Compile Include="Migrations\202305131548145_Initial.Designer.cs">
+      <DependentUpon>202305131548145_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305151120528_WarrantyFix.cs" />
+    <Compile Include="Migrations\202305151120528_WarrantyFix.Designer.cs">
+      <DependentUpon>202305151120528_WarrantyFix.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\RolesPermissions.cs" />
@@ -325,6 +336,7 @@
     <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Account\ResetPassword.cs" />
+    <Compile Include="Models\Warranty.cs" />
     <Compile Include="PaymentLibrary\PaypalConfiguration.cs" />
     <Compile Include="PaymentLibrary\VnPayLibrary.cs" />
     <Compile Include="PaymentLibrary\ZaloPay\Crypto\HmacHelper.cs" />
@@ -6256,6 +6268,9 @@
     <Content Include="Areas\Admin\Views\CommentReply\ReplyIndex.cshtml" />
     <Content Include="Areas\Admin\Views\Taxes\TaxesIndex.cshtml" />
     <Content Include="Areas\Admin\Views\API\APIIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\WarrantyAdmin\WarrantyIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\WarrantyAdmin\WarrantyTrash.cshtml" />
+    <Content Include="Areas\Admin\Views\WarrantyAdmin\WarrantyDetail.cshtml" />
     <None Include="bin\DoAn_LapTrinhWeb.dll.config" />
     <Content Include="bin\roslyn\csc.exe.config" />
     <Content Include="bin\roslyn\csc.rsp" />
@@ -6449,6 +6464,7 @@
     <Content Include="Content\my_css\jquery.toast.css" />
     <Content Include="Scripts\my_js\jquery.toast.js" />
     <Content Include="Scripts\my_js\toastr.min.js" />
+    <Content Include="Scripts\my_js\warranty_cancel.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -6521,6 +6537,9 @@
     <Content Include="Views\Account\CommentHistory.cshtml" />
     <Content Include="Views\Account\ReplyHistory.cshtml" />
     <Content Include="Views\Account\FeedbackHistory.cshtml" />
+    <Content Include="Views\Warranty\Index.cshtml" />
+    <Content Include="Views\Warranty\Create.cshtml" />
+    <Content Include="Views\Warranty\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -6560,6 +6579,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202303241359316_DoAn_LapTrinhWeb.resx">
       <DependentUpon>202303241359316_DoAn_LapTrinhWeb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305131548145_Initial.resx">
+      <DependentUpon>202305131548145_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305151120528_WarrantyFix.resx">
+      <DependentUpon>202305151120528_WarrantyFix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

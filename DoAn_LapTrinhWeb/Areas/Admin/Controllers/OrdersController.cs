@@ -433,6 +433,7 @@ namespace DoAn_LapTrinhWeb.Areas.Admin.Controllers
                                      payment_name = g.Key.b.Payment.payment_name,
                                      delivery_name = g.Key.b.Delivery.delivery_name,
                                      product_name = g.Key.p.product_name,
+                                     warranty_time = g.Key.p.warranty_time,
                                      Email = g.Key.b.Account.Email,
                                      payment_transaction = g.Key.b.payment_transaction,
                                      order_note = g.Key.b.order_note,
@@ -474,6 +475,7 @@ namespace DoAn_LapTrinhWeb.Areas.Admin.Controllers
             var orderdetail = db.Order_Detail.Where(m => m.order_id == order.order_id).ToList();
             var discountpriceorder = db.Order_Detail.FirstOrDefault(m => m.order_id == id);
             var discount = db.Discounts.Where(m => m.discounts_code == discountpriceorder.discount_code).FirstOrDefault();
+            var product = db.Products.ToList();
             if (order.status == "3")
             {
                 result = false;
@@ -508,6 +510,13 @@ namespace DoAn_LapTrinhWeb.Areas.Admin.Controllers
                                 "<span class='price' style='color: #005f8f; font-size: 14px; font-weight: 500;'>" + item.price.ToString("#,0", cul.NumberFormat) + "₫" + "</span>" +
                             "</td>" +
                         "</tr>";
+                    foreach (var pd in product)
+                    {
+                        if (item.product_id == pd.product_id)
+                        {
+                            pd.quantity = (Convert.ToInt32(pd.quantity) + Convert.ToInt32(item.quantity)).ToString();
+                        }
+                    }
                 }
                 SubOrderTotal = pricesum.ToString("#,0", cul.NumberFormat) + "₫";
                 double discount_price = discount.discount_price;

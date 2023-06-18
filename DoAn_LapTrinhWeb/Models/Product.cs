@@ -50,6 +50,8 @@ namespace DoAn_LapTrinhWeb.Models
         //Price
         [Required(ErrorMessage = "Vui lòng nhập giá")]
         public double price { get; set; }
+        //Warranty_time
+        public int warranty_time { get; set; }
         //View
         public long view { get; set; }
         //Buy Turn

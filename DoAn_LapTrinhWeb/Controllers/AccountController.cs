@@ -56,7 +56,6 @@ namespace DoAn_LapTrinhWeb.Controllers
             //Mã hóa password dùng sha 256
             model.password = Crypto.Hash(model.password);
             //model.password = model.password;
-            
 
             //nếu trùng username,password và status ="1 tức là đang hoạt dộng và 0 là vô hiệu hóa" thì đăng nhập thành công
             var DataItem = db.Accounts.Where(m => m.status == "1" && m.Email.ToLower() == model.Email && m.password == model.password).SingleOrDefault();
@@ -719,6 +718,7 @@ namespace DoAn_LapTrinhWeb.Controllers
                 ViewBag.ProcessingortParm = sortOrder == "order_processing" ? "order_processing" : "order_processing";
                 ViewBag.CompleteSortParm = sortOrder == "order_complete" ? "order_complete" : "order_complete";
                 ViewBag.CancleSortParm = sortOrder == "order_cancle" ? "order_cancle" : "order_cancle";
+                ViewBag.WarrantySort = sortOrder == "warranty" ? "" : "warranty";
                 //truyền viewbag của Deliveries qua view "TrackingOrder"
                 ViewBag.Deli = db.Deliveries;
                 //truyền view bag của payment qua view "TrackingOrder"
@@ -798,6 +798,15 @@ namespace DoAn_LapTrinhWeb.Controllers
                                orderby a.order_id descending
                                select a;
                         break;
+                    case "warranty":
+                        ViewBag.sortname = "Bảo hành";
+                        ViewBag.checkwarranty = 1;
+                        list = (from a in db.Orders
+                               where (a.account_id == userid && a.status == "3" && 
+                                     (((DateTime.Now.Year - a.oder_date.Year) * 12) + (DateTime.Now.Month - a.oder_date.Month) <= 6))
+                               orderby a.order_id ascending
+                               select a);
+                        break;
                     default:
                         list = from a in db.Orders
                                where (a.account_id == userid)
@@ -826,6 +835,7 @@ namespace DoAn_LapTrinhWeb.Controllers
                 int user_id = User.Identity.GetUserId();
                 ViewBag.CheckExistFb = db.Feedbacks.Where(m => m.account_id == user_id).ToList();
                 ViewBag.CheckEditOrder = db.Order_Detail.Where(m => m.Order.account_id == user_id && m.Order.status == "3").ToList();
+                ViewBag.CheckWarranty = db.Warranty.Where(m => m.order_id == id).ToList();
                 int userid = User.Identity.GetUserId();
                 var orderdetail = db.Orders.FirstOrDefault(m => m.order_id == id && m.account_id == userid);
                 if (orderdetail != null)
@@ -912,6 +922,8 @@ namespace DoAn_LapTrinhWeb.Controllers
         {
             bool result = false;
             var order = db.Orders.FirstOrDefault(m => m.order_id == model.order_id);
+            var orderDT = db.Order_Detail.Where(od => od.order_id == model.order_id).ToList();
+            var product = db.Products.ToList();
             try
             {
                 if (order != null && order.status == "1")
@@ -919,6 +931,16 @@ namespace DoAn_LapTrinhWeb.Controllers
                         order.status = "0";
                         order.update_by = User.Identity.GetName();
                         order.update_at = DateTime.Now;
+                    foreach(var od in orderDT)
+                    {
+                        foreach(var pd in product)
+                        {
+                            if(od.product_id == pd.product_id)
+                            {
+                                 pd.quantity= (Convert.ToInt32(pd.quantity) + Convert.ToInt32(od.quantity)).ToString();
+                            }
+                        }
+                    }
                         db.SaveChanges();
                         result = true;
                 }

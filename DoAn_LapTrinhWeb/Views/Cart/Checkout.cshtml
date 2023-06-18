@@ -6,7 +6,7 @@
     var discountPrice = Convert.ToDouble(ViewBag.Discount);//giảm giá
     var total = Convert.ToDouble(ViewBag.Total);//Giá sau khi áp dụng mã giảm giá, được tính ở controller
     var price = total;//giá gốc trước khi dùng mã giảm giá
-    var shippingFee = 30000d;// Phí vận chuyển 30k
+    var shippingFee = 0d;// Phí vận chuyển 30k
     var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
     if (discountPrice >= price)//nếu giảm giá lớn trị giá đơn hàng thì total = 30k(30k là phí ship thôi, giảm giá chỉ giảm giá sản phẩm chứ không giảm giá ship)
     {
@@ -14,7 +14,7 @@
     }
     else
     {
-        total = price - discountPrice +30000 ;
+        total = price - discountPrice + shippingFee ;
     }
     TempData["Total"] = total;//tổng tiền phải thanh toán, truyền xống controller
 }
@@ -63,7 +63,7 @@
                                                 </label>
                                             </a>
                                         </li>
-                                        <li class="method-select payment-2">
+                                        <!--<li class="method-select payment-2">
                                             <a class="r-tabs-anchor ">
                                                 <label class="method-item" for="payment-2-checked">
                                                     <div class="icon">
@@ -72,8 +72,8 @@
                                                     <div class="name">Thanh toán qua VNPAY</div>
                                                 </label>
                                             </a>
-                                        </li>
-                                        <li class="method-select payment-3">
+                                        </li>-->
+                                        <!--<li class="method-select payment-5">
                                             <a class="r-tabs-anchor">
                                                 <label class="method-item" for="payment-3-checked">
                                                     <div class="icon">
@@ -82,8 +82,8 @@
                                                     <div class="name">Thanh toán qua ví ZaloPay</div>
                                                 </label>
                                             </a>
-                                        </li>
-                                        <li class="method-select payment-5">
+                                        </li>-->
+                                        <!--<li class="method-select payment-3">
                                             <a class=" r-tabs-anchor">
                                                 <label class="method-item" for="payment-5-checked">
                                                     <div class="icon">
@@ -92,7 +92,7 @@
                                                     <div class="name">Thanh toán qua PayPal</div>
                                                 </label>
                                             </a>
-                                        </li>
+                                        </li>-->
                                         <li class="method-select payment-4">
                                             <a class=" r-tabs-anchor">
                                                 <label class="method-item" for="payment-1-checked">
@@ -143,7 +143,7 @@
                                     <!-- end thanh toan khi nhận hàng -->
                                     <!-- start thanh toan vnpayqr-->
                                     <div class="method-content">
-                                        <div class="content mt-2 row payment-3-content collapse">
+                                        <div class="content mt-2 row payment-5-content collapse">
                                             <div class="col-xl-1 col-md-2 col-lg-2">
                                                 <center><img alt="Thanh toán qua ví Momo, ViettelPay" src="~/Images/it_service/Logo-zalopay.png" style="width: 64px; height: auto;"></center>
                                             </div>
@@ -156,7 +156,7 @@
                                     <!-- end thanh toan vnpayqr-->
                                     <!--start thanh toan bang thẻ quốc tế-->
                                     <div class="method-content">
-                                        <div class="row content mt-2 payment-5-content collapse">
+                                        <div class="row content mt-2 payment-3-content collapse">
                                             <div class="col-xl-1 col-md-2 col-lg-2">
                                                 <center><img src="~/Images/it_service/paypal.png" style="width: 64px; height: auto;"></center>
                                             </div>
@@ -359,7 +359,7 @@
                                             <div class="label">Phí vận chuyển:</div>
                                         </td>
                                         <td class="text-right">
-                                            <div class="value">@shippingFee.ToString("#,###₫", culture.NumberFormat)</div>
+                                            <div class="value">@shippingFee.ToString("#,0₫", culture.NumberFormat)</div>
                                         </td>
                                     </tr>
                                     <tr>

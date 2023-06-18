@@ -14,6 +14,7 @@ $('#btntype_countorder_2').click(function () {
     $(this).addClass('color-active-chart');
     $('#btntype_countorder_1').removeClass('color-active-chart');
 })
+    //Tổng doanh thu
 $(document).ready(function () {
     let _id = 1
     $.ajax({

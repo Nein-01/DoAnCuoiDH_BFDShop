@@ -211,7 +211,7 @@ namespace DoAn_LapTrinhWeb.Areas.Admin.Controllers
                                        product_id = fb.product_id,
                                    };
                             break;
-                        //"senti_good" ? "star_good" : "star_bad"
+                       
                         case "senti_good":
                             ViewBag.sortname = "Tình trạng(Tệ)";
                             list = from fb in db.Feedbacks

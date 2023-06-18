@@ -426,7 +426,7 @@
                                             <!--begin::Add to Cart-->
                                             //đã ràng buộc không cho nhập số âm
                                             <div class="quantity">
-                                                <input step="1" min="1" max="@Model.quantity.Trim()" name="quantity" value="1" oninput="validity.valid || (value = '');" title="số lượng" class="input-text qty text" size="4" type="number">
+                                                <input step="1" min="1" max="@Model.quantity.Trim()" name="quantity" value="1" oninput="validity.valid || (value = '');" title="số lượng" class="input-text qty text" size="6" type="number">
                                             </div>
                                             //nếu bạn là user sẽ thêm được số lượng", id="btnAddToCart" | path: ~/Scripts/my_js/product/detail.js
                                             <a id="btnAddToCart" data-id="@Model.product_id" class="btn bg-button ms-1">Thêm vào giỏ</a>
@@ -437,7 +437,7 @@
                                     {
                                         <!--begin::Add to Cart-->
                                         <div class="quantity">
-                                            <input min="0" max="0" name="quantity" value="0" title="số lượng" class="input-text qty text" size="4" type="number">
+                                            <input min="0" max="0" name="quantity" value="0" title="số lượng" class="input-text qty text" size="6" type="number">
                                         </div>
                                         // nếu số lượng của sản phẩm = 0 sẽ hiện lên button "Liên hệ", id="btnAddToCart" | path: ~/Scripts/my_js/product/detail.js
                                         <a class="btn btn-secondary ms-2" target="_blank" href="https://www.messenger.com/t/109633994706435/">Liên hệ</a>
@@ -447,14 +447,8 @@
                                 <!--begin::Form-->
                                 <!--begin::Button Share-->
                                 <div class="share-post">
-                                    <a href="#" class="share-text">Chia sẻ:</a>
-                                    <ul class="social_icons">
-                                        <!--id="fb-share-button" | path: /Scripts/my_js/button_share_fb.js-->
-                                        <li><a href="#" id="fb-share-button"><img src="~/Images/svg/brand-logos/facebook-4.svg" class="img_button_share" /></a></li>
-                                        <li><a href="#"><img src="~/Images/svg/brand-logos/twitter.svg" class="img_button_share" /></a></li>
-                                        <li><a href="#"> <img src="~/Images/svg/brand-logos/pinterest-p.svg" class="img_button_share" /></a></li>
-                                        <li><a href="#"><img src="~/Images/svg/brand-logos/github.svg" class="img_button_share" /></a></li>
-                                    </ul>
+                                    <p>Số lượng còn: <span class="status status1">@Model.quantity</span> (Không thể nhập quá số lượng còn)</p>
+                                
                                 </div>
                                 <!--end::Button Share-->
                             </div>

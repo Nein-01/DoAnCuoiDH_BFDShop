@@ -1,0 +1,349 @@
+﻿@model DoAn_LapTrinhWeb.Models.Warranty
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+    var warrantPd = (DoAn_LapTrinhWeb.Models.Product)ViewBag.WarrantPd;
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+@section scripts{
+    <script src="~/Scripts/my_js/warranty_cancel.js"></script>
+}
+<!--begin::section-->
+<section class="margin_order_detail margin_mobile_fixed">
+    <!--begin::container-->
+    <div class="container ">
+        <div class="center-noleftright">
+            <!--begin::Row-->
+            <div class="row no-gutters">
+                <!--begin::Col-->
+                <div class="col-1 col-lg-2">
+
+                </div>
+                <!--end::Col-->
+                <!--begin:Edit profile-->
+                <div class="col-12 col-lg-9 col-xl-9">
+                    <!--begin::User Page-->
+                    <div class="user-page addresslist">
+                        <div class="page-title text-uppercase" style=" font-size: 1rem;padding:unset!important">Mã bảo hành <span style="color: #18a0c6;"> #@Model.warranty_id</span></div>
+                        <div class="page-title text-uppercase" style=" font-size: 1rem;padding:unset!important">Đơn hàng <span style="color: #18a0c6;"> #@Model.order_id</span></div>
+                        <div class="user-order">
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="ajaxresponseOnline">
+                                        <!--begin::Order List-->
+                                        <div class="order-list">
+                                            <div class="orderlist wishlist clearfix hidden-sm-up">
+                                                <div class="wishlist-product clearfix">
+                                                    <!--begin::Item-->
+                                                    <div class="item">
+                                                        <!--begin::order Item-->
+                                                        <div class="order-item" style="padding-top: 5px;">
+                                                            <div>
+                                                                <!--begin::Order Title-->
+                                                                <a class="order-title">
+                                                                    <!--begin::Order ID-->
+                                                                    <!--end::Order ID-->
+                                                                    <!--begin::Order Date-->
+                                                                    <div class="des">
+                                                                        Ngày yêu cầu: @Model.create_at.ToString("dd-MM-yyyy")
+                                                                    </div>
+                                                                    <!--end::Order Date-->
+                                                                    <!--begin::Order Status-->
+
+                                                                    @if (Model.status == 3)
+                                                                    {
+                                                                        <div class="status alert-success">Hoàn thành</div>
+                                                                    }
+                                                                    else if (Model.status == 1)
+                                                                    {
+                                                                        <div class="status alert-warning order_cancled">Chờ xử lý</div>
+                                                                    }
+                                                                    else if (Model.status == 2)
+                                                                    {
+                                                                        <div class="status alert-info">Đang xử lý</div>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <div class="status alert-danger">Yêu cầu đã hủy</div>
+                                                                    }
+
+                                                                    <!--end::Order Status-->
+                                                                </a>
+                                                                <!--begin::info-->
+                                                                <div class="row row-s">
+                                                                    <div class="col-12 col-md-6 mt-2 mb-2">
+                                                                        <div class="order-information">
+                                                                            <div class="title">Thông tin đặt bảo hành</div>
+                                                                            <ul>
+                                                                                <li>
+                                                                                    Ngày đến bảo hành:
+                                                                                    <strong class="font_roboto_medium">@Model.warranty_date.ToString("dd-MM-yyyy")</strong>
+                                                                                </li>
+                                                                                <li>
+                                                                                    Tình trạng hỏng:
+                                                                                    <strong class="font_roboto_medium update_user_name">@Model.broken_state</strong>
+                                                                                </li>
+                                                                                @if (Model.status == 1)
+                                                                                {
+                                                                                    <li class="remove_order_cancled">
+                                                                                        <div>
+                                                                                            <button id="open_cancle_order" class="userpanel-btn btn-success repaid-button2 mt-3">Hủy yêu cầu</button>
+                                                                                        </div>
+                                                                                    </li>
+                                                                                }
+
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12 col-md-6 mt-2 mb-2">
+                                                                        <div class="order-information">
+                                                                            <div class="title">Thông tin bảo hành</div>
+                                                                            <ul>
+                                                                                @if (Model.status != 1 && Model.status != 0)
+                                                                                {
+                                                                                    <li>
+                                                                                        Người bảo hành:
+                                                                                        <strong class="font_roboto_medium update_user_name">@Model.update_by</strong>
+                                                                                    </li>
+                                                                                    <li class="update_phone">
+                                                                                        Tình trạng bảo hành:
+                                                                                        <strong class="font_roboto_medium update_user_name">@Model.fixed_state</strong>
+                                                                                    </li>
+                                                                                    <li class="update_address">
+                                                                                        Ngày trả bảo hành:
+                                                                                        <strong class="font_roboto_medium">@Model.receive_date.ToString("dd-MM-yyyy")</strong>
+                                                                                    </li>
+                                                                                    if (Model.addition_parts != null)
+                                                                                    {
+                                                                                        <li>
+                                                                                            Phụ kiện thêm: <strong class="font_roboto_medium">@Model.note</strong>
+</li>
+                                                                                    }
+                                                                                    if (Model.note != null)
+                                                                                    {
+                                                                                        <li>
+                                                                                            Ghi chú: @Model.note
+                                                                                        </li>
+                                                                                    }
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <li>
+                                                                                        Người bảo hành:
+                                                                                        <strong class="font_roboto_medium update_user_name">Chưa có</strong>
+                                                                                    </li>
+                                                                                    <li class="update_phone">
+                                                                                        Tình trạng bảo hành:
+                                                                                        <strong class="font_roboto_medium update_user_name">Chưa có</strong>
+                                                                                    </li>
+                                                                                    <li class="update_address">
+                                                                                        Ngày trả bảo hành:
+                                                                                        <strong class="font_roboto_medium">Chưa có</strong>
+                                                                                    </li>
+                                                                                    if (Model.note != null)
+                                                                                    {
+                                                                                        <li>
+                                                                                            Ghi chú: @Model.note
+                                                                                        </li>
+                                                                                    }
+                                                                                }
+
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!--end:info-->
+                                                                <!--end::Order Title-->
+                                                                <!--begin::Order Product-->
+                                                                <div class="order-product order-product-detail">
+
+                                                                    <div class="product" href="/product/@warrantPd.slug">
+                                                                        <a href="/product/@warrantPd.slug">
+                                                                            <div class="img"><img src="@warrantPd.image" alt=""></div>
+                                                                        </a>
+                                                                        <div class="caption">
+                                                                            <div class="name">
+                                                                                <a href="/product/@warrantPd.slug">
+                                                                                    @warrantPd.product_name
+                                                                                </a>
+                                                                            </div>
+
+                                                                            <div class="amount">
+                                                                                Bảo hành: @warrantPd.warranty_time
+                                                                            </div>
+                                                                            <div class="price">
+                                                                                Giá tiền:
+                                                                                <div class="new">@warrantPd.price.ToString("#,0₫", culture.NumberFormat)</div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                <!--end::Order Product-->
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--end::Item-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end::Order List-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--begin::User Page-->
+                </div>
+                <!--end:Edit profile-->
+            </div>
+            <!--begin::Row-->
+        </div>
+    </div>
+    <!--end::container-->
+</section>
+<!--end::section-->
+<!--begin::cancle order-->
+<div class="modal fade" id="cancle_my_order" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="pt-3 pb-3">
+                    <h1 class="h2" style="color: #dc3545;">Hủy yêu cầu</h1>
+                </div>
+                <div class="pt-2 pb-3">
+                    Hãy cho biết lý do hủy hoặc nhấn <span class="font_roboto_medium">'Quay lại'</span> để bỏ qua
+                </div>
+                <form id="formcancle_order" method="post">
+                    <input type="hidden" name="warranty_id" value="@Model.warranty_id" />
+                    <input type="text" name="note" placeholder="Lý do hủy..."/>
+                </form>
+            </div>
+            <div class="w-100 d-flex ps-3 pe-3 pb-3 gap-2">
+                <button type="button" id="btn_cancle__order" class="btn btn-danger w-50">Xác nhận</button>
+                <button type="button" id="btn__back" class="btn btn-outline-secondary btn-secondary w-50">Quay lại</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::cancle order-->
+@*<h2>Details</h2>
+
+    <div>
+        <h4>Warranty</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.order_id)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.order_id)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.broken_state)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.broken_state)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fixed_state)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fixed_state)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.warranty_date)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.warranty_date)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.receive_date)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.receive_date)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.addition_parts)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.addition_parts)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.note)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.note)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.create_by)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.create_by)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.create_at)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.create_at)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.update_by)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.update_by)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.update_at)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.update_at)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.status)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.status)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.product_id)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.product_id)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.warranty_id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+*@

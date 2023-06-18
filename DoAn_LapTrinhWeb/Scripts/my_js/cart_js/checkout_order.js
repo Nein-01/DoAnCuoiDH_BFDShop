@@ -23,7 +23,7 @@
 
     $(".payment-5").click(function () {
         $('.payment-5').addClass('r-tabs-state-active')
-        $('.payment-1,payment-2,.payment-3').removeClass('r-tabs-state-active')
+        $('.payment-1,.payment-2,.payment-3').removeClass('r-tabs-state-active')
         $('.payment-5-content').collapse('show')
         $('.payment-5-content,.payment-1-content,.payment-2-content,.payment-3-content,.payment-4-content,.payment-6-content').collapse('hide')
     });

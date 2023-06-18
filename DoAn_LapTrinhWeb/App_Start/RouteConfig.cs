@@ -227,6 +227,12 @@ namespace DoAn_LapTrinhWeb
               url: "ho-tro",
               defaults: new { controller = "Home", action = "SentRequest" }
            );
+            //gửi yêu cầu bảo hành
+            routes.MapRoute(
+              name: "send warranty",
+              url: "bao-hanh",
+              defaults: new { controller = "Warranty", action = "Index" }
+           );
             //set error 404
             routes.MapRoute(
               name: "Page Not Found",

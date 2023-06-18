@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using DoAn_LapTrinhWeb.Common;
+using DoAn_LapTrinhWeb.Common.Helpers;
 using DoAn_LapTrinhWeb.DTOs;
 using DoAn_LapTrinhWeb.Model;
 
@@ -14,6 +16,11 @@ namespace DoAn_LapTrinhWeb.Areas.Admin.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                int userRole = User.Identity.GetRole();
+                if ( userRole != 4 && userRole != 7) {
+                    ViewBag.NotAllow = 1;
+                    return View();
+                }
                 DateTime today = DateTime.Today;
                 ViewBag.CurrentSort = sortOrder;
                 ViewBag.ResetSort = String.IsNullOrEmpty(sortOrder) ? "" : "";

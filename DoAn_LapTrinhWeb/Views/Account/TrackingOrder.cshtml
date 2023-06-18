@@ -33,6 +33,9 @@
                                 <div class="page-title text-uppercase">
                                     Đơn hàng của tôi
                                 </div>
+                                <div class="d-flex btn bg-button ms-120px">
+                                    <a class="text-white" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.WarrantySort})">Tra cứu bảo hành</a>
+                                </div>
                                 <div class="d-flex filter-search">
                                     <div class="order_filter d-flex">
                                         <a href="#" class="dropdown-toggle dropdown_sort" data-bs-toggle="dropdown" aria-expanded="false">
@@ -61,6 +64,8 @@
                                             <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.CompleteSortParm})">Hoàn thành</a></li>
                                             <li><hr class="dropdown-divider"></li>
                                             <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.CancleSortParm})">Đã hủy</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.WarrantySort})">Bảo hành</a></li>
                                             <!--end::Dropdown Item-->
                                         </ul>
                                         <!--end::Dropdown Menu-->
@@ -123,6 +128,10 @@
                                                                                     if (item.status == "3")
                                                                                     {
                                                                                         <div class="status alert-success">Hoàn thành</div>
+                                                                                        if(ViewBag.checkwarranty == 1) { 
+                                                                                            <div class="status alert-success">Có thể bảo hành</div>
+                                                                                        }
+                                                                                        
                                                                                     }
                                                                                     else if (item.status == "1")
                                                                                     {
@@ -159,8 +168,11 @@
                                                                                                         <div class="amount">
                                                                                                             Số lượng: @itemoder.quantity
                                                                                                         </div>
+                                                                                                        <div class="amount">
+                                                                                                            Bảo hành: @p.warranty_time
+                                                                                                        </div>
                                                                                                         <div class="price">
-                                                                                                            giá tiền:
+                                                                                                            Giá tiền:
                                                                                                             <div class="new">@itemoder.price.ToString("#,###₫", culture.NumberFormat) </div>
                                                                                                         </div>
                                                                                                     </div>

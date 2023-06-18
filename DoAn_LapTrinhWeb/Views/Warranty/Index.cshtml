@@ -1,0 +1,328 @@
+﻿@using DoAn_LapTrinhWeb.Common.Helpers
+@using DoAn_LapTrinhWeb.Models
+@using PagedList.Mvc
+@model PagedList.IPagedList<DoAn_LapTrinhWeb.Models.Warranty>
+
+@{
+    ViewBag.Title = "Theo dõi bảo hành";
+    Layout = "~/Views/Shared/Main_Layout.cshtml";
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+ <!--Begin::Section-->
+    <section class="mb_trackingorder">
+        <!--begin::Container-->
+        <div class="container mt-20px margin_mobile_fixed">
+            <div class="center-noleftright">
+                <!--begin::Row-->
+                <div class="row no-gutters">
+                    <!--begin::Col-->
+                    <div class="col-1 col-lg-2">
+                     
+                    </div>
+                    <!--end menu left-->
+                    <!--begin::Col-->
+                    <div class="col-12 col-lg-9 col-xl-9">
+                        <!--begin::Section-->
+                        <section class="user-page pb-tracking_order mb-20px">
+                            <!--begin::Title-->
+                            <div class=" d-flex justify-content-between flex-wrap">
+                                <div class="page-title text-uppercase">
+                                    Danh sách bảo hành
+                                </div>
+                                <div class="d-flex btn bg-button ms-120px">
+                                    <a class="text-white" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.WarrantySort})">Tra cứu bảo hành</a>
+                                </div>
+                                <div class="d-flex filter-search">
+                                    <div class="order_filter d-flex">
+                                        <a href="#" class="dropdown-toggle dropdown_sort" data-bs-toggle="dropdown" aria-expanded="false">
+                                            @if (ViewBag.sortname == null)
+                                            {
+                                                <i class="bi bi-funnel"></i><span>Bộ lọc:</span>
+                                            }
+                                            else
+                                            {
+                                                @ViewBag.sortname
+                                            }
+                                        </a>
+                                        <!--begin::Dropdown Menu-->
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <!--begin::Dropdown Item-->
+                                            <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.ResetSort})">Reset bộ lọc</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.DateSortParm})">Đơn hàng mới - cũ</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.PriceSortParm})">Trị giá ĐH thấp - cao</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.WaitingSortParm})">Chờ xử lý</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.ProcessingortParm})">Đang xử lý</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.CompleteSortParm})">Hoàn thành</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.CancleSortParm})">Đã hủy</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="@Url.Action("TrackingOrder", "Account", new { sortOrder = ViewBag.WarrantySort})">Bảo hành</a></li>
+                                            <!--end::Dropdown Item-->
+                                        </ul>
+                                        <!--end::Dropdown Menu-->
+                                    </div>
+                                    <form action="@Url.Action("TrackingOrder", "Account")" method="get">
+                                        <div class="searchbox search_order_mobile mt-0">
+                                            <div class="searchbox__keyword">
+                                                <!--id="order_id" | path:Scripts/my_js/order-search.js-->
+                                                <input type="search" name="search" id="order_id" placeholder="Tìm kiếm bảo hành..." class="ui-autocomplete-input search_order_2" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!--end::Title-->
+                            @if (Model.Count == 0)
+                            {
+                                <div class="col mt-50px">
+                                    <p class="h3 text-danger center">Không có bảo hành</p> @*nếu chưa có bảo hành nào sẽ hiện thông báo ntn*@
+                                </div>
+                            }
+                            else
+                            {
+                                <!--begin::User Order-->
+                                <div class="user-order">
+                                    <div class="tab-content" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                            <div class="ajaxresponseOnline">
+                                                <!--begin::Order List-->
+                                                <div class="order-list">
+                                                    <div class="orderlist wishlist clearfix hidden-sm-up">
+                                                        <div class="wishlist-product clearfix">
+                                                            <!--begin::Item-->
+                                                            <div class="item">
+                                                                @foreach (var item in Model)
+                                                                {
+                                                                    <!--begin::order Item-->
+                                                                    <div class="order-item">
+                                                                        <div>
+                                                                            <!--begin::Order Title--> 
+                                                                            <a class="order-title" href="@Url.Action("TrackingOrderDetail", "Account", new {id = item.order_id})">
+                                                                                <!--begin::Warranty ID-->
+                                                                                <div class="id">
+                                                                                    Mã bảo hành <strong>#</strong><strong>@item.warranty_id</strong>
+                                                                                </div>
+                                                                                <!--end::Order ID-->
+                                                                                <!--begin::Order ID-->
+                                                                                <div class="id">
+                                                                                    Đơn hàng <strong>#</strong><strong>@item.order_id</strong>
+                                                                                </div>
+                                                                                <!--end::Order ID-->
+                                                                                <!--begin::Order Date-->
+                                                                                <div class="des">
+                                                                                    Ngày tạo yêu cầu: @item.create_at.ToString("dd-MM-yyyy HH:mm:ss")
+                                                                                </div>
+                                                                                <!--end::Order Date-->
+                                                                                <!--begin::Order Note-->
+                                                                                <!--begin::Order Status-->
+                                                                                
+                                                                                @if (item.status == 3)
+                                                                                {
+                                                                                   <div class="status alert-success">Hoàn thành</div>                                                                             
+
+                                                                                }
+                                                                                else if (item.status == 1)
+                                                                                {
+                                                                                    <div class="status alert-warning">Chờ xử lý</div> 
+                                                                                }
+                                                                                else if (item.status == 2)
+                                                                                {
+                                                                                    <div class="status alert-info">Đang xử lý</div> 
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <div class="status alert-danger ">Yêu cầu đã hủy</div>
+                                                                                }
+                                                                                
+                                                                                <!--end::Order Status-->
+                                                                            </a>
+                                                                            <!--end::Order Title-->
+                                                                            <!--begin::Order Product-->
+                                                                            <div class="order-product" id="style-5">
+                                                                                @foreach (var itemoder in ViewBag.itemOrder)
+                                                                                {
+                                                                                    if (item.order_id == itemoder.order_id)
+                                                                                    {
+                                                                                        foreach (var p in ViewBag.productOrder)
+                                                                                        {
+                                                                                            if (p.product_id == itemoder.product_id)
+                                                                                            {
+                                                                                                <a class="product" href="@Url.Action("Details", "Warranty", new {id = item.warranty_id})">
+                                                                                                    <div class="img"><img src="@p.image" alt=""></div>
+                                                                                                    <div class="caption">
+                                                                                                        <div class="name">
+                                                                                                            @p.product_name
+                                                                                                        </div>
+                                                                                                        <div class="price">
+                                                                                                            Bảo hành: @p.warranty_time tháng
+                                                                                                        </div>
+                                                                                                        <div class="price">
+
+                                                                                                        </div>
+                                                                                                        <div class="price">
+                                                                                                            Ngày đến bảo hành: @item.warranty_date.ToString("dd-MM-yyyy")
+                                                                                                        </div>
+                                                                                                        
+                                                                                                    </div>
+                                                                                                </a>
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            </div>
+                                                                            <!--end::Order Product-->
+                                                                            <!--begin::Order Total-->
+                                                                            
+                                                                            <!--end::Order Total-->
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--end::order Item-->
+                                                                }
+                                                            </div>
+                                                            <!--end::Item-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--end::Order List-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end::User Order-->
+                            }
+                        </section>
+                        <!--end::Section-->
+                        @if (Model.Count != 0)
+                        {
+                            <div class="col-md-12 mt-pagination-tracking center">
+                                @Html.PagedListPager(Model, page => Url.Action("Index", new { page}), new PagedListRenderOptions
+                           {
+                               LinkToPreviousPageFormat = "‹",
+                               LinkToNextPageFormat = "›",
+                               DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                               DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                               DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                               DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                               MaximumPageNumbersToDisplay = 5
+                           })
+                            </div>
+                            <!--begin::Pagination-->
+                            <!--end::Pagination-->
+                        }
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+            </div>
+        </div>
+        <!--end::Container-->
+    </section>
+    <!--end::Section-->
+
+
+@*
+<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.order_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.broken_state)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fixed_state)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.warranty_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.receive_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.addition_parts)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.note)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.create_by)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.create_at)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.update_by)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.update_at)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.product_id)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.order_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.broken_state)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fixed_state)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.warranty_date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.receive_date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.addition_parts)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.note)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.create_by)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.create_at)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.update_by)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.update_at)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.product_id)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.warranty_id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.warranty_id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.warranty_id })
+                </td>
+            </tr>
+        }
+
+    </table>
+*@
+

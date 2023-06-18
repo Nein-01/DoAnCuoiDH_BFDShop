@@ -1,0 +1,26 @@
+=====Project=====
+Account:
+admin@gmail.com
+admin2@gmail.com
+user@gmail.com
+user2@gmail.com
+
+Password:
+@dminTru3
+U$erT3st
+
+
+
+
+AppPassword gmail:
+ixtmaykjxctnlrep
+
+
+
+===Mẫu câu đánh giá===
+//sản phẩm không giống kì vọng, bị lỗi rất nhiều, màn hình cũng kém, rất không đáng mua
+//sản phẩm rất tốt, đúng như mô tả, giao hàng cũng rất nhanh chóng
+//đúng như mô tả, dùng được là được, đợi đánh giá lại sau 1 thời gian sử dụng
+
+===test===
+6B86B273FF34FCE19D6B804EFF5A3F5747ADA4EAA22F1D49C01E52DDB7875B4B

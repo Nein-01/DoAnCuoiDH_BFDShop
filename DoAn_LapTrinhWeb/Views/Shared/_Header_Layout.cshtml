@@ -73,39 +73,41 @@
                 </div>
                 <!--begin::Col-->
                 <div class="col-xl-5 col-xxl-4 right_section_header_top">
-                    <div class="float-left">
-                        <div class="social_icon ms-4">
-                            <!--begin::Ul-->
-                            <ul class="list-inline ms-1">
-                                <!--begin::Li-->
-                                <li>
-                                    <a class="fa fa-facebook" href="https://www.facebook.com" title="FanpageFacebook" target="_blank"></a>
-                                </li>
-                                <!--end::Li-->
-                                <!--begin::Li-->
-                                <li>
-                                    <a class="fa fa-youtube-play" href="https://www.youtube.com" title="Youtube" target="_blank"></a>
-                                </li>
-                                <!--end::Li-->
-                                <!--begin::Li-->
-                                <li>
-                                    <a class="fa fa-instagram" href="https://www.instagram.com" title="Instagram" target="_blank"></a>
-                                </li>
-                                <!--end::Li-->
-                                <!--begin::Li-->
-                                <li>
-                                    <a class="fa fa-twitter" href="https://twitter.com/" title="Instagram" target="_blank"></a>
-                                </li>
-                                <!--end::Li-->
-                            </ul>
-                            <!--end::Ul-->
+                        <div class="float-left">
+                            <div class="social_icon ms-4">
+                                <!--begin::Ul-->
+                                <ul class="list-inline ms-1">
+                                    <!--begin::Li-->
+                                    <!--<li>
+                                        <a class="fa fa-twitter" href="https://twitter.com/" title="Instagram" target="_blank"></a>
+                                    </li>-->
+                                    <!--end::Li-->
+                                    <!--begin::Li-->
+                                    <!--<li>
+                                        <a class="fa fa-youtube-play" href="https://www.youtube.com" title="Youtube" target="_blank"></a>
+                                    </li>-->
+                                    <!--end::Li-->
+                                    <!--begin::Li-->
+                                    <!--<li>
+                                        <a class="fa fa-instagram" href="https://www.instagram.com" title="Instagram" target="_blank"></a>
+                                    </li>-->
+                                    <!--end::Li-->
+                                    <!--begin::Li-->
+                                    <li>
+                                        <a class="fa fa-facebook" href="https://m.me/127492080245881/" title="FanpageFacebook" target="_blank"></a>
+                                        
+                                    </li>
+                                    <!--end::Li-->
+                                </ul>
+                                <!--end::Ul-->
+                            </div>
+                            <div class=" item_nav_top make_appo">
+
+                                <a class="btn white_btn " href="@Url.Action("SentRequest", "Home")">Yêu cầu tư vấn</a>
+
+                            </div>
                         </div>
-                    </div>
-                    <div class="float-right">
-                        <div class="make_appo">
-                            <a class="btn white_btn text-uppercase" href="@Url.Action("SentRequest", "Home")">Yêu cầu tư vấn</a>
-                        </div>
-                    </div>
+                    
                 </div>
                 <!--end::Col-->
             </div>
@@ -221,6 +223,13 @@
                                     </a>
                                 </li>
                                 <!--end:Li-->
+                                <!--begin:Li-->
+                                <li style="margin-right: 8px" class="item_nav_top">
+                                    <a style=" color: #29324e; " class="d-flex" href="@Url.Action("Index", "Warranty")">
+                                        <span class="material-icons">assignment_turned_in</span><div id="elementID">Bảo hành</div>
+                                    </a>
+                                </li>
+                                <!--end:Li-->
                             }
                             <!--begin:Li-->
                             <li class="dropdown1 item_nav_top" style=" margin-right: 10px; ">
@@ -273,18 +282,18 @@
                             <ul class="first-ul font_family_ChakraPetch-semibold">
                                 @Html.Action("Listgenres", "Products")
                                 <!-- start module: tin tức -->
-                                <li>
+                                <!--<li>
                                     <a class="d-flex" href="@Url.Action("Listbanner", "Campaign")">
                                         <span class="material-icons">local_offer</span><div id="elementID">Khuyến Mãi</div>
                                     </a>
-                                </li>
+                                </li>-->
                                 <li>
                                     <a class="d-flex" href="@Url.Action("NewsIndex", "News")">
                                         <span class="material-icons">feed</span><div id="elementID">Tin tức</div><span class="material-icons dropdown--menu-arrow">arrow_drop_down</span>
                                     </a>
-                                    <ul>
+                                    <!--<ul>
                                         @Html.Action("Listcategory", "News")
-                                    </ul>
+                                    </ul>-->
                                 </li>
                                 <!--end::Li-->
                             </ul>

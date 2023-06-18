@@ -54,6 +54,7 @@ namespace DoAn_LapTrinhWeb
         public virtual DbSet<NewsProducts> NewsProducts { get; set; }
         public virtual DbSet<NewsTags> NewsTags { get; set; }
         public virtual DbSet<ParentGenres> ParentGenres { get; set; }
+        public virtual DbSet<Warranty> Warranty { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>()

@@ -51,15 +51,15 @@
 }
 <section class="margin_mobile_fixed">
     <!-- Trending Area Start -->
-    <div class="trending-area fix">
+    <!--<div class="trending-area fix">
         <div class="container mt-10px">
             <div class="trending-main">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="trending-tittle">
-                            <strong>Trending now</strong>
+                            <strong>Trending now</strong>-->
                             <!-- <p>Rem ipsum dolor sit amet, consectetur adipisicing elit.</p> -->
-                            <div class="trending-animated">
+                            <!--<div class="trending-animated">
                                 <ul id="js-news" class="js-hidden">
                                     @foreach (var item in trendingnow)
                                     {
@@ -116,9 +116,9 @@
                                 }
                             }
                         </div>
-                    </div>
+                    </div>-->
                     <!-- Riht content -->
-                    <div class="col-lg-4">
+                    <!--<div class="col-lg-4">
                         @foreach (var news in ViewBag.post_ofnewscategory)
                         {
                             foreach (var item in child_category)
@@ -141,10 +141,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
     <!-- Trending Area End -->
     <div class="container mt-10px news_slider_slick top_news_off_m">
-        <h3 class="widget-title mb-10px">Top bài viết tháng</h3>
+        <h3 class="widget-title mb-10px">Bài viết nổi bật</h3>
         <section class="regular slider">
             @foreach (var item in topnews)
             {
@@ -168,7 +168,7 @@
             <div class="row pt-2 bt-1px">
                 <div class="col-lg-8">
                     <div class="row">
-                        <div class="col-lg-12 bb-1px">
+                        <!--<div class="col-lg-12 bb-1px">
                             <div class="row d-flex justify-content-between">
                                 <div class="col-12">
                                     <div class="section-tittle">
@@ -177,15 +177,15 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-12">-->
                                     <!-- Nav Card -->
-                                    <div class="tab-content" id="nav-tabContent">
+                                    <!--<div class="tab-content" id="nav-tabContent">-->
                                         <!-- card one -->
-                                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                        <!--<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                                             <div class="whats-news-caption">
-                                                <div class="row">
+                                                <div class="row">-->
                                                     <!--begin::col-->
-                                                    @foreach (var item in topcomment)
+                                                    <!--@foreach (var item in topcomment)
                                                     {
                                                         <div class="col-lg-4">
                                                             <div class="single-what-news mb-100">
@@ -223,13 +223,13 @@
                                                     }
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>-->
                                         <!-- Card two -->
-                                    </div>
+                                    <!--</div>-->
                                     <!-- End Nav Card -->
-                                </div>
+                                <!--</div>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="col-lg-12 mt-2">
                             <div class="row d-flex justify-content-between">
                                 <div class="col-lg-3">
@@ -327,7 +327,7 @@
                 </div>
                 <div class="col-lg-4 widget-area">
                     <!-- Widget : Latest Post -->
-                    <aside class="widget widget_latestposts bb-1px">
+                    @*<aside class="widget widget_latestposts bb-1px">
                         <h3 class="widget-title">Đánh giá sản phẩm</h3>
                         @foreach (var products in product)
                         {
@@ -362,38 +362,9 @@
                                 <div><a href="" class="text-info fs-14px">@countpost bài viết</a></div>
                             </div>
                         }
-                    </aside><!-- Widget : Latest Post /- -->
+                    </aside>*@<!-- Widget : Latest Post /- -->
                     <!-- Widget : Latest Post -->
-                    <aside class="widget widget_latestposts bb-1px">
-                        <h3 class="widget-title">Góc game thủ</h3>
-                        <div class="featured-posts w100dt">
-                            <!-- /.sidebar-title -->
-                            @foreach (var item in game)
-                            {
-                                <div class="sidebar-posts mb-10px">
-                                    <div class="card">
-                                        <a href="/post/@item.slug">
-                                            <div class="card-image mb-2">
-                                                <img src="@item.image2" alt="Image">
-                                            </div>
-                                            <!-- /.card-image -->
-                                            <div class="card-content w100dt">
-                                                <p>
-                                                    <a href="#" class="tag left w100dt l-blue">@item.ChildCategory.name</a>
-                                                </p>
-                                                <a href="" class="card-title post-url-side-bar limit_line_post">
-                                                    @item.news_title
-                                                </a>
-                                            </div>
-                                            <!-- /.card-content -->
-                                        </a>
-                                    </div>
-                                    <!-- /.sidebar-posts -->
-                                </div>
-                            }
-                        </div>
-                        <!-- /.featured-posts -->
-                    </aside><!-- Widget : Latest Post /- -->
+                    <!-- Widget : Latest Post /- -->
                     <!-- Widget : Tags -->
                     <aside class="widget widget_tags_cloud">
                         <h3 class="widget-title">Tags</h3>
